@@ -54,12 +54,15 @@ fn test() {
 
     // flex grow
     tw!("grow");
+    tw!("flex-grow");
     tw!("grow-0");
+    tw!("flex-grow-0");
 
     // flex shrink
     tw!("shrink");
+    tw!("flex-shrink");
     tw!("shrink-0");
-
+    tw!("flex-shrink-0");
     // order
 
     // grid template columns
