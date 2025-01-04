@@ -1,4 +1,7 @@
-use crate::{ParseCtx, ParseResult, utils::val::parse_val};
+use crate::{
+    ParseCtx, ParseResult,
+    utils::{IntoTokenStream, val::parse_val},
+};
 
 use super::NodeProp;
 use quote::quote;
@@ -8,7 +11,7 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(false);
     };
 
-    let Some(val) = parse_val(val).map(|val| val.to_token_stream()) else {
+    let Some(val) = parse_val(val).map(|val| val.into_token_stream()) else {
         return Ok(false);
     };
 

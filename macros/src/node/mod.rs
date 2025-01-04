@@ -6,6 +6,7 @@ use quote::quote;
 
 // mod box_sizing;
 mod display;
+mod flex_basis;
 mod position_type;
 mod trbl;
 
@@ -31,7 +32,8 @@ impl ParseCtx {
             // box_sizing::parse_box_sizing(self, class),
             display::parse_display(self, class),
             position_type::parse_position_type(self, class),
-            trbl::parse_trbl(self, class)
+            trbl::parse_trbl(self, class),
+            flex_basis::parse_flex_basis(self, class)
         );
 
         return Ok(false);
@@ -63,7 +65,7 @@ impl ParseCtx {
 #[derive(PartialEq, Eq, Hash)]
 pub enum NodeProp {
     Display,
-    BoxSizing,
+    // BoxSizing,
     PositionType,
     Overflow,
     OverflowClipMargin,
@@ -107,7 +109,7 @@ impl NodeProp {
     pub fn as_str(&self) -> &'static str {
         match self {
             NodeProp::Display => "display",
-            NodeProp::BoxSizing => "box_sizing",
+            // NodeProp::BoxSizing => "box_sizing",
             NodeProp::PositionType => "position_type",
             NodeProp::Overflow => "overflow",
             NodeProp::OverflowClipMargin => "overflow_clip_margin",

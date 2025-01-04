@@ -32,7 +32,8 @@ fn test() {
     tw!("-z-10");
 
     // flex basis
-
+    tw!("basis-0");
+    tw!("basis-1/2");
     // flex direction
 
     // flex wrap
