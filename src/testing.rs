@@ -57,6 +57,8 @@ fn test() {
     tw!("grow-0");
 
     // flex shrink
+    tw!("shrink");
+    tw!("shrink-0");
 
     // order
 
