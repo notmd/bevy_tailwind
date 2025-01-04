@@ -42,8 +42,15 @@ fn test() {
     tw!("flex-col-reverse");
 
     // flex wrap
+    tw!("flex-wrap");
+    tw!("flex-wrap-reverse");
+    tw!("flex-nowrap");
 
     // flex
+    tw!("flex-1");
+    tw!("flex-auto");
+    tw!("flex-initial");
+    tw!("flex-none");
 
     // flex grow
 

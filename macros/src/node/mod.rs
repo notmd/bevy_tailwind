@@ -6,8 +6,10 @@ use quote::quote;
 
 // mod box_sizing;
 mod display;
+mod flex;
 mod flex_basis;
 mod flex_direction;
+mod flex_wrap;
 mod position_type;
 mod trbl;
 
@@ -35,7 +37,9 @@ impl ParseCtx {
             position_type::parse_position_type(self, class),
             trbl::parse_trbl(self, class),
             flex_basis::parse_flex_basis(self, class),
-            flex_direction::parse_flex_direction(self, class)
+            flex_direction::parse_flex_direction(self, class),
+            flex_wrap::parse_flex_wrap(self, class),
+            flex::parse_flex(self, class)
         );
 
         return Ok(false);
