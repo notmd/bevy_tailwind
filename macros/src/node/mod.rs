@@ -1,7 +1,7 @@
 use proc_macro2::{Span, TokenStream};
 use syn::Ident;
 
-use crate::{ParseCtx, ParseResult};
+use crate::{MacroType, ParseCtx, ParseResult};
 use quote::quote;
 
 // mod box_sizing;
@@ -51,21 +51,36 @@ impl ParseCtx {
 
     pub fn get_node(&self) -> Option<TokenStream> {
         (!self.node_props.is_empty()).then(|| {
+            let sep = self.macro_type.sep_token();
+            let end = self.macro_type.end_token();
             let props: Vec<TokenStream> = self
                 .node_props
                 .iter()
                 .map(|(prop, value)| {
                     let prop = Ident::new(prop.as_str(), Span::call_site());
+
                     quote! {
-                        #prop: #value,
+                        #prop #sep #value #end
                     }
                 })
                 .collect();
 
-            quote! {
-                bevy::ui::Node {
-                    #(#props)*
-                    ..Default::default()
+            match &self.macro_type {
+                MacroType::Create => {
+                    quote! {
+                        bevy::ui::Node {
+                            #(#props)*
+                            ..Default::default()
+                        }
+                    }
+                }
+                MacroType::Mutate(expr) => {
+                    quote! {
+                        {
+                            let __node = &mut #expr;
+                            #(__node.#props)*
+                        }
+                    }
                 }
             }
         })
