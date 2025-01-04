@@ -1,6 +1,7 @@
+use bevy_tailwind::tw;
 
 fn main() {
-    // tw!("flex unknown", {
-    //     "p-5": false
-    // });
+    let _bundle = tw!("flex ", {
+        "p-5 unknow": false
+    });
 }

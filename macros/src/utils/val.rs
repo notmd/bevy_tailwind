@@ -49,8 +49,8 @@ pub fn parse_val(str: &str) -> Option<Val> {
     }
 
     if let Ok(val) = str.parse::<f32>() {
-        let (_, frag) = str.split_once(".")?;
-        match frag {
+        let (_, fract) = str.split_once(".")?;
+        match fract {
             "25" | "5" | "75" => {
                 return Some(Val::Px(val * 4.0));
             }

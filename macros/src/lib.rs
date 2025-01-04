@@ -1,11 +1,12 @@
 mod background_color;
 mod node;
-mod val;
+mod utils;
+mod z_index;
 
 use std::collections::HashMap;
 
 use node::NodeProp;
-use proc_macro2::{Span, TokenStream};
+use proc_macro2::TokenStream;
 use quote::quote;
 use syn::{Expr, LitStr, Token, parse::Parse, parse_macro_input, punctuated::Punctuated};
 
@@ -45,14 +46,22 @@ impl Parse for Input {
 }
 
 macro_rules! parse_class {
-    ($class:ident, $($expr:expr),*) => {
+    ($class:ident, $span:ident, $($expr:expr),*) => {
         $(
             match $expr {
                 Ok(true) => {
                     continue;
                 }
-                Err(_) => {
-                    return syn::Error::new(Span::call_site(), format!("Unsuported class: {}", $class))
+                Err(e) => {
+                    let msg = match e {
+                        ParseClassError::Unsupported => {
+                            format!("Unsuported class: {}", $class)
+                        }
+                        ParseClassError::Conflict => {
+                            format!("Conflict class: {}", $class)
+                        }
+                    };
+                    return syn::Error::new($span, msg)
                         .to_compile_error()
                         .into();
                 }
@@ -65,23 +74,23 @@ macro_rules! parse_class {
 #[proc_macro]
 pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input: Input = parse_macro_input!(input);
-    let mut ctx = ParseCtx {
-        node_props: HashMap::new(),
-        background_color: None,
-    };
+    let mut ctx = ParseCtx::default();
 
     for element in input.elements.iter() {
         match element {
             InputElement::String(classes) => {
+                let span = classes.span();
                 for class in classes.value().split_whitespace() {
                     parse_class!(
                         class,
-                        ctx.parse_node_class(class),
-                        ctx.parse_background_color_class(class)
+                        span,
+                        ctx.parse_background_color_class(class),
+                        ctx.parse_z_index(class),
+                        ctx.parse_node_class(class)
                     );
 
                     return syn::Error::new(
-                        Span::call_site(),
+                        classes.span(),
                         format!("Unsuported class:  {}", class),
                     )
                     .to_compile_error()
@@ -92,13 +101,25 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     }
 
-    let components: Vec<Option<TokenStream>> = vec![ctx.get_node(), ctx.get_background_color()]
-        .into_iter()
-        .filter(Option::is_some)
-        .collect();
+    let components: Vec<Option<TokenStream>> = vec![
+        ctx.get_node(),
+        ctx.get_background_color(),
+        ctx.get_z_index(),
+    ]
+    .into_iter()
+    .filter(Option::is_some)
+    .collect();
+
+    let inner = quote! {
+        ( #(#components),* )
+    };
+
+    if components.len() == 1 {
+        return inner.into();
+    }
 
     let bundle = quote! {
-        ( #(#components)* )
+        ( #inner )
     };
 
     return bundle.into();
@@ -108,6 +129,12 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 struct ParseCtx {
     node_props: HashMap<NodeProp, TokenStream>,
     background_color: Option<TokenStream>,
+    z_index: Option<TokenStream>,
 }
 
-type ParseResult = Result<bool, ()>;
+enum ParseClassError {
+    Unsupported,
+    Conflict,
+}
+
+type ParseResult = Result<bool, ParseClassError>;
