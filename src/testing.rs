@@ -53,6 +53,8 @@ fn test() {
     tw!("flex-none");
 
     // flex grow
+    tw!("grow");
+    tw!("grow-0");
 
     // flex shrink
 

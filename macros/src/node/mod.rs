@@ -9,6 +9,7 @@ mod display;
 mod flex;
 mod flex_basis;
 mod flex_direction;
+mod flex_grow;
 mod flex_wrap;
 mod position_type;
 mod trbl;
@@ -39,7 +40,8 @@ impl ParseCtx {
             flex_basis::parse_flex_basis(self, class),
             flex_direction::parse_flex_direction(self, class),
             flex_wrap::parse_flex_wrap(self, class),
-            flex::parse_flex(self, class)
+            flex::parse_flex(self, class),
+            flex_grow::parse_flex_grow(self, class)
         );
 
         return Ok(false);
