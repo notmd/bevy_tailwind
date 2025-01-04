@@ -51,8 +51,8 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     };
 
     let mut ctx = ParseCtx::new(macro_type);
-
-    for element in input.elements.iter().skip(1) {
+    let skip = if is_mutate { 1 } else { 0 };
+    for element in input.elements.iter().skip(skip) {
         match element {
             InputElement::String(classes) => {
                 let span = classes.span();
@@ -60,8 +60,8 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     parse_class!(
                         class,
                         span,
-                        ctx.parse_background_color_class(class),
                         ctx.parse_z_index(class),
+                        ctx.parse_background_color_class(class),
                         ctx.parse_node_class(class)
                     );
 
@@ -162,7 +162,6 @@ impl Parse for InputElement {
             Ok(InputElement::Object((key, value)))
         } else {
             Ok(InputElement::Mutate(input.parse()?))
-            // Err(input.error("Expected a string literal or a JSON-like object"))
         }
     }
 }
@@ -180,6 +179,42 @@ impl ParseCtx {
         Self {
             macro_type,
             ..Default::default()
+        }
+    }
+
+    fn quote_tuple_component(
+        &self,
+        path: TokenStream,
+        props: impl IntoIterator<Item = TokenStream>,
+    ) -> TokenStream {
+        match &self.macro_type {
+            crate::MacroType::Create => {
+                let props = props.into_iter().collect::<Vec<_>>();
+                return quote! {
+                    #path (
+                        #(#props),*
+                    )
+                };
+            }
+            crate::MacroType::Mutate(expr) => {
+                let props = props
+                    .into_iter()
+                    .enumerate()
+                    .map(|(i, prop)| {
+                        let i = syn::Index::from(i);
+                        quote! {
+                            __comp.#i = #prop;
+                        }
+                    })
+                    .collect::<Vec<_>>();
+
+                quote! {
+                   {
+                       let __comp = &mut #expr;
+                        #(#props)*
+                   }
+                }
+            }
         }
     }
 }
