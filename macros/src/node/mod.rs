@@ -7,6 +7,7 @@ use quote::quote;
 // mod box_sizing;
 mod display;
 mod flex_basis;
+mod flex_direction;
 mod position_type;
 mod trbl;
 
@@ -33,7 +34,8 @@ impl ParseCtx {
             display::parse_display(self, class),
             position_type::parse_position_type(self, class),
             trbl::parse_trbl(self, class),
-            flex_basis::parse_flex_basis(self, class)
+            flex_basis::parse_flex_basis(self, class),
+            flex_direction::parse_flex_direction(self, class)
         );
 
         return Ok(false);

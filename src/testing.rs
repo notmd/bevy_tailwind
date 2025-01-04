@@ -34,7 +34,12 @@ fn test() {
     // flex basis
     tw!("basis-0");
     tw!("basis-1/2");
+
     // flex direction
+    tw!("flex-row");
+    tw!("flex-row-reverse");
+    tw!("flex-col");
+    tw!("flex-col-reverse");
 
     // flex wrap
 
