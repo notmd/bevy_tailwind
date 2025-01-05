@@ -1,7 +1,7 @@
 use proc_macro2::{Span, TokenStream};
 use syn::Ident;
 
-use crate::{MacroType, ParseCtx, ParseResult, utils::AsStr};
+use crate::{MacroType, ParseCtx, ParseResult};
 use quote::quote;
 
 // mod box_sizing;
@@ -50,45 +50,7 @@ impl ParseCtx {
     }
 
     fn insert_node_prop(&mut self, prop: NodeProp, value: TokenStream) {
-        self.node_props.insert(prop, value, self.class_type);
-    }
-
-    pub fn get_node(&self) -> Option<TokenStream> {
-        (!self.node_props.is_empty()).then(|| {
-            let sep = self.macro_type.sep_token();
-            let end = self.macro_type.end_token();
-            let props: Vec<TokenStream> = self
-                .node_props
-                .iter()
-                .map(|(prop, value)| {
-                    let prop = Ident::new(prop.as_str(), Span::call_site());
-                    let value = &value.0;
-
-                    quote! {
-                        #prop #sep #value #end
-                    }
-                })
-                .collect();
-
-            match &self.macro_type {
-                MacroType::Create => {
-                    quote! {
-                        bevy::ui::Node {
-                            #(#props)*
-                            ..Default::default()
-                        }
-                    }
-                }
-                MacroType::Mutate(expr) => {
-                    quote! {
-                        {
-                            let __node = &mut #expr;
-                            #(__node.#props)*
-                        }
-                    }
-                }
-            }
-        })
+        self.node_props.insert(prop, (value, self.class_type));
     }
 }
 
@@ -135,8 +97,8 @@ pub enum NodeProp {
     GridColumn,
 }
 
-impl AsStr for NodeProp {
-    fn as_str(&self) -> &'static str {
+impl AsRef<str> for NodeProp {
+    fn as_ref(&self) -> &str {
         match self {
             NodeProp::Display => "display",
             // NodeProp::BoxSizing => "box_sizing",

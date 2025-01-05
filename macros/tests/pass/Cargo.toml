@@ -1,0 +1,9 @@
+[package]
+name = "test_pass"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[dependencies]
+bevy = { version = "0.15", default-features = false, features = ["bevy_ui"] }
+bevy_tailwind_macro = { path = "../../" }

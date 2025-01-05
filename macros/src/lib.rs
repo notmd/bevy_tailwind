@@ -71,15 +71,15 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let mut ctx = ParseCtx::new(macro_type);
 
     let skip = if is_mutate { 1 } else { 0 };
-    for element in input.elements.iter().skip(skip) {
+    for element in input.elements.into_iter().skip(skip) {
         match element {
             InputElement::String(classes) => {
                 ctx.class_type = ClassType::String;
                 parse_classes!(classes, ctx);
             }
             InputElement::Object(exprs) => {
-                for (classes, expr) in exprs.iter() {
-                    ctx.conditions.push(expr.clone());
+                for (classes, expr) in exprs {
+                    ctx.conditions.push(expr);
                     ctx.class_type = ClassType::Object(ctx.conditions.len() - 1);
                     parse_classes!(classes, ctx);
                 }
@@ -141,40 +141,13 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         .into();
     }
 
-    let bundle = quote! {
-        ( #inner )
-    };
-
     return quote! {
         {
             #condition
-            #bundle
+            ( #inner )
         }
     }
     .into();
-}
-
-#[derive(Default, PartialEq, Clone)]
-enum MacroType {
-    #[default]
-    Create,
-    Mutate(Expr),
-}
-
-impl MacroType {
-    fn sep_token(&self) -> TokenStream {
-        match self {
-            MacroType::Create => quote! { : },
-            MacroType::Mutate(_) => quote! { = },
-        }
-    }
-
-    fn end_token(&self) -> TokenStream {
-        match self {
-            MacroType::Create => quote! { , },
-            MacroType::Mutate(_) => quote! { ; },
-        }
-    }
 }
 
 struct Input {
@@ -189,7 +162,6 @@ impl Parse for Input {
     }
 }
 
-#[derive(Debug)]
 enum InputElement {
     Mutate(Expr), // only first element
     String(LitStr),
@@ -219,6 +191,13 @@ impl Parse for InputElement {
             Ok(InputElement::Mutate(input.parse()?))
         }
     }
+}
+
+#[derive(Default, Clone)]
+enum MacroType {
+    #[default]
+    Create,
+    Mutate(Expr),
 }
 
 #[derive(Default)]

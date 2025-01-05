@@ -2664,6 +2664,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "test_pass"
+version = "0.1.0"
+dependencies = [
+ "bevy",
+ "bevy_tailwind_macro",
+]
+
+[[package]]
 name = "thiserror"
 version = "1.0.69"
 source = "registry+https://github.com/rust-lang/crates.io-index"

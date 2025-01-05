@@ -1,12 +1,12 @@
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn main() {
-    let mut _bundle = tw!("flex", {
+    let mut node = tw!("flex", {
         "flex-grow shrink": false
     });
 
-    tw!(_bundle, {
-        "flex-grow": true,
+    tw!(node, "block",{
+        "flex-grow flex-wrap": true,
         "shrink": false
     });
 

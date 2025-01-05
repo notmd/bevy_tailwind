@@ -1,4 +1,5 @@
 use std::{
+    collections::HashMap,
     hash::Hash,
     ops::{Deref, DerefMut},
 };
@@ -7,7 +8,7 @@ use crate::{ClassType, MacroType};
 use indexmap::IndexMap;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
-use syn::Ident;
+use syn::{Expr, Ident};
 
 pub mod val;
 
@@ -21,19 +22,17 @@ pub trait IntoTokenStream {
     fn into_token_stream(self) -> proc_macro2::TokenStream;
 }
 
-pub trait AsStr {
-    fn as_str(&self) -> &'static str;
-}
+pub(crate) struct StructProps<T: AsRef<str>>(
+    pub IndexMap<T, (proc_macro2::TokenStream, ClassType)>,
+);
 
-pub(crate) struct StructProps<K: AsStr>(pub IndexMap<K, (proc_macro2::TokenStream, ClassType)>);
-
-impl<T: AsStr> Default for StructProps<T> {
+impl<T: AsRef<str>> Default for StructProps<T> {
     fn default() -> Self {
         Self(IndexMap::new())
     }
 }
 
-impl<T: AsStr> Deref for StructProps<T> {
+impl<T: AsRef<str>> Deref for StructProps<T> {
     type Target = IndexMap<T, (proc_macro2::TokenStream, ClassType)>;
 
     fn deref(&self) -> &Self::Target {
@@ -41,17 +40,13 @@ impl<T: AsStr> Deref for StructProps<T> {
     }
 }
 
-impl<K: AsStr> DerefMut for StructProps<K> {
+impl<K: AsRef<str>> DerefMut for StructProps<K> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.0
     }
 }
 
-impl<T: AsStr + Hash + Eq> StructProps<T> {
-    pub fn insert(&mut self, key: T, value: proc_macro2::TokenStream, class_type: ClassType) {
-        self.0.insert(key, (value, class_type));
-    }
-
+impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
     pub fn quote(
         &self,
         condition_idents: &[TokenStream],
@@ -61,57 +56,97 @@ impl<T: AsStr + Hash + Eq> StructProps<T> {
             return None;
         }
 
-        let sep = macro_type.sep_token();
-        let end = macro_type.end_token();
-        let props: Vec<TokenStream> = self
-            .0
-            .iter()
-            .map(|(prop, (value, class_type))| {
-                let prop = Ident::new(prop.as_str(), Span::call_site());
+        let token_stream = match macro_type {
+            MacroType::Create => self.quote_creation_code(condition_idents),
+            MacroType::Mutate(expr) => self.quote_mutation_code(condition_idents, expr),
+        };
 
-                match class_type {
-                    ClassType::String => {
-                        quote! {
-                            #prop #sep #value #end
+        Some(token_stream)
+    }
+
+    fn quote_creation_code(&self, condition_idents: &[TokenStream]) -> TokenStream {
+        let props = self.0.iter().map(|(prop, (value, class_type))| {
+            let prop = Ident::new(prop.as_ref(), Span::call_site());
+
+            match class_type {
+                ClassType::String => {
+                    quote! {
+                        #prop: #value
+                    }
+                }
+                ClassType::Object(indice) => {
+                    let cond = &condition_idents[*indice];
+                    quote! {
+                        #prop: if #cond {
+                            #value
+                        } else {
+                            Default::default()
                         }
                     }
-                    ClassType::Object(indice) => {
-                        let cond = &condition_idents[*indice];
-                        let value = quote! {
-                            if #cond {
-                                #value
-                            } else {
-                                Default::default()
-                            }
-                        };
+                }
+            }
+        });
 
-                        quote! {
-                            #prop #sep #value #end
-                        }
+        quote! {
+            bevy::ui::Node {
+                #(#props,)*
+                ..Default::default()
+            }
+        }
+    }
+
+    fn quote_mutation_code(&self, condition_idents: &[TokenStream], expr: &Expr) -> TokenStream {
+        let (normal_props, conditional_props): (Vec<_>, Vec<_>) = self
+            .0
+            .iter()
+            .partition(|(_, (_, class_type))| matches!(class_type, ClassType::String));
+
+        let normal_props = normal_props.iter().map(|(prop, (value, _))| {
+            let prop = Ident::new(prop.as_ref(), Span::call_site());
+
+            quote! {
+                __comp.#prop = #value;
+            }
+        });
+
+        let conditional_props = {
+            let mut group = HashMap::new();
+            for (prop, (value, class_type)) in conditional_props {
+                let indice = match class_type {
+                    ClassType::Object(indice) => indice,
+                    _ => unreachable!(),
+                };
+                group
+                    .entry(indice)
+                    .or_insert_with(Vec::new)
+                    .push((prop, value));
+            }
+
+            group.into_iter().map(|(indice, props)| {
+                let cond = &condition_idents[*indice];
+
+                let assign_stmts = props.into_iter().map(|(prop, value)| {
+                    let prop = Ident::new(prop.as_ref(), Span::call_site());
+
+                    quote! {
+                            __comp.#prop = #value;
+                    }
+                });
+
+                quote! {
+                    if #cond {
+                        #(#assign_stmts)*
                     }
                 }
             })
-            .collect();
-
-        let token = match &macro_type {
-            MacroType::Create => {
-                quote! {
-                    bevy::ui::Node {
-                        #(#props)*
-                        ..Default::default()
-                    }
-                }
-            }
-            MacroType::Mutate(expr) => {
-                quote! {
-                    {
-                        let __node = &mut #expr;
-                        #(__node.#props)*
-                    }
-                }
-            }
         };
 
-        Some(token)
+        quote! {
+            {
+                let __comp = &mut #expr;
+                #(#normal_props)*
+                #(#conditional_props)*
+            }
+        }
     }
 }

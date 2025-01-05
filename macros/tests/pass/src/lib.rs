@@ -1,4 +1,4 @@
-use super::tw;
+use bevy_tailwind_macro::tw;
 
 #[allow(dead_code)]
 fn test() {

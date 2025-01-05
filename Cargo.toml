@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2024"
 
 [workspace]
-members = ["macros"]
+members = ["macros", "macros/tests/*"]
 
 [dependencies]
 bevy_tailwind_macro = { path = "macros" }
