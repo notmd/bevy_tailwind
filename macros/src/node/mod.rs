@@ -1,7 +1,7 @@
 use proc_macro2::{Span, TokenStream};
 use syn::Ident;
 
-use crate::{MacroType, ParseCtx, ParseResult};
+use crate::{MacroType, ParseCtx, ParseResult, utils::AsStr};
 use quote::quote;
 
 // mod box_sizing;
@@ -49,6 +49,10 @@ impl ParseCtx {
         return Ok(false);
     }
 
+    fn insert_node_prop(&mut self, prop: NodeProp, value: TokenStream) {
+        self.node_props.insert(prop, value, self.class_type);
+    }
+
     pub fn get_node(&self) -> Option<TokenStream> {
         (!self.node_props.is_empty()).then(|| {
             let sep = self.macro_type.sep_token();
@@ -58,6 +62,7 @@ impl ParseCtx {
                 .iter()
                 .map(|(prop, value)| {
                     let prop = Ident::new(prop.as_str(), Span::call_site());
+                    let value = &value.0;
 
                     quote! {
                         #prop #sep #value #end
@@ -130,8 +135,8 @@ pub enum NodeProp {
     GridColumn,
 }
 
-impl NodeProp {
-    pub fn as_str(&self) -> &'static str {
+impl AsStr for NodeProp {
+    fn as_str(&self) -> &'static str {
         match self {
             NodeProp::Display => "display",
             // NodeProp::BoxSizing => "box_sizing",

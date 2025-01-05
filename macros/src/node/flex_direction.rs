@@ -29,7 +29,7 @@ pub fn parse_flex_direction(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.node_props.insert(NodeProp::FlexDirection, token);
+    ctx.insert_node_prop(NodeProp::FlexDirection, token);
 
     Ok(true)
 }

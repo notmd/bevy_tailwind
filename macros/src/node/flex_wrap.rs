@@ -24,7 +24,7 @@ pub fn parse_flex_wrap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.node_props.insert(NodeProp::FlexWrap, token);
+    ctx.insert_node_prop(NodeProp::FlexWrap, token);
 
     Ok(true)
 }

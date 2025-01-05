@@ -3,14 +3,13 @@ mod node;
 mod utils;
 mod z_index;
 
-use std::collections::HashMap;
-
 use node::NodeProp;
 use proc_macro2::TokenStream;
-use quote::quote;
+use quote::{format_ident, quote};
 use syn::{
     Expr, LitStr, Token, parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned,
 };
+use utils::StructProps;
 
 macro_rules! parse_class {
     ($class:ident, $span:ident, $($expr:expr),*) => {
@@ -38,6 +37,25 @@ macro_rules! parse_class {
     };
 }
 
+macro_rules! parse_classes {
+    ($classes:ident, $ctx:ident) => {
+        let span = $classes.span();
+        for class in $classes.value().split_whitespace() {
+            parse_class!(
+                class,
+                span,
+                $ctx.parse_z_index(class),
+                $ctx.parse_background_color_class(class),
+                $ctx.parse_node_class(class)
+            );
+
+            return syn::Error::new(span, format!("Unsuported class:  {}", class))
+                .to_compile_error()
+                .into();
+        }
+    };
+}
+
 #[proc_macro]
 pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input: Input = parse_macro_input!(input);
@@ -51,29 +69,21 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     };
 
     let mut ctx = ParseCtx::new(macro_type);
+
     let skip = if is_mutate { 1 } else { 0 };
     for element in input.elements.iter().skip(skip) {
         match element {
             InputElement::String(classes) => {
-                let span = classes.span();
-                for class in classes.value().split_whitespace() {
-                    parse_class!(
-                        class,
-                        span,
-                        ctx.parse_z_index(class),
-                        ctx.parse_background_color_class(class),
-                        ctx.parse_node_class(class)
-                    );
-
-                    return syn::Error::new(
-                        classes.span(),
-                        format!("Unsuported class:  {}", class),
-                    )
-                    .to_compile_error()
-                    .into();
+                ctx.class_type = ClassType::String;
+                parse_classes!(classes, ctx);
+            }
+            InputElement::Object(exprs) => {
+                for (classes, expr) in exprs.iter() {
+                    ctx.conditions.push(expr.clone());
+                    ctx.class_type = ClassType::Object(ctx.conditions.len() - 1);
+                    parse_classes!(classes, ctx);
                 }
             }
-            InputElement::Object(_) => {}
             InputElement::Mutate(expr) => {
                 return syn::Error::new(expr.span(), "Unexpected expression. Component mutation is only allowed in the first argument")
                     .to_compile_error()
@@ -82,8 +92,32 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     }
 
+    let conditions_idents = ctx
+        .conditions
+        .iter()
+        .enumerate()
+        .map(|(i, _)| {
+            let ident = format_ident!("__class__cond_{}", i);
+            quote! {
+                #ident
+
+            }
+        })
+        .collect::<Vec<_>>();
+
+    let conditions = ctx
+        .conditions
+        .iter()
+        .enumerate()
+        .map(|(i, expr)| {
+            let ident = format_ident!("__class__cond_{}", i);
+
+            quote! { let #ident = #expr; }
+        })
+        .collect::<Vec<_>>();
+
     let components: Vec<Option<TokenStream>> = vec![
-        ctx.get_node(),
+        ctx.node_props.quote(&conditions_idents, &ctx.macro_type),
         ctx.get_background_color(),
         ctx.get_z_index(),
     ]
@@ -91,19 +125,33 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     .filter(Option::is_some)
     .collect();
 
+    let condition = conditions.into_iter().collect::<TokenStream>();
+
     let inner = quote! {
-        #(#components),*
+         #(#components),*
     };
 
     if components.len() == 1 || is_mutate {
-        return inner.into();
+        return quote! {
+            {
+                #condition
+                #inner
+            }
+        }
+        .into();
     }
 
     let bundle = quote! {
         ( #inner )
     };
 
-    return bundle.into();
+    return quote! {
+        {
+            #condition
+            #bundle
+        }
+    }
+    .into();
 }
 
 #[derive(Default, PartialEq, Clone)]
@@ -145,7 +193,7 @@ impl Parse for Input {
 enum InputElement {
     Mutate(Expr), // only first element
     String(LitStr),
-    Object((LitStr, Expr)),
+    Object(Punctuated<(LitStr, Expr), Token![,]>),
 }
 
 impl Parse for InputElement {
@@ -156,10 +204,17 @@ impl Parse for InputElement {
         } else if input.peek(syn::token::Brace) {
             let content;
             syn::braced!(content in input);
-            let key: LitStr = content.parse()?;
-            content.parse::<Token![:]>()?;
-            let value: Expr = content.parse()?;
-            Ok(InputElement::Object((key, value)))
+            let exprs = Punctuated::<(LitStr, Expr), Token![,]>::parse_separated_nonempty_with(
+                &content,
+                |p| {
+                    let key: LitStr = p.parse()?;
+                    p.parse::<Token![:]>()?;
+                    let value: Expr = p.parse()?;
+                    Ok((key, value))
+                },
+            )?;
+
+            Ok(InputElement::Object(exprs))
         } else {
             Ok(InputElement::Mutate(input.parse()?))
         }
@@ -169,7 +224,10 @@ impl Parse for InputElement {
 #[derive(Default)]
 struct ParseCtx {
     macro_type: MacroType,
-    node_props: HashMap<NodeProp, TokenStream>,
+    class_type: ClassType,
+    conditions: Vec<Expr>,
+
+    node_props: StructProps<NodeProp>,
     background_color: Option<TokenStream>,
     z_index: Option<TokenStream>,
 }
@@ -217,6 +275,13 @@ impl ParseCtx {
             }
         }
     }
+}
+
+#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+enum ClassType {
+    #[default]
+    String,
+    Object(usize),
 }
 
 enum ParseClassError {

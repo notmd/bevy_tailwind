@@ -17,25 +17,25 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     match prefix {
         "top" => {
-            ctx.node_props.insert(NodeProp::Top, quote! {
+            ctx.insert_node_prop(NodeProp::Top, quote! {
                 #val
             });
             Ok(true)
         }
         "right" => {
-            ctx.node_props.insert(NodeProp::Right, quote! {
+            ctx.insert_node_prop(NodeProp::Right, quote! {
                 #val
             });
             Ok(true)
         }
         "bottom" => {
-            ctx.node_props.insert(NodeProp::Bottom, quote! {
+            ctx.insert_node_prop(NodeProp::Bottom, quote! {
                 #val
             });
             Ok(true)
         }
         "left" => {
-            ctx.node_props.insert(NodeProp::Left, quote! {
+            ctx.insert_node_prop(NodeProp::Left, quote! {
                 #val
             });
             Ok(true)

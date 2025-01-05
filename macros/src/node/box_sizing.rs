@@ -7,13 +7,13 @@ use super::NodeProp;
 pub fn parse_box_sizing(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     match class {
         "box-border" => {
-            ctx.node_props.insert(NodeProp::BoxSizing, quote! {
+            ctx.insert_node_prop(NodeProp::BoxSizing, quote! {
                 bevy::ui::BoxSizing::BorderBox
             });
             Ok(true)
         }
         "box-content" => {
-            ctx.node_props.insert(NodeProp::BoxSizing, quote! {
+            ctx.insert_node_prop(NodeProp::BoxSizing, quote! {
                 bevy::ui::BoxSizing::ContentBox
             });
             Ok(true)

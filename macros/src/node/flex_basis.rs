@@ -12,8 +12,7 @@ pub fn parse_flex_basis(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     let val = parse_val(class).ok_or(ParseClassError::Unsupported)?;
 
-    ctx.node_props
-        .insert(NodeProp::FlexBasis, val.into_token_stream());
+    ctx.insert_node_prop(NodeProp::FlexBasis, val.into_token_stream());
 
     Ok(true)
 }
