@@ -22,21 +22,9 @@ impl ParseCtx {
             return Err(ParseClassError::Unsupported);
         }
 
-        self.z_index = Some(quote! {
-           #z_index
-        });
-
+        self.components
+            .z_index
+            .insert("0", (quote! {#z_index}, self.class_type));
         return Ok(true);
-    }
-
-    pub fn get_z_index(&self) -> Option<proc_macro2::TokenStream> {
-        self.z_index.clone().map(|prop| {
-            self.quote_tuple_component(
-                quote! {
-                    bevy::ui::ZIndex
-                },
-                vec![prop],
-            )
-        })
     }
 }

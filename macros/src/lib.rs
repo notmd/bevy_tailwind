@@ -116,14 +116,21 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         })
         .collect::<Vec<_>>();
 
-    let components: Vec<Option<TokenStream>> = vec![
-        ctx.node_props.quote(&conditions_idents, &ctx.macro_type),
+    let components = vec![
+        ctx.components.node.quote(
+            quote! { bevy::ui::Node },
+            &conditions_idents,
+            &ctx.macro_type,
+        ),
         ctx.get_background_color(),
-        ctx.get_z_index(),
+        ctx.components.z_index.quote(
+            quote! { bevy::ui::ZIndex },
+            &conditions_idents,
+            &ctx.macro_type,
+        ),
     ]
     .into_iter()
-    .filter(Option::is_some)
-    .collect();
+    .filter(Option::is_some);
 
     let condition = conditions.into_iter().collect::<TokenStream>();
 
@@ -131,7 +138,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
          #(#components),*
     };
 
-    if components.len() == 1 || is_mutate {
+    if is_mutate {
         return quote! {
             {
                 #condition
@@ -201,14 +208,18 @@ enum MacroType {
 }
 
 #[derive(Default)]
+struct UiComponents {
+    node: StructProps<NodeProp>,
+    // background_color: String,
+    z_index: StructProps<&'static str>,
+}
+
+#[derive(Default)]
 struct ParseCtx {
     macro_type: MacroType,
     class_type: ClassType,
     conditions: Vec<Expr>,
-
-    node_props: StructProps<NodeProp>,
-    background_color: Option<TokenStream>,
-    z_index: Option<TokenStream>,
+    components: UiComponents,
 }
 
 impl ParseCtx {

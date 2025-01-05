@@ -8,7 +8,7 @@ use crate::{ClassType, MacroType};
 use indexmap::IndexMap;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
-use syn::{Expr, Ident};
+use syn::{Expr, Ident, Index};
 
 pub mod val;
 
@@ -49,6 +49,7 @@ impl<K: AsRef<str>> DerefMut for StructProps<K> {
 impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
     pub fn quote(
         &self,
+        path: TokenStream,
         condition_idents: &[TokenStream],
         macro_type: &MacroType,
     ) -> Option<TokenStream> {
@@ -57,17 +58,20 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
         }
 
         let token_stream = match macro_type {
-            MacroType::Create => self.quote_creation_code(condition_idents),
+            MacroType::Create => self.quote_creation_code(path, condition_idents),
             MacroType::Mutate(expr) => self.quote_mutation_code(condition_idents, expr),
         };
 
         Some(token_stream)
     }
 
-    fn quote_creation_code(&self, condition_idents: &[TokenStream]) -> TokenStream {
+    fn quote_creation_code(
+        &self,
+        path: TokenStream,
+        condition_idents: &[TokenStream],
+    ) -> TokenStream {
         let props = self.0.iter().map(|(prop, (value, class_type))| {
-            let prop = Ident::new(prop.as_ref(), Span::call_site());
-
+            let prop = quote_field(prop.as_ref());
             match class_type {
                 ClassType::String => {
                     quote! {
@@ -88,7 +92,7 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
         });
 
         quote! {
-            bevy::ui::Node {
+            #path {
                 #(#props,)*
                 ..Default::default()
             }
@@ -102,7 +106,7 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
             .partition(|(_, (_, class_type))| matches!(class_type, ClassType::String));
 
         let normal_props = normal_props.iter().map(|(prop, (value, _))| {
-            let prop = Ident::new(prop.as_ref(), Span::call_site());
+            let prop = quote_field(prop.as_ref());
 
             quote! {
                 __comp.#prop = #value;
@@ -126,10 +130,10 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
                 let cond = &condition_idents[*indice];
 
                 let assign_stmts = props.into_iter().map(|(prop, value)| {
-                    let prop = Ident::new(prop.as_ref(), Span::call_site());
+                    let prop = quote_field(prop.as_ref());
 
                     quote! {
-                            __comp.#prop = #value;
+                        __comp.#prop = #value;
                     }
                 });
 
@@ -142,11 +146,22 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
         };
 
         quote! {
-            {
-                let __comp = &mut #expr;
-                #(#normal_props)*
-                #(#conditional_props)*
-            }
+            let __comp = &mut #expr;
+            #(#normal_props)*
+            #(#conditional_props)*
+        }
+    }
+}
+
+fn quote_field(field: &str) -> TokenStream {
+    match field.parse::<usize>() {
+        Ok(field) => {
+            let field = syn::Index::from(field);
+            quote! {#field}
+        }
+        Err(_) => {
+            let field = Ident::new(field, Span::call_site());
+            quote! {#field}
         }
     }
 }

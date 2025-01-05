@@ -17,6 +17,9 @@ fn main() {
     tw!(get_node(), "flex");
     let mut z_index = ZIndex(10);
     tw!(z_index, "-z-10");
+    tw!(z_index, {
+        "-z-20": true
+    });
 }
 
 fn my_system(mut node: Query<(Entity, &mut Node)>) {

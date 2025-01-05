@@ -50,7 +50,7 @@ impl ParseCtx {
     }
 
     fn insert_node_prop(&mut self, prop: NodeProp, value: TokenStream) {
-        self.node_props.insert(prop, (value, self.class_type));
+        self.components.node.insert(prop, (value, self.class_type));
     }
 }
 
