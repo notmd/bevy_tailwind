@@ -66,6 +66,8 @@ fn test() {
     // order
 
     // grid template columns
+    tw!("grid-cols-1");
+    tw!("grid-cols-none");
 
     // grid template columns start/end
 
