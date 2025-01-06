@@ -240,6 +240,14 @@ fn test() {
     tw!("ml-1.5");
 
     // width
+    tw!("w-0");
+    tw!("w-0.5");
+    tw!("w-px");
+    tw!("w-1/2");
+    tw!("w-full");
+    tw!("w-screen");
+    tw!("w-svw");
+    tw!("w-lvw");
 
     // min width
 

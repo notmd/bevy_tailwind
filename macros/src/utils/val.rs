@@ -60,6 +60,27 @@ impl Val {
                     return None;
                 }
             }
+            "screen" => {
+                if settings.allow_screen {
+                    return Some(Val::Vw(100.0));
+                } else {
+                    return None;
+                }
+            }
+            "svw" => {
+                if settings.allow_dimension_screen {
+                    return Some(Val::VMin(100.0));
+                } else {
+                    return None;
+                }
+            }
+            "lvw" => {
+                if settings.allow_dimension_screen {
+                    return Some(Val::VMax(100.0));
+                } else {
+                    return None;
+                }
+            }
 
             _ => {}
         }
@@ -112,48 +133,64 @@ impl Val {
 
 #[derive(Clone, Copy)]
 pub struct ParseValSettings {
-    pub allow_fraction: bool,
-    pub allow_full: bool,
-    pub allow_auto: bool,
-    pub allow_px: bool,
+    allow_fraction: bool,
+    allow_full: bool,
+    allow_auto: bool,
+    allow_px: bool,
+    allow_screen: bool,
+    allow_dimension_screen: bool,
 }
 
 impl ParseValSettings {
-    pub fn default_allow() -> Self {
+    pub const fn default_allow() -> Self {
         Self {
             allow_fraction: true,
             allow_full: true,
             allow_auto: true,
             allow_px: true,
+            allow_screen: true,
+            allow_dimension_screen: true,
         }
     }
 
-    pub fn default_disallow() -> Self {
+    pub const fn default_disallow() -> Self {
         Self {
             allow_fraction: false,
             allow_full: false,
             allow_auto: false,
             allow_px: false,
+            allow_screen: false,
+            allow_dimension_screen: false,
         }
     }
 
-    pub fn allow_fraction(mut self, val: bool) -> Self {
+    pub const fn allow_fraction(mut self, val: bool) -> Self {
         self.allow_fraction = val;
         self
     }
 
-    pub fn allow_full(mut self, val: bool) -> Self {
+    pub const fn allow_full(mut self, val: bool) -> Self {
         self.allow_full = val;
         self
     }
 
-    pub fn allow_auto(mut self, val: bool) -> Self {
+    pub const fn allow_auto(mut self, val: bool) -> Self {
         self.allow_auto = val;
         self
     }
 
-    pub fn allow_px(mut self, val: bool) -> Self {
+    pub const fn allow_px(mut self, val: bool) -> Self {
         self.allow_px = val;
+        self
+    }
+
+    pub const fn allow_screen(mut self, val: bool) -> Self {
+        self.allow_screen = val;
+        self
+    }
+
+    pub const fn allow_dimension_screen(mut self, val: bool) -> Self {
+        self.allow_dimension_screen = val;
         self
     }
 }
