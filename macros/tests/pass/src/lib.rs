@@ -145,6 +145,14 @@ fn test() {
     tw!("justify-self-center");
 
     // align content
+    tw!("content-normal");
+    tw!("content-center");
+    tw!("content-start");
+    tw!("content-end");
+    tw!("content-between");
+    tw!("content-around");
+    tw!("content-evenly");
+    tw!("content-stretch");
 
     // align items
 
