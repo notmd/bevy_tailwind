@@ -256,10 +256,14 @@ fn test() {
     tw!("min-w-1/2");
     tw!("min-w-full");
     tw!("min-w-screen");
-    tw!("min-w-svw");
-    tw!("min-w-lvw");
 
     // max width
+    tw!("max-w-0");
+    tw!("max-w-0.5");
+    tw!("max-w-px");
+    tw!("max-w-1/2");
+    tw!("max-w-full");
+    tw!("max-w-screen");
 
     // height
 
