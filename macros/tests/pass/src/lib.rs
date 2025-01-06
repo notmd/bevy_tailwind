@@ -180,6 +180,11 @@ fn test() {
     tw!("place-content-stretch");
 
     // place items
+    tw!("place-items-start");
+    tw!("place-items-end");
+    tw!("place-items-center");
+    tw!("place-items-baseline");
+    tw!("place-items-stretch");
 
     // place self
 
