@@ -30,6 +30,7 @@ mod justify_content;
 mod justify_items;
 mod justity_self;
 mod padding;
+mod place_content;
 mod position_type;
 mod trbl;
 
@@ -76,6 +77,7 @@ impl ParseCtx {
             align_content::parse_align_content(self, class),
             align_items::parse_align_items(self, class),
             align_self::parse_align_self(self, class),
+            place_content::parse_place_content(self, class),
             padding::parse_padding(self, class)
         );
 

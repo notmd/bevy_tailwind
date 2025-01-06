@@ -170,6 +170,14 @@ fn test() {
     tw!("self-baseline");
 
     // place content
+    tw!("place-content-center");
+    tw!("place-content-start");
+    tw!("place-content-end");
+    tw!("place-content-between");
+    tw!("place-content-around");
+    tw!("place-content-evenly");
+    tw!("place-content-baseline");
+    tw!("place-content-stretch");
 
     // place items
 
