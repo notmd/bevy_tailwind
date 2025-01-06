@@ -290,6 +290,11 @@ fn test() {
     tw!("max-h-full");
 
     // size
+    tw!("size-0");
+    tw!("size-0.5");
+    tw!("size-px");
+    tw!("size-1/2");
+    tw!("size-full");
 
     // font size
 

@@ -135,3 +135,31 @@ pub fn parse_max_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     Ok(true)
 }
+
+pub fn parse_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if !class.starts_with("size-") {
+        return Ok(false);
+    }
+
+    let class = &class["size-".len()..];
+
+    let val = Val::parse(
+        class,
+        ParseValSettings::default_disallow()
+            .allow_auto(true)
+            .allow_px(true)
+            .allow_fraction(true)
+            .allow_full(true),
+    )
+    .ok_or(ParseClassError::Unsupported)?;
+
+    if !ctx.components.node.contains_key(&NodeProp::Width) {
+        ctx.insert_node_prop_simple(NodeProp::Width, val);
+    }
+
+    if !ctx.components.node.contains_key(&NodeProp::Height) {
+        ctx.insert_node_prop_simple(NodeProp::Height, val);
+    }
+
+    Ok(true)
+}

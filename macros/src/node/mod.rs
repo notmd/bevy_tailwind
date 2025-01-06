@@ -91,7 +91,8 @@ impl ParseCtx {
             size::parse_max_width(self, class),
             size::parse_height(self, class),
             size::parse_min_height(self, class),
-            size::parse_max_height(self, class)
+            size::parse_max_height(self, class),
+            size::parse_size(self, class)
         );
 
         return Ok(false);
