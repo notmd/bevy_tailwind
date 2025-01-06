@@ -114,3 +114,24 @@ pub fn parse_min_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     Ok(true)
 }
+
+pub fn parse_max_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if !class.starts_with("max-h-") {
+        return Ok(false);
+    }
+
+    let class = &class["max-h-".len()..];
+
+    let val = Val::parse(
+        class,
+        ParseValSettings::default_disallow()
+            .allow_px(true)
+            .allow_fraction(true)
+            .allow_full(true),
+    )
+    .ok_or(ParseClassError::Unsupported)?;
+
+    ctx.insert_node_prop_simple(NodeProp::MaxHeight, val);
+
+    Ok(true)
+}
