@@ -1,4 +1,5 @@
 use std::{
+    any::Any,
     collections::HashMap,
     hash::Hash,
     ops::{Deref, DerefMut},
@@ -8,7 +9,7 @@ use crate::{ClassType, MacroType};
 use indexmap::IndexMap;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
-use syn::{Expr, Ident, Index};
+use syn::{Expr, Ident};
 
 pub mod val;
 
@@ -18,13 +19,97 @@ pub fn parse_neg(str: &str) -> (bool, &str) {
     (neg, str)
 }
 
-pub trait IntoTokenStream {
-    fn into_token_stream(self) -> proc_macro2::TokenStream;
+#[derive(Default)]
+pub struct StructualTokenStream(pub Vec<(String, TokenStream)>);
+
+impl Deref for StructualTokenStream {
+    type Target = Vec<(String, TokenStream)>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
 }
 
-pub(crate) struct StructProps<T: AsRef<str>>(
-    pub IndexMap<T, (proc_macro2::TokenStream, ClassType)>,
-);
+impl DerefMut for StructualTokenStream {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
+    }
+}
+
+pub trait ToTokenStream {
+    fn as_any(&mut self) -> Option<&mut dyn Any> {
+        None
+    }
+
+    fn to_token_stream(&self) -> proc_macro2::TokenStream;
+
+    // This only used for nested structs in mutation macro, this seem to be a bad design, but I don't have a better idea
+    fn structual_to_token_stream(&self) -> Option<StructualTokenStream> {
+        None
+    }
+}
+
+impl ToTokenStream for TokenStream {
+    fn to_token_stream(&self) -> TokenStream {
+        self.clone()
+    }
+}
+
+impl ToTokenStream for f32 {
+    fn to_token_stream(&self) -> TokenStream {
+        quote! {#self}
+    }
+}
+
+pub enum StructPropValueType {
+    Simple(TokenStream),
+    Nested(Box<dyn ToTokenStream + Send + Sync + 'static>),
+}
+
+impl StructPropValueType {
+    pub fn downcast_mut<T: 'static>(&mut self) -> &mut T {
+        match self {
+            StructPropValueType::Nested(value) => {
+                value.as_any().unwrap().downcast_mut::<T>().unwrap()
+            }
+            _ => panic!("downcast_mut called on non-Nested StructPropValueType"),
+        }
+    }
+}
+pub struct StructPropValue {
+    pub class_type: ClassType,
+    pub value: StructPropValueType,
+}
+
+impl StructPropValue {
+    pub fn new_simple(class_type: ClassType, value: TokenStream) -> Self {
+        Self {
+            class_type,
+            value: StructPropValueType::Simple(value),
+        }
+    }
+
+    pub fn new_nested(
+        class_type: ClassType,
+        value: impl ToTokenStream + Send + Sync + 'static,
+    ) -> Self {
+        Self {
+            class_type,
+            value: StructPropValueType::Nested(Box::new(value)),
+        }
+    }
+}
+
+impl ToTokenStream for StructPropValue {
+    fn to_token_stream(&self) -> TokenStream {
+        match &self.value {
+            StructPropValueType::Simple(value) => value.clone(),
+            StructPropValueType::Nested(value) => value.to_token_stream(),
+        }
+    }
+}
+
+pub(crate) struct StructProps<T: AsRef<str>>(pub IndexMap<T, StructPropValue>);
 
 impl<T: AsRef<str>> Default for StructProps<T> {
     fn default() -> Self {
@@ -33,7 +118,7 @@ impl<T: AsRef<str>> Default for StructProps<T> {
 }
 
 impl<T: AsRef<str>> Deref for StructProps<T> {
-    type Target = IndexMap<T, (proc_macro2::TokenStream, ClassType)>;
+    type Target = IndexMap<T, StructPropValue>;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -70,8 +155,10 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
         path: TokenStream,
         condition_idents: &[TokenStream],
     ) -> TokenStream {
-        let props = self.0.iter().map(|(prop, (value, class_type))| {
-            let prop = quote_field(prop.as_ref());
+        let props = self.0.iter().map(|(prop, value)| {
+            let prop = quote_prop(prop.as_ref());
+            let class_type = value.class_type;
+            let value = value.to_token_stream();
             match class_type {
                 ClassType::String => {
                     quote! {
@@ -79,7 +166,7 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
                     }
                 }
                 ClassType::Object(indice) => {
-                    let cond = &condition_idents[*indice];
+                    let cond = &condition_idents[indice];
                     quote! {
                         #prop: if #cond {
                             #value
@@ -103,19 +190,38 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
         let (normal_props, conditional_props): (Vec<_>, Vec<_>) = self
             .0
             .iter()
-            .partition(|(_, (_, class_type))| matches!(class_type, ClassType::String));
+            .partition(|(_, value)| matches!(value.class_type, ClassType::String));
 
-        let normal_props = normal_props.iter().map(|(prop, (value, _))| {
-            let prop = quote_field(prop.as_ref());
+        let normal_props = normal_props.iter().map(|(prop, value)| {
+            let prop = quote_prop(prop.as_ref());
+            match &value.value {
+                StructPropValueType::Simple(value) => {
+                    quote! {
+                        __comp.#prop = #value;
+                    }
+                }
+                StructPropValueType::Nested(value) => {
+                    let value = value.structual_to_token_stream().unwrap();
 
-            quote! {
-                __comp.#prop = #value;
+                    let stmts = value.0.into_iter().map(|prop| {
+                        let value = prop.1;
+                        let prop = quote_prop(&prop.0);
+                        quote! {
+                            __comp.#prop = #value;
+                        }
+                    });
+
+                    quote! {
+                        #(#stmts)*
+                    }
+                }
             }
         });
 
         let conditional_props = {
             let mut group = HashMap::new();
-            for (prop, (value, class_type)) in conditional_props {
+            for (prop, value) in conditional_props {
+                let class_type = value.class_type;
                 let indice = match class_type {
                     ClassType::Object(indice) => indice,
                     _ => unreachable!(),
@@ -127,13 +233,32 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
             }
 
             group.into_iter().map(|(indice, props)| {
-                let cond = &condition_idents[*indice];
+                let cond = &condition_idents[indice];
 
-                let assign_stmts = props.into_iter().map(|(prop, value)| {
-                    let prop = quote_field(prop.as_ref());
+                let assign_stmts = props.into_iter().flat_map(|(prop, value)| {
+                    let outer_prop = quote_prop(prop.as_ref());
 
-                    quote! {
-                        __comp.#prop = #value;
+                    match &value.value {
+                        StructPropValueType::Simple(value) => {
+                            vec![quote! {
+                                __comp.#outer_prop = #value;
+                            }]
+                        }
+                        StructPropValueType::Nested(value) => {
+                            let value = value.structual_to_token_stream().unwrap();
+
+                            value
+                                .0
+                                .into_iter()
+                                .map(move |prop| {
+                                    let value = prop.1;
+                                    let prop = quote_prop(&prop.0);
+                                    quote! {
+                                        __comp.#outer_prop.#prop = #value;
+                                    }
+                                })
+                                .collect()
+                        }
                     }
                 });
 
@@ -153,15 +278,15 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
     }
 }
 
-fn quote_field(field: &str) -> TokenStream {
-    match field.parse::<usize>() {
+fn quote_prop(prop: &str) -> TokenStream {
+    match prop.parse::<usize>() {
         Ok(field) => {
-            let field = syn::Index::from(field);
-            quote! {#field}
+            let prop = syn::Index::from(field);
+            quote! {#prop}
         }
         Err(_) => {
-            let field = Ident::new(field, Span::call_site());
-            quote! {#field}
+            let prop = Ident::new(prop, Span::call_site());
+            quote! {#prop}
         }
     }
 }

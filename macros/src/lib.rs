@@ -3,6 +3,7 @@ mod node;
 mod utils;
 mod z_index;
 
+
 use node::NodeProp;
 use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
@@ -79,7 +80,12 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             }
             InputElement::Object(exprs) => {
                 for (classes, expr) in exprs {
-                    ctx.conditions.push(expr);
+                    let idx = ctx.conditions.len();
+                    let ident = format_ident!("__class__cond_{}", idx);
+
+                    ctx.conditions.push(quote! {
+                        let #ident = #expr;
+                    });
                     ctx.class_type = ClassType::Object(ctx.conditions.len() - 1);
                     parse_classes!(classes, ctx);
                 }
@@ -105,17 +111,6 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         })
         .collect::<Vec<_>>();
 
-    let conditions = ctx
-        .conditions
-        .iter()
-        .enumerate()
-        .map(|(i, expr)| {
-            let ident = format_ident!("__class__cond_{}", i);
-
-            quote! { let #ident = #expr; }
-        })
-        .collect::<Vec<_>>();
-
     let components = vec![
         ctx.components.node.quote(
             quote! { bevy::ui::Node },
@@ -132,7 +127,10 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     .into_iter()
     .filter(Option::is_some);
 
-    let condition = conditions.into_iter().collect::<TokenStream>();
+    let conditions = &ctx.conditions;
+    let condition = quote! {
+        #(#conditions)*
+    };
 
     let inner = quote! {
          #(#components),*
@@ -218,7 +216,7 @@ struct UiComponents {
 struct ParseCtx {
     macro_type: MacroType,
     class_type: ClassType,
-    conditions: Vec<Expr>,
+    conditions: Vec<TokenStream>,
     components: UiComponents,
 }
 
@@ -227,42 +225,6 @@ impl ParseCtx {
         Self {
             macro_type,
             ..Default::default()
-        }
-    }
-
-    fn quote_tuple_component(
-        &self,
-        path: TokenStream,
-        props: impl IntoIterator<Item = TokenStream>,
-    ) -> TokenStream {
-        match &self.macro_type {
-            crate::MacroType::Create => {
-                let props = props.into_iter().collect::<Vec<_>>();
-                return quote! {
-                    #path (
-                        #(#props),*
-                    )
-                };
-            }
-            crate::MacroType::Mutate(expr) => {
-                let props = props
-                    .into_iter()
-                    .enumerate()
-                    .map(|(i, prop)| {
-                        let i = syn::Index::from(i);
-                        quote! {
-                            __comp.#i = #prop;
-                        }
-                    })
-                    .collect::<Vec<_>>();
-
-                quote! {
-                   {
-                       let __comp = &mut #expr;
-                        #(#props)*
-                   }
-                }
-            }
         }
     }
 }

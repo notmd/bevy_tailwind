@@ -1,6 +1,9 @@
 use quote::quote;
 
-use crate::{ParseClassError, ParseCtx, ParseResult, utils::parse_neg};
+use crate::{
+    ParseClassError, ParseCtx, ParseResult,
+    utils::{StructPropValue, parse_neg},
+};
 
 impl ParseCtx {
     pub fn parse_z_index(&mut self, class: &str) -> ParseResult {
@@ -22,9 +25,10 @@ impl ParseCtx {
             return Err(ParseClassError::Unsupported);
         }
 
-        self.components
-            .z_index
-            .insert("0", (quote! {#z_index}, self.class_type));
+        self.components.z_index.insert(
+            "0",
+            StructPropValue::new_simple(self.class_type, quote! {#z_index}),
+        );
         return Ok(true);
     }
 }

@@ -1,8 +1,9 @@
-use proc_macro2::{Span, TokenStream};
-use syn::Ident;
-
-use crate::{MacroType, ParseCtx, ParseResult};
 use quote::quote;
+
+use crate::{
+    ParseCtx, ParseResult,
+    utils::{StructPropValue, StructPropValueType, StructualTokenStream, ToTokenStream, val::Val},
+};
 
 // mod box_sizing;
 mod display;
@@ -12,6 +13,7 @@ mod flex_direction;
 mod flex_grow;
 mod flex_shrink;
 mod flex_wrap;
+mod padding;
 mod position_type;
 mod trbl;
 
@@ -43,14 +45,18 @@ impl ParseCtx {
             flex_wrap::parse_flex_wrap(self, class),
             flex::parse_flex(self, class),
             flex_grow::parse_flex_grow(self, class),
-            flex_shrink::parse_flex_shrink(self, class)
+            flex_shrink::parse_flex_shrink(self, class),
+            padding::parse_padding(self, class)
         );
 
         return Ok(false);
     }
 
-    fn insert_node_prop(&mut self, prop: NodeProp, value: TokenStream) {
-        self.components.node.insert(prop, (value, self.class_type));
+    fn insert_node_prop_simple(&mut self, prop: NodeProp, value: impl ToTokenStream) {
+        self.components.node.insert(prop, StructPropValue {
+            class_type: self.class_type,
+            value: StructPropValueType::Simple(value.to_token_stream()),
+        });
     }
 }
 
@@ -140,5 +146,78 @@ impl AsRef<str> for NodeProp {
             NodeProp::GridRow => "grid_row",
             NodeProp::GridColumn => "grid_column",
         }
+    }
+}
+
+#[derive(Default, Clone)]
+struct UiRect {
+    top: Option<Val>,
+    right: Option<Val>,
+    bottom: Option<Val>,
+    left: Option<Val>,
+}
+
+impl ToTokenStream for UiRect {
+    fn to_token_stream(&self) -> proc_macro2::TokenStream {
+        let top = self.top.map(|v| {
+            let v = v.to_token_stream();
+            quote! {
+                top: #v
+            }
+        });
+        let right = self.right.map(|v| {
+            let v = v.to_token_stream();
+            quote! {
+                right: #v
+            }
+        });
+        let bottom = self.bottom.map(|v| {
+            let v = v.to_token_stream();
+            quote! {
+                bottom: #v
+            }
+        });
+        let left = self.left.map(|v| {
+            let v = v.to_token_stream();
+            quote! {
+                left: #v
+            }
+        });
+
+        let props = [top, right, bottom, left]
+            .into_iter()
+            .filter(Option::is_some);
+
+        quote! {
+            bevy::ui::UiRect {
+                #(#props,)*
+               ..Default::default()
+            }
+        }
+    }
+
+    fn structual_to_token_stream(&self) -> Option<crate::utils::StructualTokenStream> {
+        let mut res = StructualTokenStream::default();
+        if let Some(ref top) = self.top {
+            res.push(("top".to_string(), top.to_token_stream()));
+        }
+
+        if let Some(ref right) = self.right {
+            res.push(("right".to_string(), right.to_token_stream()));
+        }
+
+        if let Some(ref bottom) = self.bottom {
+            res.push(("bottom".to_string(), bottom.to_token_stream()));
+        }
+
+        if let Some(ref left) = self.left {
+            res.push(("left".to_string(), left.to_token_stream()));
+        }
+
+        Some(res)
+    }
+
+    fn as_any(&mut self) -> Option<&mut dyn std::any::Any> {
+        Some(self)
     }
 }

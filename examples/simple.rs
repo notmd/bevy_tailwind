@@ -1,25 +1,27 @@
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn main() {
-    let mut node = tw!("flex", {
+    let mut node = tw!("flex pt-2 py-px", {
         "flex-grow shrink": false
     });
 
     tw!(node, "block",{
-        "flex-grow flex-wrap": true,
+        "flex-grow flex-wrap pt-3 px-2 pl-1": true,
         "shrink": false
     });
 
-    fn get_node() -> Node {
-        Node::default()
-    }
-    tw!("z-10");
-    tw!(get_node(), "flex");
-    let mut z_index = ZIndex(10);
-    tw!(z_index, "-z-10");
-    tw!(z_index, {
-        "-z-20": true
-    });
+    // fn get_node() -> Node {
+    //     Node::default()
+    // }
+    // tw!("z-10");
+    // tw!(get_node(), "flex");
+    // let mut z_index = ZIndex(10);
+    // tw!(z_index, "-z-10");
+    // tw!(z_index, {
+    //     "-z-20": true
+    // });
+
+    // tw!(node, {"pt-2 pl-4 py-px": true});
 }
 
 fn my_system(mut node: Query<(Entity, &mut Node)>) {

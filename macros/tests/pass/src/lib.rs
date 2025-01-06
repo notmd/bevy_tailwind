@@ -100,7 +100,7 @@ fn test() {
     // place self
 
     // padding
-
+    tw!("pt-1 pr-px pb-1 pl-px");
     // margin
 
     // width
