@@ -9,6 +9,7 @@ use crate::{
 
 // mod box_sizing;
 mod align_content;
+mod align_items;
 mod display;
 mod flex;
 mod flex_basis;
@@ -72,6 +73,7 @@ impl ParseCtx {
             justify_items::parse_justify_items(self, class),
             justity_self::parse_justify_self(self, class),
             align_content::parse_align_content(self, class),
+            align_items::parse_align_items(self, class),
             padding::parse_padding(self, class)
         );
 

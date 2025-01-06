@@ -260,7 +260,7 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
                             value
                                 .0
                                 .into_iter()
-                                .map(move |prop| {
+                                .map(|prop| {
                                     let value = prop.1;
                                     if prop.0.ends_with("()") {
                                         let prop = Ident::new(

@@ -110,7 +110,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         })
         .collect::<Vec<_>>();
 
-    let components = vec![
+    let components = [
         ctx.components.node.quote(
             quote! { bevy::ui::Node },
             &conditions_idents,

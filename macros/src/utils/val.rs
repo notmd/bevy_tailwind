@@ -100,7 +100,6 @@ impl Val {
         if neg {
             match self {
                 Val::Px(val) => Some(Val::Px(-val)),
-                Val::Percent(val) => Some(Val::Percent(-val)),
                 Val::VMin(val) => Some(Val::VMin(-val)),
                 Val::VMax(val) => Some(Val::VMax(-val)),
                 _ => None,
@@ -117,7 +116,6 @@ pub struct ParseValSettings {
     pub allow_full: bool,
     pub allow_auto: bool,
     pub allow_px: bool,
-    pub allow_percent: bool,
 }
 
 impl ParseValSettings {
@@ -127,7 +125,6 @@ impl ParseValSettings {
             allow_full: true,
             allow_auto: true,
             allow_px: true,
-            allow_percent: true,
         }
     }
 
@@ -137,7 +134,6 @@ impl ParseValSettings {
             allow_full: false,
             allow_auto: false,
             allow_px: false,
-            allow_percent: false,
         }
     }
 
@@ -158,11 +154,6 @@ impl ParseValSettings {
 
     pub fn allow_px(mut self, val: bool) -> Self {
         self.allow_px = val;
-        self
-    }
-
-    pub fn allow_percent(mut self, val: bool) -> Self {
-        self.allow_percent = val;
         self
     }
 }

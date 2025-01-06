@@ -155,6 +155,11 @@ fn test() {
     tw!("content-stretch");
 
     // align items
+    tw!("items-start");
+    tw!("items-end");
+    tw!("items-center");
+    tw!("items-baseline");
+    tw!("items-stretch");
 
     // align self
 
