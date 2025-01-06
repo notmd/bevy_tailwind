@@ -23,6 +23,7 @@ mod grid_column;
 mod grid_row;
 mod grid_template_columns;
 mod grid_template_rows;
+mod justify_content;
 mod padding;
 mod position_type;
 mod trbl;
@@ -64,6 +65,7 @@ impl ParseCtx {
             grid_auto_columns::parse_grid_auto_columns(self, class),
             grid_auto_rows::parse_grid_auto_rows(self, class),
             gap::parse_gap(self, class),
+            justify_content::parse_justify_content(self, class),
             padding::parse_padding(self, class)
         );
 

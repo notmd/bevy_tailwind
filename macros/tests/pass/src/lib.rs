@@ -123,6 +123,14 @@ fn test() {
     tw!("gap-y-1.5");
 
     // justify content
+    tw!("justify-normal");
+    tw!("justify-start");
+    tw!("justify-end");
+    tw!("justify-center");
+    tw!("justify-between");
+    tw!("justify-around");
+    tw!("justify-evenly");
+    tw!("justify-stretch");
 
     // justify items
 
