@@ -133,6 +133,10 @@ fn test() {
     tw!("justify-stretch");
 
     // justify items
+    tw!("justify-items-start");
+    tw!("justify-items-end");
+    tw!("justify-items-center");
+    tw!("justify-items-stretch");
 
     // justify self
 
