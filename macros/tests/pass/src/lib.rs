@@ -19,6 +19,7 @@ fn test() {
     // position
     tw!("relative");
     tw!("absolute");
+
     // top / right / bottom / left
     tw!("top-0");
     tw!("right-0");
@@ -63,6 +64,7 @@ fn test() {
     tw!("flex-shrink");
     tw!("shrink-0");
     tw!("flex-shrink-0");
+
     // order
 
     // grid template columns
@@ -77,7 +79,10 @@ fn test() {
     tw!("col-start-auto");
     tw!("col-end-1");
     tw!("col-end-auto");
+
     // grid template rows
+    tw!("grid-rows-1");
+    tw!("grid-rows-none");
 
     // grid template rows start/end
 
