@@ -27,7 +27,7 @@ impl ParseCtx {
 
         self.components.z_index.insert(
             "0",
-            StructPropValue::new_simple(self.class_type, quote! {#z_index}),
+            StructPropValue::simple(self.class_type, quote! {#z_index}),
         );
         return Ok(true);
     }

@@ -27,7 +27,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         ctx.components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
             .top = Some(val);
@@ -39,7 +39,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         ctx.components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
             .right = Some(val);
@@ -51,7 +51,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         ctx.components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
             .bottom = Some(val);
@@ -63,7 +63,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         ctx.components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
             .left = Some(val);
@@ -76,7 +76,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>();
 
@@ -95,7 +95,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>();
 
@@ -114,7 +114,7 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .components
             .node
             .entry(NodeProp::Padding)
-            .or_insert_with(|| StructPropValue::new_nested(ctx.class_type, UiRect::default()))
+            .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>();
 

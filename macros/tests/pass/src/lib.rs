@@ -70,7 +70,13 @@ fn test() {
     tw!("grid-cols-none");
 
     // grid template columns start/end
-
+    tw!("col-auto");
+    tw!("col-span-1");
+    tw!("col-span-full");
+    tw!("col-start-1");
+    tw!("col-start-auto");
+    tw!("col-end-1");
+    tw!("col-end-auto");
     // grid template rows
 
     // grid template rows start/end

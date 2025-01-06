@@ -1,3 +1,5 @@
+use std::num::NonZero;
+
 use quote::quote;
 
 use crate::{
@@ -13,6 +15,7 @@ mod flex_direction;
 mod flex_grow;
 mod flex_shrink;
 mod flex_wrap;
+mod grid_column;
 mod grid_template_columns;
 mod padding;
 mod position_type;
@@ -48,6 +51,7 @@ impl ParseCtx {
             flex_grow::parse_flex_grow(self, class),
             flex_shrink::parse_flex_shrink(self, class),
             grid_template_columns::parse_grid_template_columns(self, class),
+            grid_column::parse_grid_column(self, class),
             padding::parse_padding(self, class)
         );
 
@@ -214,6 +218,88 @@ impl ToTokenStream for UiRect {
 
         if let Some(ref left) = self.left {
             res.push(("left".to_string(), left.to_token_stream()));
+        }
+
+        Some(res)
+    }
+
+    fn as_any(&mut self) -> Option<&mut dyn std::any::Any> {
+        Some(self)
+    }
+}
+
+struct GridPlacement {
+    start: Option<NonZero<i16>>,
+    span: Option<NonZero<u16>>,
+    end: Option<NonZero<i16>>,
+}
+
+impl Default for GridPlacement {
+    fn default() -> Self {
+        Self {
+            start: None,
+            span: None,
+            end: None,
+        }
+    }
+}
+
+impl ToTokenStream for GridPlacement {
+    fn to_token_stream(&self) -> proc_macro2::TokenStream {
+        if self.start.is_none() && self.span.is_none() && self.end.is_none() {
+            return quote! {
+                bevy::ui::GridPlacement::default()
+            };
+        }
+
+        let start = self.start.clone().map(|v| {
+            let v = v.get();
+            quote! {
+                .set_start(#v)
+            }
+        });
+        let span = self.span.clone().map(|v| {
+            let v = v.get();
+            quote! {
+                .set_span(#v)
+            }
+        });
+        let end = self.end.clone().map(|v| {
+            let v = v.get();
+            quote! {
+                .set_end(#v)
+            }
+        });
+        quote! {
+            bevy::ui::GridPlacement::default()
+                #start
+                #span
+                #end
+        }
+    }
+
+    fn structual_to_token_stream(&self) -> Option<crate::utils::StructualTokenStream> {
+        if self.start.is_none() && self.span.is_none() && self.end.is_none() {
+            return Some(StructualTokenStream(vec![
+                ("set_start()".to_string(), quote! {0}),
+                ("set_span()".to_string(), quote! {1}),
+                ("set_end()".to_string(), quote! {0}),
+            ]));
+        }
+        let mut res = StructualTokenStream::default();
+        if let Some(ref start) = self.start {
+            let start = start.get();
+            res.push(("set_start()".to_string(), quote! {#start}));
+        }
+
+        if let Some(ref span) = self.span {
+            let span = span.get();
+            res.push(("set_span()".to_string(), quote! {#span}));
+        }
+
+        if let Some(ref end) = self.end {
+            let end = end.get();
+            res.push(("set_end()".to_string(), quote! {#end}));
         }
 
         Some(res)

@@ -1,12 +1,14 @@
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn main() {
-    let mut node = tw!("flex pt-2 py-px grid-cols-2", {
-        "flex-grow shrink": false
+    let mut node = tw!("col-span-1", {
+        "flex-grow shrink col-span-1": false
     });
 
-    tw!(node, "block",{
-        "flex-grow flex-wrap pt-3 px-2 pl-1": true,
+    tw!(node, "col-span-1");
+
+    tw!(node, "block pt-2",{
+        "flex-grow flex-wrap col-span-1": true,
         "shrink": false
     });
 
@@ -18,7 +20,7 @@ fn main() {
     // let mut z_index = ZIndex(10);
     // tw!(z_index, "-z-10");
     // tw!(z_index, {
-    //     "-z-20": true
+    //     "-z-20": trueclass_type
     // });
 
     // tw!(node, {"pt-2 pl-4 py-px": true});

@@ -72,7 +72,7 @@ impl StructPropValueType {
             StructPropValueType::Nested(value) => {
                 value.as_any().unwrap().downcast_mut::<T>().unwrap()
             }
-            _ => panic!("downcast_mut called on non-Nested StructPropValueType"),
+            _ => panic!("downcast_mut called on non-nested StructPropValueType"),
         }
     }
 }
@@ -82,14 +82,14 @@ pub struct StructPropValue {
 }
 
 impl StructPropValue {
-    pub fn new_simple(class_type: ClassType, value: TokenStream) -> Self {
+    pub fn simple(class_type: ClassType, value: TokenStream) -> Self {
         Self {
             class_type,
             value: StructPropValueType::Simple(value),
         }
     }
 
-    pub fn new_nested(
+    pub fn nested(
         class_type: ClassType,
         value: impl ToTokenStream + Send + Sync + 'static,
     ) -> Self {
@@ -193,21 +193,31 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
             .partition(|(_, value)| matches!(value.class_type, ClassType::String));
 
         let normal_props = normal_props.iter().map(|(prop, value)| {
-            let prop = quote_prop(prop.as_ref());
+            let outer_prop = quote_prop(prop.as_ref());
             match &value.value {
                 StructPropValueType::Simple(value) => {
                     quote! {
-                        __comp.#prop = #value;
+                        __comp.#outer_prop = #value;
                     }
                 }
                 StructPropValueType::Nested(value) => {
-                    let value = value.structual_to_token_stream().unwrap();
+                    let value = value
+                        .structual_to_token_stream()
+                        .expect("Nested value must be implement structual_to_token_stream");
 
                     let stmts = value.0.into_iter().map(|prop| {
                         let value = prop.1;
-                        let prop = quote_prop(&prop.0);
-                        quote! {
-                            __comp.#prop = #value;
+                        if prop.0.ends_with("()") {
+                            let prop = Ident::new(prop.0.trim_end_matches("()"), Span::call_site());
+
+                            quote! {
+                                __comp.#outer_prop.#prop(#value);
+                            }
+                        } else {
+                            let prop = quote_prop(&prop.0);
+                            quote! {
+                                __comp.#outer_prop.#prop = #value;
+                            }
                         }
                     });
 
@@ -252,9 +262,19 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
                                 .into_iter()
                                 .map(move |prop| {
                                     let value = prop.1;
-                                    let prop = quote_prop(&prop.0);
-                                    quote! {
-                                        __comp.#outer_prop.#prop = #value;
+                                    if prop.0.ends_with("()") {
+                                        let prop = Ident::new(
+                                            prop.0.trim_end_matches("()"),
+                                            Span::call_site(),
+                                        );
+                                        quote! {
+                                            __comp.#outer_prop.#prop(#value);
+                                        }
+                                    } else {
+                                        let prop = quote_prop(&prop.0);
+                                        quote! {
+                                            __comp.#outer_prop.#prop = #value;
+                                        }
                                     }
                                 })
                                 .collect()
