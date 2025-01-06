@@ -4,10 +4,7 @@ use quote::quote;
 
 use crate::{
     ParseCtx, ParseResult,
-    utils::{
-        StructPropValue, StructPropValueType, StructualTokenStream, ToTokenStream,
-        val::{ParseValSettings, Val},
-    },
+    utils::{StructPropValue, StructPropValueType, StructualTokenStream, ToTokenStream, val::Val},
 };
 
 // mod box_sizing;
@@ -38,8 +35,8 @@ mod place_content;
 mod place_items;
 mod place_self;
 mod position_type;
+mod size;
 mod trbl;
-mod width;
 
 macro_rules! parse_class {
     ($($expr:expr),*) => {
@@ -89,7 +86,8 @@ impl ParseCtx {
             place_self::parse_place_self(self, class),
             padding::parse_padding(self, class),
             margin::parse_margin(self, class),
-            width::parse_width(self, class)
+            size::parse_width(self, class),
+            size::parse_min_width(self, class)
         );
 
         return Ok(false);
