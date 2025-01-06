@@ -88,7 +88,8 @@ impl ParseCtx {
             margin::parse_margin(self, class),
             size::parse_width(self, class),
             size::parse_min_width(self, class),
-            size::parse_max_width(self, class)
+            size::parse_max_width(self, class),
+            size::parse_height(self, class)
         );
 
         return Ok(false);

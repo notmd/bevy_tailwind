@@ -61,21 +61,37 @@ impl Val {
                 }
             }
             "screen" => {
-                if settings.allow_screen {
+                if settings.allow_screen_width {
                     return Some(Val::Vw(100.0));
+                } else if settings.allow_screen_height {
+                    return Some(Val::Vh(100.0));
                 } else {
                     return None;
                 }
             }
             "svw" => {
-                if settings.allow_dimension_screen {
+                if settings.allow_dimension_screen_width {
+                    return Some(Val::VMin(100.0));
+                } else {
+                    return None;
+                }
+            }
+            "svh" => {
+                if settings.allow_dimension_screen_height {
                     return Some(Val::VMin(100.0));
                 } else {
                     return None;
                 }
             }
             "lvw" => {
-                if settings.allow_dimension_screen {
+                if settings.allow_dimension_screen_width {
+                    return Some(Val::VMax(100.0));
+                } else {
+                    return None;
+                }
+            }
+            "lvh" => {
+                if settings.allow_dimension_screen_height {
                     return Some(Val::VMax(100.0));
                 } else {
                     return None;
@@ -137,8 +153,10 @@ pub struct ParseValSettings {
     allow_full: bool,
     allow_auto: bool,
     allow_px: bool,
-    allow_screen: bool,
-    allow_dimension_screen: bool,
+    allow_screen_width: bool,
+    allow_screen_height: bool,
+    allow_dimension_screen_width: bool,
+    allow_dimension_screen_height: bool,
 }
 
 impl ParseValSettings {
@@ -148,8 +166,10 @@ impl ParseValSettings {
             allow_full: true,
             allow_auto: true,
             allow_px: true,
-            allow_screen: true,
-            allow_dimension_screen: true,
+            allow_screen_width: true,
+            allow_screen_height: true,
+            allow_dimension_screen_width: true,
+            allow_dimension_screen_height: true,
         }
     }
 
@@ -159,8 +179,10 @@ impl ParseValSettings {
             allow_full: false,
             allow_auto: false,
             allow_px: false,
-            allow_screen: false,
-            allow_dimension_screen: false,
+            allow_screen_width: false,
+            allow_screen_height: false,
+            allow_dimension_screen_width: false,
+            allow_dimension_screen_height: false,
         }
     }
 
@@ -184,13 +206,23 @@ impl ParseValSettings {
         self
     }
 
-    pub const fn allow_screen(mut self, val: bool) -> Self {
-        self.allow_screen = val;
+    pub const fn allow_screen_width(mut self, val: bool) -> Self {
+        self.allow_screen_width = val;
         self
     }
 
-    pub const fn allow_dimension_screen(mut self, val: bool) -> Self {
-        self.allow_dimension_screen = val;
+    pub const fn allow_screen_height(mut self, val: bool) -> Self {
+        self.allow_screen_height = val;
+        self
+    }
+
+    pub const fn allow_dimension_screen_width(mut self, val: bool) -> Self {
+        self.allow_dimension_screen_width = val;
+        self
+    }
+
+    pub const fn allow_dimension_screen_height(mut self, val: bool) -> Self {
+        self.allow_dimension_screen_height = val;
         self
     }
 }
