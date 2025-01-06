@@ -194,8 +194,50 @@ fn test() {
     tw!("place-self-stretch");
 
     // padding
-    tw!("pt-1 pr-px pb-1 pl-px");
+    tw!("p-0");
+    tw!("px-0");
+    tw!("py-0");
+    tw!("pt-0");
+    tw!("pr-0");
+    tw!("pb-0");
+    tw!("pl-0");
+    tw!("p-px");
+    tw!("px-px");
+    tw!("py-px");
+    tw!("pt-px");
+    tw!("pr-px");
+    tw!("pb-px");
+    tw!("pl-px");
+    tw!("p-1.5");
+    tw!("px-1.5");
+    tw!("py-1.5");
+    tw!("pt-1.5");
+    tw!("pr-1.5");
+    tw!("pb-1.5");
+    tw!("pl-1.5");
+
     // margin
+    tw!("m-0");
+    tw!("mx-0");
+    tw!("my-0");
+    tw!("mt-0");
+    tw!("mr-0");
+    tw!("mb-0");
+    tw!("ml-0");
+    tw!("m-px");
+    tw!("mx-px");
+    tw!("my-px");
+    tw!("mt-px");
+    tw!("mr-px");
+    tw!("mb-px");
+    tw!("ml-px");
+    tw!("m-1.5");
+    tw!("mx-1.5");
+    tw!("my-1.5");
+    tw!("mt-1.5");
+    tw!("mr-1.5");
+    tw!("mb-1.5");
+    tw!("ml-1.5");
 
     // width
 

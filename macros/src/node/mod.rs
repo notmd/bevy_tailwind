@@ -29,6 +29,7 @@ mod grid_template_rows;
 mod justify_content;
 mod justify_items;
 mod justity_self;
+mod margin;
 mod padding;
 mod place_content;
 mod place_items;
@@ -82,7 +83,8 @@ impl ParseCtx {
             place_content::parse_place_content(self, class),
             place_items::parse_place_items(self, class),
             place_self::parse_place_self(self, class),
-            padding::parse_padding(self, class)
+            padding::parse_padding(self, class),
+            margin::parse_margin(self, class)
         );
 
         return Ok(false);

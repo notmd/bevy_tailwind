@@ -2,21 +2,19 @@ use crate::{
     ParseClassError, ParseCtx, ParseResult,
     node::UiRect,
     utils::{
-        StructPropValue, parse_neg,
+        StructPropValue,
         val::{ParseValSettings, Val},
     },
 };
 
 use super::NodeProp;
 
-pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
-    let (neg, class) = parse_neg(class);
-
-    if class.starts_with("pt-") {
-        let val = parse_val(class, neg)?;
+pub fn parse_margin(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class.starts_with("mt-") {
+        let val = parse_val(class)?;
         ctx.components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
@@ -25,11 +23,11 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(true);
     }
 
-    if class.starts_with("pr-") {
-        let val = parse_val(class, neg)?;
+    if class.starts_with("mr-") {
+        let val = parse_val(class)?;
         ctx.components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
@@ -38,11 +36,11 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(true);
     }
 
-    if class.starts_with("pb-") {
-        let val = parse_val(class, neg)?;
+    if class.starts_with("mb-") {
+        let val = parse_val(class)?;
         ctx.components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
@@ -51,11 +49,11 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(true);
     }
 
-    if class.starts_with("pl-") {
-        let val = parse_val(class, neg)?;
+    if class.starts_with("ml-") {
+        let val = parse_val(class)?;
         ctx.components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>()
@@ -64,12 +62,12 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(true);
     }
 
-    if class.starts_with("px-") {
-        let val = parse_val(class, neg)?;
+    if class.starts_with("mx-") {
+        let val = parse_val(class)?;
         let rect = ctx
             .components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>();
@@ -84,12 +82,12 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(true);
     }
 
-    if class.starts_with("py-") {
-        let val = parse_val(class, neg)?;
+    if class.starts_with("my-") {
+        let val = parse_val(class)?;
         let rect = ctx
             .components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>();
@@ -104,12 +102,12 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(true);
     }
 
-    if class.starts_with("p-") {
-        let val = parse_val(class, neg)?;
+    if class.starts_with("m-") {
+        let val = parse_val(class)?;
         let rect = ctx
             .components
             .node
-            .entry(NodeProp::Padding)
+            .entry(NodeProp::Margin)
             .or_insert_with(|| StructPropValue::nested(ctx.class_type, UiRect::default()))
             .value
             .downcast_mut::<UiRect>();
@@ -133,15 +131,14 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     Ok(false)
 }
 
-fn parse_val(class: &str, neg: bool) -> Result<Val, ParseClassError> {
+fn parse_val(class: &str) -> Result<Val, ParseClassError> {
     Val::parse(
-        if class.starts_with("p-") {
+        if class.starts_with("m-") {
             &class[2..]
         } else {
             &class[3..]
         },
         ParseValSettings::default_disallow().allow_px(true),
     )
-    .and_then(|val| val.eval_neg(neg))
     .ok_or(ParseClassError::Unsupported)
 }
