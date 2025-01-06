@@ -162,6 +162,12 @@ fn test() {
     tw!("items-stretch");
 
     // align self
+    tw!("self-auto");
+    tw!("self-start");
+    tw!("self-end");
+    tw!("self-center");
+    tw!("self-stretch");
+    tw!("self-baseline");
 
     // place content
 
