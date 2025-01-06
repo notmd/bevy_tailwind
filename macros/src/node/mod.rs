@@ -13,6 +13,7 @@ mod flex_direction;
 mod flex_grow;
 mod flex_shrink;
 mod flex_wrap;
+mod grid_template_columns;
 mod padding;
 mod position_type;
 mod trbl;
@@ -46,6 +47,7 @@ impl ParseCtx {
             flex::parse_flex(self, class),
             flex_grow::parse_flex_grow(self, class),
             flex_shrink::parse_flex_shrink(self, class),
+            grid_template_columns::parse_grid_template_columns(self, class),
             padding::parse_padding(self, class)
         );
 

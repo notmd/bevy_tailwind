@@ -1,5 +1,3 @@
-
-
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
     node::UiRect,

@@ -1,7 +1,7 @@
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn main() {
-    let mut node = tw!("flex pt-2 py-px", {
+    let mut node = tw!("flex pt-2 py-px grid-cols-2", {
         "flex-grow shrink": false
     });
 
