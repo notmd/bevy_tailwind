@@ -100,7 +100,10 @@ fn test() {
     tw!("grid-flow-col-dense");
 
     // grid auto columns
-
+    tw!("auto-cols-auto");
+    tw!("auto-cols-min");
+    tw!("auto-cols-max");
+    tw!("auto-cols-fr");
     // grid auto rows
 
     // gap
