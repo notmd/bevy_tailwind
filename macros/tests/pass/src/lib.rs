@@ -187,6 +187,11 @@ fn test() {
     tw!("place-items-stretch");
 
     // place self
+    tw!("place-self-auto");
+    tw!("place-self-start");
+    tw!("place-self-end");
+    tw!("place-self-center");
+    tw!("place-self-stretch");
 
     // padding
     tw!("pt-1 pr-px pb-1 pl-px");
