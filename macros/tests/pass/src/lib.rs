@@ -94,6 +94,10 @@ fn test() {
     tw!("row-end-auto");
 
     // grid auto flow
+    tw!("grid-flow-row");
+    tw!("grid-flow-col");
+    tw!("grid-flow-row-dense");
+    tw!("grid-flow-col-dense");
 
     // grid auto columns
 
