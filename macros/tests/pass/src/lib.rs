@@ -104,7 +104,12 @@ fn test() {
     tw!("auto-cols-min");
     tw!("auto-cols-max");
     tw!("auto-cols-fr");
+
     // grid auto rows
+    tw!("auto-rows-auto");
+    tw!("auto-rows-min");
+    tw!("auto-rows-max");
+    tw!("auto-rows-fr");
 
     // gap
 
