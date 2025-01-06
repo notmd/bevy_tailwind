@@ -20,10 +20,10 @@ pub fn parse_neg(str: &str) -> (bool, &str) {
 }
 
 #[derive(Default)]
-pub struct StructualTokenStream(pub Vec<(String, TokenStream)>);
+pub struct StructualTokenStream(pub Vec<(&'static str, TokenStream)>);
 
 impl Deref for StructualTokenStream {
-    type Target = Vec<(String, TokenStream)>;
+    type Target = Vec<(&'static str, TokenStream)>;
 
     fn deref(&self) -> &Self::Target {
         &self.0

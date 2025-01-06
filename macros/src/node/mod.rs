@@ -225,19 +225,19 @@ impl ToTokenStream for UiRect {
     fn structual_to_token_stream(&self) -> Option<crate::utils::StructualTokenStream> {
         let mut res = StructualTokenStream::default();
         if let Some(ref top) = self.top {
-            res.push(("top".to_string(), top.to_token_stream()));
+            res.push(("top", top.to_token_stream()));
         }
 
         if let Some(ref right) = self.right {
-            res.push(("right".to_string(), right.to_token_stream()));
+            res.push(("right", right.to_token_stream()));
         }
 
         if let Some(ref bottom) = self.bottom {
-            res.push(("bottom".to_string(), bottom.to_token_stream()));
+            res.push(("bottom", bottom.to_token_stream()));
         }
 
         if let Some(ref left) = self.left {
-            res.push(("left".to_string(), left.to_token_stream()));
+            res.push(("left", left.to_token_stream()));
         }
 
         Some(res)
@@ -301,25 +301,25 @@ impl ToTokenStream for GridPlacement {
     fn structual_to_token_stream(&self) -> Option<crate::utils::StructualTokenStream> {
         if self.start.is_none() && self.span.is_none() && self.end.is_none() {
             return Some(StructualTokenStream(vec![
-                ("set_start()".to_string(), quote! {0}),
-                ("set_span()".to_string(), quote! {1}),
-                ("set_end()".to_string(), quote! {0}),
+                ("set_start()", quote! {0}),
+                ("set_span()", quote! {1}),
+                ("set_end()", quote! {0}),
             ]));
         }
         let mut res = StructualTokenStream::default();
         if let Some(ref start) = self.start {
             let start = start.get();
-            res.push(("set_start()".to_string(), quote! {#start}));
+            res.push(("set_start()", quote! {#start}));
         }
 
         if let Some(ref span) = self.span {
             let span = span.get();
-            res.push(("set_span()".to_string(), quote! {#span}));
+            res.push(("set_span()", quote! {#span}));
         }
 
         if let Some(ref end) = self.end {
             let end = end.get();
-            res.push(("set_end()".to_string(), quote! {#end}));
+            res.push(("set_end()", quote! {#end}));
         }
 
         Some(res)
