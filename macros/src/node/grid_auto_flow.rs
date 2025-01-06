@@ -4,42 +4,14 @@ use quote::quote;
 use super::NodeProp;
 
 pub fn parse_grid_auto_flow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
-    if !class.starts_with("grid-flow-") {
-        return Ok(false);
-    }
+    let grid_auto_flow = match class {
+        "grid-flow-row" => quote! { bevy::ui::GridAutoFlow::Row },
+        "grid-flow-col" => quote! { bevy::ui::GridAutoFlow::Column },
+        "grid-flow-row-dense" => quote! { bevy::ui::GridAutoFlow::RowDense },
+        "grid-flow-col-dense" => quote! { bevy::ui::GridAutoFlow::ColumnDense },
+        _ => return Ok(false),
+    };
 
-    let suffix = &class["grid-flow-".len()..];
-
-    match suffix {
-        "row" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoFlow, quote! {
-                bevy::ui::GridAutoFlow::Row
-            });
-
-            Ok(true)
-        }
-        "col" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoFlow, quote! {
-                bevy::ui::GridAutoFlow::Column
-            });
-
-            Ok(true)
-        }
-        "row-dense" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoFlow, quote! {
-                bevy::ui::GridAutoFlow::RowDense
-            });
-
-            Ok(true)
-        }
-        "col-dense" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoFlow, quote! {
-                bevy::ui::GridAutoFlow::ColumnDense
-            });
-
-            Ok(true)
-        }
-
-        _ => Ok(false),
-    }
+    ctx.insert_node_prop_simple(NodeProp::GridAutoFlow, grid_auto_flow);
+    Ok(true)
 }

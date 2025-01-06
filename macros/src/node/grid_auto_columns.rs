@@ -4,35 +4,14 @@ use super::NodeProp;
 use quote::quote;
 
 pub fn parse_grid_auto_columns(ctx: &mut ParseCtx, class: &str) -> ParseResult {
-    match class {
-        "auto-cols-auto" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoColumns, quote! {
-                bevy::ui::GridTrack::auto()
-            });
+    let prop = match class {
+        "auto-cols-auto" => quote! { bevy::ui::GridTrack::auto() },
+        "auto-cols-min" => quote! { bevy::ui::GridTrack::min_content() },
+        "auto-cols-max" => quote! { bevy::ui::GridTrack::max_content() },
+        "auto-cols-fr" => quote! { bevy::ui::GridTrack::flex(1.) },
+        _ => return Ok(false),
+    };
 
-            Ok(true)
-        }
-        "auto-cols-min" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoColumns, quote! {
-                bevy::ui::GridTrack::min_content()
-            });
-
-            Ok(true)
-        }
-        "auto-cols-max" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoColumns, quote! {
-                bevy::ui::GridTrack::max_content()
-            });
-
-            Ok(true)
-        }
-        "auto-cols-fr" => {
-            ctx.insert_node_prop_simple(NodeProp::GridAutoColumns, quote! {
-                bevy::ui::GridTrack::flex(1.)
-            });
-
-            Ok(true)
-        }
-        _ => Ok(false),
-    }
+    ctx.insert_node_prop_simple(NodeProp::GridAutoColumns, prop);
+    Ok(true)
 }
