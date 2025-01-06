@@ -62,8 +62,7 @@ pub fn parse_max_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         ParseValSettings::default_disallow()
             .allow_px(true)
             .allow_fraction(true)
-            .allow_full(true)
-            .allow_dimension_screen_width(false),
+            .allow_full(true),
     )
     .ok_or(ParseClassError::Unsupported)?;
 
@@ -91,6 +90,27 @@ pub fn parse_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     .ok_or(ParseClassError::Unsupported)?;
 
     ctx.insert_node_prop_simple(NodeProp::Height, val);
+
+    Ok(true)
+}
+
+pub fn parse_min_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if !class.starts_with("min-h-") {
+        return Ok(false);
+    }
+
+    let class = &class["min-h-".len()..];
+
+    let val = Val::parse(
+        class,
+        ParseValSettings::default_disallow()
+            .allow_px(true)
+            .allow_fraction(true)
+            .allow_full(true),
+    )
+    .ok_or(ParseClassError::Unsupported)?;
+
+    ctx.insert_node_prop_simple(NodeProp::MinHeight, val);
 
     Ok(true)
 }

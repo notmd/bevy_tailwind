@@ -276,6 +276,11 @@ fn test() {
     tw!("h-lvh");
 
     // min height
+    tw!("min-h-0");
+    tw!("min-h-0.5");
+    tw!("min-h-px");
+    tw!("min-h-1/2");
+    tw!("min-h-full");
 
     // max height
 
