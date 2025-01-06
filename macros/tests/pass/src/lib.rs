@@ -139,6 +139,10 @@ fn test() {
     tw!("justify-items-stretch");
 
     // justify self
+    tw!("justify-self-auto");
+    tw!("justify-self-start");
+    tw!("justify-self-end");
+    tw!("justify-self-center");
 
     // align content
 

@@ -25,6 +25,7 @@ mod grid_template_columns;
 mod grid_template_rows;
 mod justify_content;
 mod justify_items;
+mod justity_self;
 mod padding;
 mod position_type;
 mod trbl;
@@ -68,6 +69,7 @@ impl ParseCtx {
             gap::parse_gap(self, class),
             justify_content::parse_justify_content(self, class),
             justify_items::parse_justify_items(self, class),
+            justity_self::parse_justify_self(self, class),
             padding::parse_padding(self, class)
         );
 
