@@ -85,6 +85,13 @@ fn test() {
     tw!("grid-rows-none");
 
     // grid template rows start/end
+    tw!("row-auto");
+    tw!("row-span-1");
+    tw!("row-span-full");
+    tw!("row-start-1");
+    tw!("row-start-auto");
+    tw!("row-end-1");
+    tw!("row-end-auto");
 
     // grid auto flow
 
