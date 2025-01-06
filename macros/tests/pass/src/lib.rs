@@ -112,6 +112,15 @@ fn test() {
     tw!("auto-rows-fr");
 
     // gap
+    tw!("gap-0");
+    tw!("gap-x-0");
+    tw!("gap-y-0");
+    tw!("gap-px");
+    tw!("gap-x-px");
+    tw!("gap-y-px");
+    tw!("gap-1.5");
+    tw!("gap-x-1.5");
+    tw!("gap-y-1.5");
 
     // justify content
 

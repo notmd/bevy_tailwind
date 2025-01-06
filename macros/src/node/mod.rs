@@ -15,6 +15,7 @@ mod flex_direction;
 mod flex_grow;
 mod flex_shrink;
 mod flex_wrap;
+mod gap;
 mod grid_auto_columns;
 mod grid_auto_flow;
 mod grid_auto_rows;
@@ -62,6 +63,7 @@ impl ParseCtx {
             grid_auto_flow::parse_grid_auto_flow(self, class),
             grid_auto_columns::parse_grid_auto_columns(self, class),
             grid_auto_rows::parse_grid_auto_rows(self, class),
+            gap::parse_gap(self, class),
             padding::parse_padding(self, class)
         );
 
