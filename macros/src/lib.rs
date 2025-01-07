@@ -1,6 +1,7 @@
 mod background;
 mod border;
 mod node;
+mod outline;
 mod text;
 mod utils;
 mod z_index;
@@ -49,6 +50,7 @@ macro_rules! parse_classes {
                 $ctx.parse_z_index(class),
                 $ctx.parse_border_radius(class),
                 $ctx.parse_border_color(class),
+                $ctx.parse_outline(class),
                 $ctx.parse_background(class),
                 $ctx.parse_text(class),
                 $ctx.parse_node(class)
@@ -156,6 +158,11 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             &condition_idents,
             &ctx.macro_type,
         ),
+        ctx.components.outline.quote(
+            quote! { bevy::ui::Outline },
+            &condition_idents,
+            &ctx.macro_type,
+        ),
     ]
     .into_iter()
     .filter(Option::is_some)
@@ -258,6 +265,7 @@ struct UiComponents {
     text_color: StructProps<&'static str>,
     border_radius: StructProps<&'static str>,
     border_color: StructProps<&'static str>,
+    outline: StructProps<&'static str>,
 }
 
 #[derive(Default)]

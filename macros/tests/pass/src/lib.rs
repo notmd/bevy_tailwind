@@ -406,4 +406,20 @@ fn test() {
     tw!("border-white");
     tw!("border-white/50");
     tw!("border-gray-100");
+    tw!("border-gray-100/50");
+
+    // outline width
+    tw!("outline-0");
+
+    // outline color
+    tw!("outline-transparent");
+    tw!("outline-transparent/50");
+    tw!("outline-black");
+    tw!("outline-black/50");
+    tw!("outline-white");
+    tw!("outline-white/50");
+    tw!("outline-gray-100/50");
+
+    // outline offset
+    tw!("outline-offset-0");
 }
