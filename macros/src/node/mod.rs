@@ -11,6 +11,7 @@ use crate::{
 mod align_content;
 mod align_items;
 mod align_self;
+mod border;
 mod display;
 mod flex;
 mod flex_basis;
@@ -29,7 +30,6 @@ mod grid_template_rows;
 mod justify_content;
 mod justify_items;
 mod justity_self;
-// mod margin;
 mod place_content;
 mod place_items;
 mod place_self;
@@ -92,7 +92,8 @@ impl ParseCtx {
             size::parse_height(self, class),
             size::parse_min_height(self, class),
             size::parse_max_height(self, class),
-            size::parse_size(self, class)
+            size::parse_size(self, class),
+            border::parse_border(self, class)
         );
 
         return Ok(false);

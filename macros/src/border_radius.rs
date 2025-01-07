@@ -33,8 +33,6 @@ impl ParseCtx {
             };
         }
 
-        let class = if class.is_empty() { class } else { &class[1..] };
-
         if let Ok(size) = parse_size(class) {
             // rounded*
             insert_props!(self, size, 0, [
@@ -47,9 +45,10 @@ impl ParseCtx {
             return Ok(true);
         }
 
+        let class = &class[1..];
+
         if class.starts_with("tl") {
             let class = &class["tl".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 2, ["top_left"]);
 
@@ -58,7 +57,6 @@ impl ParseCtx {
 
         if class.starts_with("tr") {
             let class = &class["tr".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 2, ["top_right"]);
 
@@ -67,7 +65,6 @@ impl ParseCtx {
 
         if class.starts_with("br") {
             let class = &class["br".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 2, ["bottom_right"]);
 
@@ -76,7 +73,6 @@ impl ParseCtx {
 
         if class.starts_with("bl") {
             let class = &class["bl".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 2, ["bottom_left"]);
 
@@ -85,7 +81,6 @@ impl ParseCtx {
 
         if class.starts_with("t") {
             let class = &class["t".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 1, ["top_left", "top_right"]);
 
@@ -94,7 +89,6 @@ impl ParseCtx {
 
         if class.starts_with("r") {
             let class = &class["r".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 1, ["top_right", "bottom_right"]);
 
@@ -103,7 +97,6 @@ impl ParseCtx {
 
         if class.starts_with("b") {
             let class = &class["b".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 1, ["bottom_right", "bottom_left"]);
 
@@ -112,7 +105,6 @@ impl ParseCtx {
 
         if class.starts_with("l") {
             let class = &class["l".len()..];
-            let class = if class.is_empty() { class } else { &class[1..] };
 
             insert_props!(self, parse_size(class)?, 1, ["bottom_left", "top_left"]);
 
@@ -124,6 +116,8 @@ impl ParseCtx {
 }
 
 fn parse_size(class: &str) -> Result<Val, ParseClassError> {
+    let class = if class.is_empty() { class } else { &class[1..] };
+
     let px = match class {
         "none" => 0.,
         "sm" => 2.,

@@ -381,4 +381,20 @@ fn test() {
     tw!("rounded-bl-sm");
     tw!("rounded-bl");
     tw!("rounded-bl-full");
+
+    // border width
+    tw!("border-0");
+    tw!("border");
+    tw!("border-x-0");
+    tw!("border-x");
+    tw!("border-y-0");
+    tw!("border-y");
+    tw!("border-t-0");
+    tw!("border-t");
+    tw!("border-r-0");
+    tw!("border-r");
+    tw!("border-b-0");
+    tw!("border-b");
+    tw!("border-l-0");
+    tw!("border-l");
 }

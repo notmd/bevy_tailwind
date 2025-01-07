@@ -74,3 +74,27 @@ impl ToTokenStream for UiRect {
         Some(self)
     }
 }
+
+macro_rules! insert_node_ui_rect_props {
+    ($ctx:ident, $node_prop:expr, $value:expr, $priority:literal , [$($prop:ident),*]) => {
+        $(
+            let prop = &mut $ctx.components
+                .node
+                .entry($node_prop)
+                .or_insert_with(|| StructPropValue::nested($ctx.class_type, UiRect::default()))
+                .value
+                .downcast_mut::<UiRect>()
+                .$prop;
+
+            if let Some(prop) = prop.as_mut() {
+                prop.set_if_gte_priority($value, $priority);
+            } else {
+                prop.replace(PrioritizedStructPropValue::new($value, $priority));
+            }
+        )*
+
+        return Ok(true);
+    };
+}
+
+pub(crate) use insert_node_ui_rect_props;
