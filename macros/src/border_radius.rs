@@ -1,8 +1,6 @@
-use proc_macro2::TokenStream;
-
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
-    utils::{PrioritizedStructPropValue, StructPropValue, ToTokenStream, val::Val},
+    utils::{PrioritizedStructPropValue, StructPropValue, val::Val},
 };
 
 impl ParseCtx {
@@ -132,19 +130,4 @@ fn parse_size(class: &str) -> Result<Val, ParseClassError> {
     };
 
     Ok(Val::Px(px))
-}
-
-pub struct BorderRadiusVal {
-    val: Val,
-    priority: u8,
-}
-
-impl ToTokenStream for BorderRadiusVal {
-    fn to_token_stream(&self) -> TokenStream {
-        self.val.to_token_stream()
-    }
-
-    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
-        Some(self)
-    }
 }
