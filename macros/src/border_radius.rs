@@ -1,0 +1,175 @@
+use proc_macro2::TokenStream;
+
+use crate::{
+    ParseCtx, ParseResult,
+    utils::{StructPropValue, ToTokenStream, val::Val},
+};
+
+impl ParseCtx {
+    pub fn parse_border_radius(&mut self, class: &str) -> ParseResult {
+        if !class.starts_with("rounded") {
+            return Ok(false);
+        }
+
+        let class = &class["rounded".len()..];
+
+        macro_rules! insert_props {
+            ($ctx:ident, $value:expr, $priority:literal , [$($props:literal),*]) => {
+                $(
+                    let value = $ctx.components.border_radius.get_mut($props);
+
+                    if let Some(value) = value {
+                        let value = value.value.downcast_mut::<BorderRadiusVal>();
+
+                        if value.priority <= $priority {
+                            value.priority = $priority;
+                        }
+                    } else {
+                        $ctx.components.border_radius.insert(
+                            $props,
+                            StructPropValue::wrapped($ctx.class_type, BorderRadiusVal {
+                                val: $value,
+                                priority: $priority,
+                            }),
+                        );
+                    }
+                )*
+            };
+        }
+
+        if class.is_empty() {
+            // rounded
+            insert_props!(self, parse_size(class), 0, [
+                "top_left",
+                "top_right",
+                "bottom_left",
+                "bottom_right"
+            ]);
+
+            return Ok(true);
+        }
+
+        let class = &class[1..];
+        if matches!(
+            class,
+            "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full"
+        ) {
+            insert_props!(self, parse_size(class), 0, [
+                "top_left",
+                "top_right",
+                "bottom_left",
+                "bottom_right"
+            ]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("tl") {
+            let class = &class["tl".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 2, ["top_left"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("tr") {
+            let class = &class["tr".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 2, ["top_right"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("br") {
+            let class = &class["br".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 2, ["bottom_right"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("bl") {
+            let class = &class["bl".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 2, ["bottom_left"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("t") {
+            let class = &class["t".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 1, ["top_left", "top_right"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("r") {
+            let class = &class["r".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 1, ["top_right", "bottom_right"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("b") {
+            let class = &class["b".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 1, ["bottom_right", "bottom_left"]);
+
+            return Ok(true);
+        }
+
+        if class.starts_with("l") {
+            let class = &class["l".len()..];
+            let class = if class.is_empty() { class } else { &class[1..] };
+
+            insert_props!(self, parse_size(class), 1, ["bottom_left", "top_left"]);
+
+            return Ok(true);
+        }
+
+        // dbg!(class);
+
+        Ok(false)
+    }
+}
+
+fn parse_size(class: &str) -> Val {
+    let px = match class {
+        "none" => 0.,
+        "sm" => 2.,
+        "" => 4.,
+        "md" => 6.,
+        "lg" => 8.,
+        "xl" => 12.,
+        "2xl" => 16.,
+        "3xl" => 24.,
+        "full" => 9999.,
+        _ => panic!("Invalid border radius size: {}", class),
+    };
+
+    Val::Px(px)
+}
+
+struct BorderRadiusVal {
+    val: Val,
+    priority: u8,
+}
+
+impl ToTokenStream for BorderRadiusVal {
+    fn to_token_stream(&self) -> TokenStream {
+        self.val.to_token_stream()
+    }
+
+    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
+        Some(self)
+    }
+}

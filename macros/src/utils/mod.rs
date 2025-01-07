@@ -65,16 +65,18 @@ impl ToTokenStream for f32 {
 pub enum StructPropValueType {
     Simple(TokenStream),
     Nested(Box<dyn ToTokenStream + Send + Sync + 'static>),
+    Wrapped(Box<dyn ToTokenStream + Send + Sync + 'static>),
 }
 
 impl StructPropValueType {
     pub fn downcast_mut<T: 'static>(&mut self) -> &mut T {
-        match self {
-            StructPropValueType::Nested(value) => {
-                value.as_any_mut().unwrap().downcast_mut::<T>().unwrap()
-            }
-            _ => panic!("downcast_mut called on non-nested StructPropValueType"),
-        }
+        let val = match self {
+            StructPropValueType::Nested(value) => value,
+            StructPropValueType::Wrapped(value) => value,
+            _ => panic!("downcast_mut called on non-dynamic StructPropValueType"),
+        };
+
+        val.as_any_mut().unwrap().downcast_mut::<T>().unwrap()
     }
 }
 pub struct StructPropValue {
@@ -99,6 +101,16 @@ impl StructPropValue {
             value: StructPropValueType::Nested(Box::new(value)),
         }
     }
+
+    pub fn wrapped(
+        class_type: ClassType,
+        value: impl ToTokenStream + Send + Sync + 'static,
+    ) -> Self {
+        Self {
+            class_type,
+            value: StructPropValueType::Wrapped(Box::new(value)),
+        }
+    }
 }
 
 impl ToTokenStream for StructPropValue {
@@ -106,6 +118,7 @@ impl ToTokenStream for StructPropValue {
         match &self.value {
             StructPropValueType::Simple(value) => value.clone(),
             StructPropValueType::Nested(value) => value.to_token_stream(),
+            StructPropValueType::Wrapped(value) => value.to_token_stream(),
         }
     }
 }
@@ -201,6 +214,12 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
                         __comp.#outer_prop = #value;
                     }
                 }
+                StructPropValueType::Wrapped(value) => {
+                    let value = value.to_token_stream();
+                    quote! {
+                        __comp.#outer_prop = #value;
+                    }
+                }
                 StructPropValueType::Nested(value) => {
                     let value = value
                         .structual_to_token_stream()
@@ -251,6 +270,12 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
 
                     match &value.value {
                         StructPropValueType::Simple(value) => {
+                            vec![quote! {
+                                __comp.#outer_prop = #value;
+                            }]
+                        }
+                        StructPropValueType::Wrapped(value) => {
+                            let value = value.to_token_stream();
                             vec![quote! {
                                 __comp.#outer_prop = #value;
                             }]
