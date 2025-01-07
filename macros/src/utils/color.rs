@@ -50,35 +50,25 @@ impl Color {
     pub fn parse(str: &str) -> Option<Self> {
         let (name, level) = match str.split_once('-') {
             Some(val) => val,
-            None => {
-                if str == "transparent" {
+            None => match str.split_once("/") {
+                Some((name, alpha)) if matches!(name, "transparent" | "black" | "white") => {
+                    let alpha = parse_alpha(alpha)?;
+
+                    return Some(Color {
+                        name: name.to_string(),
+                        level: None,
+                        alpha: Some(alpha),
+                    });
+                }
+                _ if matches!(str, "transparent" | "black" | "white") => {
                     return Some(Color {
                         name: str.to_string(),
                         level: None,
                         alpha: None,
                     });
-                } else {
-                    match str.split_once("/") {
-                        Some((name, alpha)) => {
-                            let alpha = parse_alpha(alpha)?;
-
-                            return Some(Color {
-                                name: name.to_string(),
-                                level: None,
-                                alpha: Some(alpha),
-                            });
-                        }
-                        _ if matches!(str, "black" | "white") => {
-                            return Some(Color {
-                                name: str.to_string(),
-                                level: None,
-                                alpha: None,
-                            });
-                        }
-                        _ => return None,
-                    }
                 }
-            }
+                _ => return None,
+            },
         };
 
         let (level, alpha) = if let Some((level, alpha)) = level.split_once("/") {

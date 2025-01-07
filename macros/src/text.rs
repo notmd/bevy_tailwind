@@ -1,4 +1,7 @@
-use crate::{ParseCtx, ParseResult, utils::StructPropValue};
+use crate::{
+    ParseCtx, ParseResult,
+    utils::{StructPropValue, color::Color},
+};
 use quote::quote;
 
 macro_rules! parse_class {
@@ -23,7 +26,8 @@ impl ParseCtx {
             parse_font_size(self, class),
             parse_font_smoothing(self, class),
             parse_text_align(self, class),
-            parse_line_break(self, class)
+            parse_line_break(self, class),
+            parse_text_color(self, class)
         );
         Ok(false)
     }
@@ -114,6 +118,22 @@ fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         "linebreak",
         StructPropValue::simple(ctx.class_type, line_break),
     );
+
+    Ok(true)
+}
+
+fn parse_text_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if !class.starts_with("text-") {
+        return Ok(false);
+    }
+
+    let Some(color) = Color::parse(&class["text-".len()..]) else {
+        return Ok(false);
+    };
+
+    ctx.components
+        .text_color
+        .insert("0", StructPropValue::simple(ctx.class_type, color));
 
     Ok(true)
 }

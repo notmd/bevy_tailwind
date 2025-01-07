@@ -138,6 +138,11 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             &condition_idents,
             &ctx.macro_type,
         ),
+        ctx.components.text_color.quote(
+            quote! { bevy::text::TextColor },
+            &condition_idents,
+            &ctx.macro_type,
+        ),
     ]
     .into_iter()
     .filter(Option::is_some)
@@ -237,6 +242,7 @@ struct UiComponents {
     z_index: StructProps<&'static str>,
     text_font: StructProps<&'static str>,
     text_layouut: StructProps<&'static str>,
+    text_color: StructProps<&'static str>,
 }
 
 #[derive(Default)]

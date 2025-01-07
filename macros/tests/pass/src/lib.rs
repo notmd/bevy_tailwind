@@ -320,12 +320,23 @@ fn test() {
     tw!("text-right");
     tw!("text-justify");
 
+    // text color
+    tw!("text-transparent");
+    tw!("text-transparent/50");
+    tw!("text-black");
+    tw!("text-black/50");
+    tw!("text-white");
+    tw!("text-white/50");
+    tw!("text-gray-100");
+    tw!("text-gray-100/50");
+
     // word break
     tw!("break-words");
     tw!("break-all");
 
     // background color
     tw!("bg-transparent");
+    tw!("bg-transparent/50");
     tw!("bg-black");
     tw!("bg-black/50");
     tw!("bg-white");
