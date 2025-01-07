@@ -2,7 +2,7 @@ use proc_macro2::TokenStream;
 
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
-    utils::{StructPropValue, ToTokenStream, val::Val},
+    utils::{PrioritizedStructPropValue, StructPropValue, ToTokenStream, val::Val},
 };
 
 impl ParseCtx {
@@ -17,21 +17,16 @@ impl ParseCtx {
             ($ctx:ident, $value:expr, $priority:literal , [$($prop:literal),*]) => {
                 $(
                     let value = $ctx.components.border_radius.get_mut($prop);
-                    let val = $value.ok_or(ParseClassError::Unsupported)?;
                     if let Some(value) = value {
-                        let value = value.value.downcast_mut::<BorderRadiusVal>();
-
-                        if value.priority <= $priority {
-                            value.priority = $priority;
-                            value.val = val;
-                        }
+                        let value = value.value.downcast_mut::<PrioritizedStructPropValue<Val>>();
+                        value.set_if_gte_priority($value, $priority);
                     } else {
                         $ctx.components.border_radius.insert(
                             $prop,
-                            StructPropValue::wrapped($ctx.class_type, BorderRadiusVal {
-                                val,
-                                priority: $priority,
-                            }),
+                            StructPropValue::wrapped(
+                                $ctx.class_type,
+                                PrioritizedStructPropValue::new($value, $priority)
+                            ),
                         );
                     }
                 )*
@@ -40,9 +35,9 @@ impl ParseCtx {
 
         let class = if class.is_empty() { class } else { &class[1..] };
 
-        if let Some(size) = parse_size(class) {
+        if let Ok(size) = parse_size(class) {
             // rounded*
-            insert_props!(self, Some(size), 0, [
+            insert_props!(self, size, 0, [
                 "top_left",
                 "top_right",
                 "bottom_left",
@@ -56,7 +51,7 @@ impl ParseCtx {
             let class = &class["tl".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 2, ["top_left"]);
+            insert_props!(self, parse_size(class)?, 2, ["top_left"]);
 
             return Ok(true);
         }
@@ -65,7 +60,7 @@ impl ParseCtx {
             let class = &class["tr".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 2, ["top_right"]);
+            insert_props!(self, parse_size(class)?, 2, ["top_right"]);
 
             return Ok(true);
         }
@@ -74,7 +69,7 @@ impl ParseCtx {
             let class = &class["br".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 2, ["bottom_right"]);
+            insert_props!(self, parse_size(class)?, 2, ["bottom_right"]);
 
             return Ok(true);
         }
@@ -83,7 +78,7 @@ impl ParseCtx {
             let class = &class["bl".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 2, ["bottom_left"]);
+            insert_props!(self, parse_size(class)?, 2, ["bottom_left"]);
 
             return Ok(true);
         }
@@ -92,7 +87,7 @@ impl ParseCtx {
             let class = &class["t".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 1, ["top_left", "top_right"]);
+            insert_props!(self, parse_size(class)?, 1, ["top_left", "top_right"]);
 
             return Ok(true);
         }
@@ -101,7 +96,7 @@ impl ParseCtx {
             let class = &class["r".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 1, ["top_right", "bottom_right"]);
+            insert_props!(self, parse_size(class)?, 1, ["top_right", "bottom_right"]);
 
             return Ok(true);
         }
@@ -110,7 +105,7 @@ impl ParseCtx {
             let class = &class["b".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 1, ["bottom_right", "bottom_left"]);
+            insert_props!(self, parse_size(class)?, 1, ["bottom_right", "bottom_left"]);
 
             return Ok(true);
         }
@@ -119,7 +114,7 @@ impl ParseCtx {
             let class = &class["l".len()..];
             let class = if class.is_empty() { class } else { &class[1..] };
 
-            insert_props!(self, parse_size(class), 1, ["bottom_left", "top_left"]);
+            insert_props!(self, parse_size(class)?, 1, ["bottom_left", "top_left"]);
 
             return Ok(true);
         }
@@ -128,7 +123,7 @@ impl ParseCtx {
     }
 }
 
-fn parse_size(class: &str) -> Option<Val> {
+fn parse_size(class: &str) -> Result<Val, ParseClassError> {
     let px = match class {
         "none" => 0.,
         "sm" => 2.,
@@ -139,13 +134,13 @@ fn parse_size(class: &str) -> Option<Val> {
         "2xl" => 16.,
         "3xl" => 24.,
         "full" => 9999.,
-        _ => return None,
+        _ => return Err(ParseClassError::Unsupported),
     };
 
-    Some(Val::Px(px))
+    Ok(Val::Px(px))
 }
 
-struct BorderRadiusVal {
+pub struct BorderRadiusVal {
     val: Val,
     priority: u8,
 }

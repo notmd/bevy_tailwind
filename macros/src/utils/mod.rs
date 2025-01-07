@@ -12,6 +12,7 @@ use quote::quote;
 use syn::{Expr, Ident};
 
 pub mod color;
+pub mod ui_rect;
 pub mod val;
 
 pub fn parse_neg(str: &str) -> (bool, &str) {
@@ -173,6 +174,7 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
             let prop = quote_prop(prop.as_ref());
             let class_type = value.class_type;
             let value = value.to_token_stream();
+
             match class_type {
                 ClassType::String => {
                     quote! {
@@ -320,6 +322,45 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
             let __comp = &mut #expr;
             #(#normal_props)*
             #(#conditional_props)*
+        }
+    }
+}
+
+pub struct PrioritizedStructPropValue<T: ToTokenStream> {
+    value: T,
+    priority: usize,
+}
+
+impl<T: ToTokenStream + 'static> ToTokenStream for PrioritizedStructPropValue<T> {
+    fn to_token_stream(&self) -> TokenStream {
+        self.value.to_token_stream()
+    }
+
+    fn as_any_mut(&mut self) -> Option<&mut dyn Any> {
+        Some(self)
+    }
+}
+
+impl<T: ToTokenStream + Clone> Clone for PrioritizedStructPropValue<T> {
+    fn clone(&self) -> Self {
+        Self {
+            value: self.value.clone(),
+            priority: self.priority.clone(),
+        }
+    }
+}
+
+impl<T: ToTokenStream + Copy> Copy for PrioritizedStructPropValue<T> {}
+
+impl<T: ToTokenStream> PrioritizedStructPropValue<T> {
+    pub fn new(value: T, priority: usize) -> Self {
+        Self { value, priority }
+    }
+
+    pub fn set_if_gte_priority(&mut self, value: T, priority: usize) {
+        if self.priority <= priority {
+            self.value = value;
+            self.priority = priority;
         }
     }
 }
