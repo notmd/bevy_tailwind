@@ -91,7 +91,7 @@ impl Color {
 
 fn parse_alpha(str: &str) -> Option<f32> {
     let alpha = str.parse::<u8>().ok()?;
-    if alpha < 0 || alpha > 100 {
+    if alpha > 100 {
         None
     } else {
         Some(alpha as f32 / 100.0)
