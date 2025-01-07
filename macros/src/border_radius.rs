@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 
 use crate::{
-    ParseCtx, ParseResult,
+    ParseClassError, ParseCtx, ParseResult,
     utils::{StructPropValue, ToTokenStream, val::Val},
 };
 
@@ -17,18 +17,19 @@ impl ParseCtx {
             ($ctx:ident, $value:expr, $priority:literal , [$($prop:literal),*]) => {
                 $(
                     let value = $ctx.components.border_radius.get_mut($prop);
-
+                    let val = $value.ok_or(ParseClassError::Unsupported)?;
                     if let Some(value) = value {
                         let value = value.value.downcast_mut::<BorderRadiusVal>();
 
                         if value.priority <= $priority {
                             value.priority = $priority;
+                            value.val = val;
                         }
                     } else {
                         $ctx.components.border_radius.insert(
                             $prop,
                             StructPropValue::wrapped($ctx.class_type, BorderRadiusVal {
-                                val: $value,
+                                val,
                                 priority: $priority,
                             }),
                         );
@@ -39,8 +40,9 @@ impl ParseCtx {
 
         let class = if class.is_empty() { class } else { &class[1..] };
 
-        if let Some(size) = parse_size_otp(class) {
-            insert_props!(self, size, 0, [
+        if let Some(size) = parse_size(class) {
+            // rounded*
+            insert_props!(self, Some(size), 0, [
                 "top_left",
                 "top_right",
                 "bottom_left",
@@ -126,11 +128,7 @@ impl ParseCtx {
     }
 }
 
-fn parse_size(class: &str) -> Val {
-    parse_size_otp(class).expect("Invalid border radius size ")
-}
-
-fn parse_size_otp(class: &str) -> Option<Val> {
+fn parse_size(class: &str) -> Option<Val> {
     let px = match class {
         "none" => 0.,
         "sm" => 2.,
