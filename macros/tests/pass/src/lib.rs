@@ -297,6 +297,22 @@ fn test() {
     tw!("size-full");
 
     // font size
+    tw!("text-xs");
+    tw!("text-sm");
+    tw!("text-base");
+    tw!("text-lg");
+    tw!("text-xl");
+    tw!("text-2xl");
+    tw!("text-3xl");
+    tw!("text-4xl");
+    tw!("text-5xl");
+    tw!("text-6xl");
+    tw!("text-7xl");
+    tw!("text-8xl");
+    tw!("text-9xl");
+
+    // font smoothing
+    tw!("antialiased");
 
     // font weight
 

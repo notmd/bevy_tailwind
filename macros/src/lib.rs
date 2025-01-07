@@ -1,5 +1,6 @@
 mod background_color;
 mod node;
+mod text;
 mod utils;
 mod z_index;
 
@@ -46,6 +47,7 @@ macro_rules! parse_classes {
                 span,
                 $ctx.parse_z_index(class),
                 $ctx.parse_background_color_class(class),
+                $ctx.parse_text_class(class),
                 $ctx.parse_node_class(class)
             );
 
@@ -97,7 +99,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         }
     }
 
-    let conditions_idents = ctx
+    let condition_idents = ctx
         .conditions
         .iter()
         .enumerate()
@@ -113,13 +115,18 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let components = [
         ctx.components.node.quote(
             quote! { bevy::ui::Node },
-            &conditions_idents,
+            &condition_idents,
             &ctx.macro_type,
         ),
         ctx.get_background_color(),
         ctx.components.z_index.quote(
             quote! { bevy::ui::ZIndex },
-            &conditions_idents,
+            &condition_idents,
+            &ctx.macro_type,
+        ),
+        ctx.components.text_font.quote(
+            quote! { bevy::text::TextFont },
+            &condition_idents,
             &ctx.macro_type,
         ),
     ]
@@ -209,6 +216,7 @@ struct UiComponents {
     node: StructProps<NodeProp>,
     // background_color: String,
     z_index: StructProps<&'static str>,
+    text_font: StructProps<&'static str>,
 }
 
 #[derive(Default)]

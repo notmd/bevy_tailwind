@@ -5,5 +5,8 @@ edition = "2024"
 publish = false
 
 [dependencies]
-bevy = { version = "0.15", default-features = false, features = ["bevy_ui"] }
+bevy = { version = "0.15", default-features = false, features = [
+    "bevy_ui",
+    "bevy_text",
+] }
 bevy_tailwind_macro = { path = "../../" }
