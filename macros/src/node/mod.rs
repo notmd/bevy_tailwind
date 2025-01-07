@@ -263,7 +263,7 @@ impl ToTokenStream for UiRect {
         Some(res)
     }
 
-    fn as_any(&mut self) -> Option<&mut dyn std::any::Any> {
+    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
         Some(self)
     }
 }
@@ -345,7 +345,7 @@ impl ToTokenStream for GridPlacement {
         Some(res)
     }
 
-    fn as_any(&mut self) -> Option<&mut dyn std::any::Any> {
+    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
         Some(self)
     }
 }

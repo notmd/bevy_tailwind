@@ -38,7 +38,7 @@ impl DerefMut for StructualTokenStream {
 }
 
 pub trait ToTokenStream {
-    fn as_any(&mut self) -> Option<&mut dyn Any> {
+    fn as_any_mut(&mut self) -> Option<&mut dyn Any> {
         None
     }
 
@@ -71,7 +71,7 @@ impl StructPropValueType {
     pub fn downcast_mut<T: 'static>(&mut self) -> &mut T {
         match self {
             StructPropValueType::Nested(value) => {
-                value.as_any().unwrap().downcast_mut::<T>().unwrap()
+                value.as_any_mut().unwrap().downcast_mut::<T>().unwrap()
             }
             _ => panic!("downcast_mut called on non-nested StructPropValueType"),
         }
