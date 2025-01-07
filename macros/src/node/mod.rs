@@ -11,6 +11,7 @@ use crate::{
 mod align_content;
 mod align_items;
 mod align_self;
+mod aspect_ratio;
 mod border;
 mod display;
 mod flex;
@@ -59,6 +60,7 @@ impl ParseCtx {
     pub fn parse_node(&mut self, class: &str) -> ParseResult {
         parse_class!(
             // box_sizing::parse_box_sizing(self, class),
+            aspect_ratio::parse_aspect_ratio(self, class),
             display::parse_display(self, class),
             overflow::parse_overflow(self, class),
             position_type::parse_position_type(self, class),

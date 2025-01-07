@@ -3,7 +3,9 @@ use bevy_tailwind_macro::tw;
 #[allow(dead_code)]
 fn test() {
     // aspect-ratio
-
+    tw!("aspect-auto");
+    tw!("aspect-square");
+    tw!("aspect-video");
     // box-sizing
     // tw!("box-border");
     // tw!("box-content");
