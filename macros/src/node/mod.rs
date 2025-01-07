@@ -30,6 +30,7 @@ mod grid_template_rows;
 mod justify_content;
 mod justify_items;
 mod justity_self;
+mod overflow;
 mod place_content;
 mod place_items;
 mod place_self;
@@ -59,6 +60,7 @@ impl ParseCtx {
         parse_class!(
             // box_sizing::parse_box_sizing(self, class),
             display::parse_display(self, class),
+            overflow::parse_overflow(self, class),
             position_type::parse_position_type(self, class),
             trbl::parse_trbl(self, class),
             flex_basis::parse_flex_basis(self, class),
