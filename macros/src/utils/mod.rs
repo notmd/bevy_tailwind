@@ -11,6 +11,7 @@ use proc_macro2::{Span, TokenStream};
 use quote::quote;
 use syn::{Expr, Ident};
 
+pub mod color;
 pub mod val;
 
 pub fn parse_neg(str: &str) -> (bool, &str) {
@@ -82,10 +83,10 @@ pub struct StructPropValue {
 }
 
 impl StructPropValue {
-    pub fn simple(class_type: ClassType, value: TokenStream) -> Self {
+    pub fn simple(class_type: ClassType, value: impl ToTokenStream) -> Self {
         Self {
             class_type,
-            value: StructPropValueType::Simple(value),
+            value: StructPropValueType::Simple(value.to_token_stream()),
         }
     }
 

@@ -55,7 +55,7 @@ macro_rules! parse_class {
 }
 
 impl ParseCtx {
-    pub fn parse_node_class(&mut self, class: &str) -> ParseResult {
+    pub fn parse_node(&mut self, class: &str) -> ParseResult {
         parse_class!(
             // box_sizing::parse_box_sizing(self, class),
             display::parse_display(self, class),

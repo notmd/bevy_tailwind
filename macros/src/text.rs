@@ -18,7 +18,7 @@ macro_rules! parse_class {
 }
 
 impl ParseCtx {
-    pub fn parse_text_class(&mut self, class: &str) -> ParseResult {
+    pub fn parse_text(&mut self, class: &str) -> ParseResult {
         parse_class!(
             parse_font_size(self, class),
             parse_font_smoothing(self, class),

@@ -323,5 +323,13 @@ fn test() {
     // word break
     tw!("break-words");
     tw!("break-all");
-    //
+
+    // background color
+    tw!("bg-transparent");
+    tw!("bg-black");
+    tw!("bg-black/50");
+    tw!("bg-white");
+    tw!("bg-white/50");
+    tw!("bg-gray-100");
+    tw!("bg-gray-100/50");
 }

@@ -1,4 +1,4 @@
-mod background_color;
+mod background;
 mod node;
 mod text;
 mod utils;
@@ -46,9 +46,9 @@ macro_rules! parse_classes {
                 class,
                 span,
                 $ctx.parse_z_index(class),
-                $ctx.parse_background_color_class(class),
-                $ctx.parse_text_class(class),
-                $ctx.parse_node_class(class)
+                $ctx.parse_background(class),
+                $ctx.parse_text(class),
+                $ctx.parse_node(class)
             );
 
             return syn::Error::new(span, format!("Unsuported class:  {}", class))
@@ -118,7 +118,11 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             &condition_idents,
             &ctx.macro_type,
         ),
-        ctx.get_background_color(),
+        ctx.components.background_color.quote(
+            quote! { bevy::ui::BackgroundColor },
+            &condition_idents,
+            &ctx.macro_type,
+        ),
         ctx.components.z_index.quote(
             quote! { bevy::ui::ZIndex },
             &condition_idents,
@@ -229,7 +233,7 @@ enum MacroType {
 #[derive(Default)]
 struct UiComponents {
     node: StructProps<NodeProp>,
-    // background_color: String,
+    background_color: StructProps<&'static str>,
     z_index: StructProps<&'static str>,
     text_font: StructProps<&'static str>,
     text_layouut: StructProps<&'static str>,
