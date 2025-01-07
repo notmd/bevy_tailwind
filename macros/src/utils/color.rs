@@ -51,7 +51,7 @@ impl Color {
         let (name, level) = match str.split_once('-') {
             Some(val) => val,
             None => match str.split_once("/") {
-                Some((name, alpha)) if matches!(name, "transparent" | "black" | "white") => {
+                Some((name, alpha)) => {
                     let alpha = parse_alpha(alpha)?;
 
                     return Some(Color {
@@ -60,14 +60,13 @@ impl Color {
                         alpha: Some(alpha),
                     });
                 }
-                _ if matches!(str, "transparent" | "black" | "white") => {
+                _ => {
                     return Some(Color {
                         name: str.to_string(),
                         level: None,
                         alpha: None,
                     });
                 }
-                _ => return None,
             },
         };
 
