@@ -14,9 +14,9 @@ impl ParseCtx {
         let class = &class["rounded".len()..];
 
         macro_rules! insert_props {
-            ($ctx:ident, $value:expr, $priority:literal , [$($props:literal),*]) => {
+            ($ctx:ident, $value:expr, $priority:literal , [$($prop:literal),*]) => {
                 $(
-                    let value = $ctx.components.border_radius.get_mut($props);
+                    let value = $ctx.components.border_radius.get_mut($prop);
 
                     if let Some(value) = value {
                         let value = value.value.downcast_mut::<BorderRadiusVal>();
@@ -26,7 +26,7 @@ impl ParseCtx {
                         }
                     } else {
                         $ctx.components.border_radius.insert(
-                            $props,
+                            $prop,
                             StructPropValue::wrapped($ctx.class_type, BorderRadiusVal {
                                 val: $value,
                                 priority: $priority,
@@ -37,24 +37,10 @@ impl ParseCtx {
             };
         }
 
-        if class.is_empty() {
-            // rounded
-            insert_props!(self, parse_size(class), 0, [
-                "top_left",
-                "top_right",
-                "bottom_left",
-                "bottom_right"
-            ]);
+        let class = if class.is_empty() { class } else { &class[1..] };
 
-            return Ok(true);
-        }
-
-        let class = &class[1..];
-        if matches!(
-            class,
-            "none" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full"
-        ) {
-            insert_props!(self, parse_size(class), 0, [
+        if let Some(size) = parse_size_otp(class) {
+            insert_props!(self, size, 0, [
                 "top_left",
                 "top_right",
                 "bottom_left",
@@ -136,13 +122,15 @@ impl ParseCtx {
             return Ok(true);
         }
 
-        // dbg!(class);
-
         Ok(false)
     }
 }
 
 fn parse_size(class: &str) -> Val {
+    parse_size_otp(class).expect("Invalid border radius size ")
+}
+
+fn parse_size_otp(class: &str) -> Option<Val> {
     let px = match class {
         "none" => 0.,
         "sm" => 2.,
@@ -153,10 +141,10 @@ fn parse_size(class: &str) -> Val {
         "2xl" => 16.,
         "3xl" => 24.,
         "full" => 9999.,
-        _ => panic!("Invalid border radius size: {}", class),
+        _ => return None,
     };
 
-    Val::Px(px)
+    Some(Val::Px(px))
 }
 
 struct BorderRadiusVal {
