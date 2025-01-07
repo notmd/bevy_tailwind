@@ -5,7 +5,7 @@ mod utils;
 mod z_index;
 
 use node::NodeProp;
-use proc_macro2::TokenStream;
+use proc_macro2::{Span, TokenStream};
 use quote::{format_ident, quote};
 use syn::{
     Expr, LitStr, Token, parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned,
@@ -129,9 +129,15 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             &condition_idents,
             &ctx.macro_type,
         ),
+        ctx.components.text_layouut.quote(
+            quote! { bevy::text::TextLayout },
+            &condition_idents,
+            &ctx.macro_type,
+        ),
     ]
     .into_iter()
-    .filter(Option::is_some);
+    .filter(Option::is_some)
+    .collect::<Vec<_>>();
 
     let conditions = &ctx.conditions;
     let condition = quote! {
@@ -143,6 +149,15 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     };
 
     if is_mutate {
+        if components.len() > 1 {
+            return syn::Error::new(
+                Span::call_site(),
+                "Mutation syntax does not support mutate multiple components",
+            )
+            .to_compile_error()
+            .into();
+        }
+
         return quote! {
             {
                 #condition
@@ -217,6 +232,7 @@ struct UiComponents {
     // background_color: String,
     z_index: StructProps<&'static str>,
     text_font: StructProps<&'static str>,
+    text_layouut: StructProps<&'static str>,
 }
 
 #[derive(Default)]

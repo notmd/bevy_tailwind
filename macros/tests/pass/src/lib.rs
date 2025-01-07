@@ -314,7 +314,14 @@ fn test() {
     // font smoothing
     tw!("antialiased");
 
-    // font weight
+    // text align
+    tw!("text-left");
+    tw!("text-center");
+    tw!("text-right");
+    tw!("text-justify");
 
+    // word break
+    tw!("break-words");
+    tw!("break-all");
     //
 }
