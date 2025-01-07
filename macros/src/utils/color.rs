@@ -27,7 +27,7 @@ impl ToTokenStream for Color {
                     "transparent" => quote! {NONE},
                     "black" => quote! {BLACK},
                     "white" => quote! {WHITE},
-                    _ => panic!("Invalid color name: {}", self.name),
+                    _ => unreachable!("Invalid color name: {}", self.name),
                 };
 
                 quote! {
@@ -52,6 +52,9 @@ impl Color {
             Some(val) => val,
             None => match str.split_once("/") {
                 Some((name, alpha)) => {
+                    if !is_valid_simple_name(name) {
+                        return None;
+                    }
                     let alpha = parse_alpha(alpha)?;
 
                     return Some(Color {
@@ -61,6 +64,9 @@ impl Color {
                     });
                 }
                 _ => {
+                    if !is_valid_simple_name(str) {
+                        return None;
+                    }
                     return Some(Color {
                         name: str.to_string(),
                         level: None,
@@ -131,4 +137,8 @@ fn is_valid_level(level: &str) -> bool {
         level,
         "50" | "100" | "200" | "300" | "400" | "500" | "600" | "700" | "800" | "900" | "950"
     )
+}
+
+fn is_valid_simple_name(name: &str) -> bool {
+    matches!(name, "transparent" | "black" | "white")
 }

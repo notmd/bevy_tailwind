@@ -1,6 +1,6 @@
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
-    utils::{PrioritizedStructPropValue, StructPropValue, val::Val},
+    utils::{PrioritizedStructPropValue, StructPropValue, color::Color, val::Val},
 };
 
 impl ParseCtx {
@@ -110,6 +110,24 @@ impl ParseCtx {
         }
 
         Ok(false)
+    }
+
+    pub fn parse_border_color(&mut self, class: &str) -> ParseResult {
+        if !class.starts_with("border-") {
+            return Ok(false);
+        }
+
+        let class = &class["border-".len()..];
+
+        let Some(color) = Color::parse(class) else {
+            return Ok(false);
+        };
+
+        self.components
+            .border_color
+            .insert("0", StructPropValue::simple(self.class_type, color));
+
+        Ok(true)
     }
 }
 

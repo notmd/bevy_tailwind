@@ -397,4 +397,13 @@ fn test() {
     tw!("border-b");
     tw!("border-l-0");
     tw!("border-l");
+
+    // border color
+    tw!("border-transparent");
+    tw!("border-transparent/50");
+    tw!("border-black");
+    tw!("border-black/50");
+    tw!("border-white");
+    tw!("border-white/50");
+    tw!("border-gray-100");
 }

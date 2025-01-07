@@ -1,5 +1,5 @@
 mod background;
-mod border_radius;
+mod border;
 mod node;
 mod text;
 mod utils;
@@ -48,6 +48,7 @@ macro_rules! parse_classes {
                 span,
                 $ctx.parse_z_index(class),
                 $ctx.parse_border_radius(class),
+                $ctx.parse_border_color(class),
                 $ctx.parse_background(class),
                 $ctx.parse_text(class),
                 $ctx.parse_node(class)
@@ -147,6 +148,11 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         ),
         ctx.components.border_radius.quote(
             quote! { bevy::ui::BorderRadius },
+            &condition_idents,
+            &ctx.macro_type,
+        ),
+        ctx.components.border_color.quote(
+            quote! { bevy::ui::BorderColor },
             &condition_idents,
             &ctx.macro_type,
         ),
@@ -251,6 +257,7 @@ struct UiComponents {
     text_layouut: StructProps<&'static str>,
     text_color: StructProps<&'static str>,
     border_radius: StructProps<&'static str>,
+    border_color: StructProps<&'static str>,
 }
 
 #[derive(Default)]
