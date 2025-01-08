@@ -12,7 +12,10 @@ use quote::{format_ident, quote};
 use syn::{
     Expr, LitStr, Token, parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned,
 };
-use utils::StructProps;
+use utils::{
+    StructProps,
+    quote2::{Quote, QuoteCtx, Struct},
+};
 
 macro_rules! parse_class {
     ($class:ident, $span:ident, $($expr:expr),*) => {
@@ -60,6 +63,24 @@ macro_rules! parse_classes {
     };
 }
 
+/// This macro allows you to create or mutate bevy UI component(s) with `TailwindCSS` classes and `clsx` object syntax.
+/// To create components, you can pass a string of `TailwindCSS` classes or an object of `TailwindCSS` classes.
+/// ```rust,ignore
+/// use bevy_tailwind::tw;
+///
+/// let bundle: (BackgroundColor, Node) = tw!("bg-white w-full h-full");
+/// let bundle: (BackgroundColor, Node) = tw!("h-full w-full", {
+///    "bg-white p-6": true,
+/// })
+/// ```
+///
+/// To mutate components, you can pass an expression as the first argument. The expression either returns an owned value or a mutable reference to the component. You can only one component at a time.
+/// ```rust,ignore
+/// use bevy_tailwind::tw;
+///
+/// let node: Node = tw!(get_node(), "w-full h-full");
+/// ```
+///
 #[proc_macro]
 pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input: Input = parse_macro_input!(input);
