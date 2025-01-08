@@ -10,7 +10,7 @@ pub fn parse_gap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("gap-x-") {
         let class = &class["gap-x-".len()..];
-        let val = Val::parse(class, settings).ok_or(ParseClassError::Unsupported)?;
+        let val = Val::parse(class, settings).ok_or(ParseClassError::Unknown)?;
 
         ctx.insert_node_prop_simple(NodeProp::RowGap, val);
 
@@ -19,7 +19,7 @@ pub fn parse_gap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("gap-y-") {
         let class = &class["gap-y-".len()..];
-        let val = Val::parse(class, settings).ok_or(ParseClassError::Unsupported)?;
+        let val = Val::parse(class, settings).ok_or(ParseClassError::Unknown)?;
 
         ctx.insert_node_prop_simple(NodeProp::ColumnGap, val);
 
@@ -28,7 +28,7 @@ pub fn parse_gap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("gap-") {
         let class = &class["gap-".len()..];
-        let val = Val::parse(class, settings).ok_or(ParseClassError::Unsupported)?;
+        let val = Val::parse(class, settings).ok_or(ParseClassError::Unknown)?;
 
         if !ctx.components.node.contains_key(&NodeProp::RowGap) {
             ctx.insert_node_prop_simple(NodeProp::RowGap, val);

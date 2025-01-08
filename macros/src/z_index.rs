@@ -14,7 +14,7 @@ impl ParseCtx {
 
         let z_index = z_index
             .parse::<u32>()
-            .map_err(|_| ParseClassError::Unsupported)?;
+            .map_err(|_| ParseClassError::Unknown)?;
         let z_index = if neg {
             -(z_index as i32)
         } else {
@@ -22,7 +22,7 @@ impl ParseCtx {
         };
 
         if neg && z_index == 0 {
-            return Err(ParseClassError::Unsupported);
+            return Err(ParseClassError::Unknown);
         }
 
         self.components.z_index.insert(

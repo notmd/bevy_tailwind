@@ -53,7 +53,7 @@ pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
                     return Ok(true);
                 }
                 Err(_) => {
-                    return Err(ParseClassError::Unsupported);
+                    return Err(ParseClassError::Unknown);
                 }
             }
         }
@@ -65,7 +65,7 @@ pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             NonZero::new(1).unwrap()
         } else {
             let Ok(start) = class.parse::<NonZero<i16>>() else {
-                return Err(ParseClassError::Unsupported);
+                return Err(ParseClassError::Unknown);
             };
             start
         };
@@ -87,7 +87,7 @@ pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             NonZero::new(1).unwrap()
         } else {
             let Ok(end) = class.parse::<NonZero<i16>>() else {
-                return Err(ParseClassError::Unsupported);
+                return Err(ParseClassError::Unknown);
             };
             end
         };

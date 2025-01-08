@@ -144,7 +144,7 @@ fn parse_size(class: &str) -> Result<Val, ParseClassError> {
         "2xl" => 16.,
         "3xl" => 24.,
         "full" => 9999.,
-        _ => return Err(ParseClassError::Unsupported),
+        _ => return Err(ParseClassError::Unknown),
     };
 
     Ok(Val::Px(px))

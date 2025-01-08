@@ -13,7 +13,7 @@ pub fn parse_aspect_ratio(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         "auto" => quote! { None },
         "square" => quote! { Some(1.0) },
         "video" => quote! { Some(16.0 / 9.0) },
-        _ => return Err(ParseClassError::Unsupported),
+        _ => return Err(ParseClassError::Unknown),
     };
 
     ctx.insert_node_prop_simple(NodeProp::AspectRatio, token_stream);

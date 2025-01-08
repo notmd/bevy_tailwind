@@ -21,7 +21,7 @@ pub fn parse_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_screen_width(true)
             .allow_dimension_screen_width(true),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     ctx.insert_node_prop_simple(NodeProp::Width, val);
 
@@ -43,7 +43,7 @@ pub fn parse_min_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_full(true)
             .allow_dimension_screen_width(false),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     ctx.insert_node_prop_simple(NodeProp::MinWidth, val);
 
@@ -64,7 +64,7 @@ pub fn parse_max_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_fraction(true)
             .allow_full(true),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     ctx.insert_node_prop_simple(NodeProp::MaxWidth, val);
 
@@ -87,7 +87,7 @@ pub fn parse_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_screen_height(true)
             .allow_dimension_screen_height(true),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     ctx.insert_node_prop_simple(NodeProp::Height, val);
 
@@ -108,7 +108,7 @@ pub fn parse_min_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_fraction(true)
             .allow_full(true),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     ctx.insert_node_prop_simple(NodeProp::MinHeight, val);
 
@@ -129,7 +129,7 @@ pub fn parse_max_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_fraction(true)
             .allow_full(true),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     ctx.insert_node_prop_simple(NodeProp::MaxHeight, val);
 
@@ -151,7 +151,7 @@ pub fn parse_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_fraction(true)
             .allow_full(true),
     )
-    .ok_or(ParseClassError::Unsupported)?;
+    .ok_or(ParseClassError::Unknown)?;
 
     if !ctx.components.node.contains_key(&NodeProp::Width) {
         ctx.insert_node_prop_simple(NodeProp::Width, val);

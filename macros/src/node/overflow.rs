@@ -70,7 +70,7 @@ fn parse_axis(class: &str) -> Result<OverflowAxis, ParseClassError> {
         "clip" => OverflowAxis::Clip,
         "hidden" => OverflowAxis::Hidden,
         "scroll" => OverflowAxis::Scroll,
-        _ => return Err(ParseClassError::Unsupported),
+        _ => return Err(ParseClassError::Unknown),
     };
 
     Ok(axis)

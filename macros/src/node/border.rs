@@ -65,9 +65,7 @@ fn parse_val(class: &str) -> Result<Val, ParseClassError> {
     let px = match class {
         "" => 1.,
         _ => {
-            let px = class
-                .parse::<u32>()
-                .map_err(|_| ParseClassError::Unsupported)?;
+            let px = class.parse::<u32>().map_err(|_| ParseClassError::Unknown)?;
 
             px as f32
         }

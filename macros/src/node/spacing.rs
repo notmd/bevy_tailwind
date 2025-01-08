@@ -68,7 +68,7 @@ fn parse_padding_val(class: &str, neg: bool) -> Result<Val, ParseClassError> {
         ParseValSettings::default_disallow().allow_px(true),
     )
     .and_then(|val| val.eval_neg(neg))
-    .ok_or(ParseClassError::Unsupported)
+    .ok_or(ParseClassError::Unknown)
 }
 
 pub fn parse_margin(ctx: &mut ParseCtx, class: &str) -> ParseResult {
@@ -119,5 +119,5 @@ fn parse_margin_val(class: &str) -> Result<Val, ParseClassError> {
         },
         ParseValSettings::default_disallow().allow_px(true),
     )
-    .ok_or(ParseClassError::Unsupported)
+    .ok_or(ParseClassError::Unknown)
 }

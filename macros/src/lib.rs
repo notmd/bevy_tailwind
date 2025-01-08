@@ -23,11 +23,8 @@ macro_rules! parse_class {
                 }
                 Err(e) => {
                     let msg = match e {
-                        ParseClassError::Unsupported => {
-                            format!("Unsuported class: {}", $class)
-                        }
-                        ParseClassError::Conflict => {
-                            format!("Conflict class: {}", $class)
+                        ParseClassError::Unknown => {
+                            format!("Unknown class: {}", $class)
                         }
                     };
                     return syn::Error::new($span, msg)
@@ -56,7 +53,7 @@ macro_rules! parse_classes {
                 $ctx.parse_node(class)
             );
 
-            return syn::Error::new(span, format!("Unsuported class:  {}", class))
+            return syn::Error::new(span, format!("Unknown class:  {}", class))
                 .to_compile_error()
                 .into();
         }
@@ -293,8 +290,7 @@ enum ClassType {
 }
 
 enum ParseClassError {
-    Unsupported,
-    Conflict,
+    Unknown,
 }
 
 type ParseResult = Result<bool, ParseClassError>;
