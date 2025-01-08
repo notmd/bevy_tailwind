@@ -5,9 +5,9 @@ fn main() {
         "flex-grow shrink col-span-1": false
     });
 
-    tw!(node, "col-span-1");
+    tw!(&mut node, "col-span-1");
 
-    tw!(node, "block pt-2",{
+    tw!(&mut node, "block pt-2",{
         "flex-grow flex-wrap col-span-1": true,
         "shrink": false
     });

@@ -319,9 +319,10 @@ impl<T: AsRef<str> + Hash + Eq> StructProps<T> {
         };
 
         quote! {
-            let __comp = &mut #expr;
+            let mut __comp = #expr;
             #(#normal_props)*
             #(#conditional_props)*
+            __comp
         }
     }
 }

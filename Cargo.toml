@@ -10,4 +10,10 @@ members = ["macros", "macros/tests/*"]
 bevy_tailwind_macro = { path = "macros" }
 
 [dev-dependencies]
-bevy = { version = "0.15.1", default-features = false, features = ["bevy_ui"] }
+bevy = { version = "0.15.1", default-features = false, features = [
+    "bevy_ui",
+    "bevy_window",
+    "bevy_winit",
+    "bevy_text",
+    "default_font",
+] }
