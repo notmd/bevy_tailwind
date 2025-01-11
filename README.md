@@ -120,6 +120,44 @@ And here is the generated code (for padding left only, other properties are ommi
 }
 ```
 
+The same rules will also be applied for mutation syntax.
+
+```rust
+tw!(&mut node, "p-1", {
+    "pl-2": true,
+    "px-3 pl-4": true,
+    "p-5": true
+});
+```
+
+```rust
+{
+    let mut __comp = &mut node;
+    let __class__cond_0 = true;
+    let __class__cond_1 = true;
+    let __class__cond_2 = true;
+    if __class__cond_1 {
+        __comp.padding.left = bevy::ui::Val::Px(16f32);
+    } else {
+        if __class__cond_0 {
+            __comp.padding.left = bevy::ui::Val::Px(8f32);
+        } else {
+            if __class__cond_2 {
+                __comp.padding.left = bevy::ui::Val::Px(20f32);
+            } else {
+                __comp.padding.left = bevy::ui::Val::Px(4f32);
+            }
+        }
+    }
+    __comp
+}
+
+```
+
+## Troubleshooting
+
+If you encounter weird rendering issues, you can check the generated code by using RustAnalyzer's Expand Macro feature or [cargo expand](https://github.com/dtolnay/cargo-expand).
+
 ## Bevy compatibility
 
 | `bevy_tailwind` | `bevy` |
