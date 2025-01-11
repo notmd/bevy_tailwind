@@ -6,7 +6,7 @@ expression: stdout
 #![allow(dead_code)]
 #![allow(unused_variables)]
 #[prelude_import]
-use std::prelude::rust_2024::*;
+use std::prelude::rust_2021::*;
 #[macro_use]
 extern crate std;
 use bevy::prelude::*;
