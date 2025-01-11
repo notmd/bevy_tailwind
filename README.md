@@ -5,6 +5,8 @@
 
 - Generate smart and efficient code (just like hand written) at compile time. Leaving no runtime overhead.
 - Support autocomplete with [TailwindCSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss).
+- Support `clsx` object syntax.
+- Support both creation and mutation.
 
 ## Installation
 
