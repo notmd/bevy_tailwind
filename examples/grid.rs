@@ -98,11 +98,10 @@ fn spawn_layout(mut commands: Commands) {
             // Modal (absolutely positioned on top of content - currently hidden: to view it, change its visibility)
             builder.spawn((
                 tw!(Node {
-                    width: Val::Percent(60.),
                     height: Val::Px(300.),
                     max_width: Val::Px(600.),
                     ..default()
-                },"absolute mt-25"),
+                },"absolute mt-25 w-60/100"),
                 Visibility::Hidden,
                 tw!("bg-white/80")
             ));
