@@ -163,3 +163,7 @@ If you encounter weird rendering issues, you can check the generated code by usi
 | `bevy_tailwind` | `bevy` |
 | --------------- | ------ |
 | 0.1.0           | 0.15.0 |
+
+## TailwindCSS compatibility
+
+Most of TailwindCSS classes are supported except [arbitrary values](https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values). See all supported classes [here](https://github.com/notmd/bevy_tailwind/blob/main/macros/tests/pass/src/lib.rs)
