@@ -108,7 +108,7 @@ impl Quote for StructValPrioritized {
             let entry = entries[idx];
             let value = entry.1.quote(ctx);
 
-            match entry.0.0.class_type {
+            match entry.0 .0.class_type {
                 ClassType::String => {
                     if ctx.is_create {
                         quote! {#value}

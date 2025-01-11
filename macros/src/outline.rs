@@ -1,6 +1,6 @@
 use crate::{
-    ParseCtx, ParseResult,
     utils::{color::Color, val::Val},
+    ParseCtx, ParseResult,
 };
 
 impl ParseCtx {

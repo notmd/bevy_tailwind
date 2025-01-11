@@ -12,9 +12,12 @@ pub fn parse_grid_template_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult 
 
     match suffix {
         "none" => {
-            ctx.insert_node_prop(NodeProp::GridTemplateRows, quote! {
-                Default::default()
-            });
+            ctx.insert_node_prop(
+                NodeProp::GridTemplateRows,
+                quote! {
+                    Default::default()
+                },
+            );
 
             Ok(true)
         }
@@ -23,13 +26,16 @@ pub fn parse_grid_template_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult 
                 return Ok(false);
             };
 
-            ctx.insert_node_prop(NodeProp::GridTemplateRows, quote! {
-               bevy::ui::RepeatedGridTrack::minmax(
-                    #count,
-                    bevy::ui::MinTrackSizingFunction::Px(0.),
-                    bevy::ui::MaxTrackSizingFunction::Fraction(1.)
-               )
-            });
+            ctx.insert_node_prop(
+                NodeProp::GridTemplateRows,
+                quote! {
+                   bevy::ui::RepeatedGridTrack::minmax(
+                        #count,
+                        bevy::ui::MinTrackSizingFunction::Px(0.),
+                        bevy::ui::MaxTrackSizingFunction::Fraction(1.)
+                   )
+                },
+            );
 
             Ok(true)
         }

@@ -1,4 +1,4 @@
-use crate::{ParseCtx, ParseResult, utils::color::Color};
+use crate::{utils::color::Color, ParseCtx, ParseResult};
 
 macro_rules! parse_class {
     ($($expr:expr),*) => {

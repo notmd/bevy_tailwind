@@ -1,4 +1,4 @@
-use crate::{ParseCtx, ParseResult, utils::val::Val};
+use crate::{utils::val::Val, ParseCtx, ParseResult};
 
 use super::NodeProp;
 use quote::quote;

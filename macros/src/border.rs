@@ -1,6 +1,6 @@
 use crate::{
-    ParseClassError, ParseCtx, ParseResult,
     utils::{color::Color, val::Val},
+    ParseClassError, ParseCtx, ParseResult,
 };
 
 impl ParseCtx {
@@ -25,12 +25,12 @@ impl ParseCtx {
 
         if let Ok(size) = parse_size(class) {
             // rounded*
-            insert_props!(self, size, 0, [
-                "top_left",
-                "top_right",
-                "bottom_left",
-                "bottom_right"
-            ]);
+            insert_props!(
+                self,
+                size,
+                0,
+                ["top_left", "top_right", "bottom_left", "bottom_right"]
+            );
         }
 
         let class = &class[1..];

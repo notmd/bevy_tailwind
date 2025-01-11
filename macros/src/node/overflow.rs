@@ -1,6 +1,6 @@
 use crate::{
-    ParseClassError, ParseCtx, ParseResult,
     utils::quote::{Quote, QuoteCtx},
+    ParseClassError, ParseCtx, ParseResult,
 };
 use proc_macro2::TokenStream;
 use quote::quote;

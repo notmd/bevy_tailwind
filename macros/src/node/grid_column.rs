@@ -1,9 +1,9 @@
 use std::num::NonZero;
 
 use crate::{
-    ParseClassError, ParseCtx, ParseResult,
     node::insert_grid_placement_props,
     utils::quote::{Struct, StructVal},
+    ParseClassError, ParseCtx, ParseResult,
 };
 
 use super::NodeProp;
@@ -44,9 +44,13 @@ pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             match span {
                 Ok(span) => {
                     let span = span.get();
-                    insert_grid_placement_props!(ctx, NodeProp::GridColumn, quote! {#span}, 1, [
-                        "set_span"
-                    ]);
+                    insert_grid_placement_props!(
+                        ctx,
+                        NodeProp::GridColumn,
+                        quote! {#span},
+                        1,
+                        ["set_span"]
+                    );
                 }
                 Err(_) => {
                     return Err(ParseClassError::Unknown);

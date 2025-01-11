@@ -1,10 +1,10 @@
 use crate::{
-    ParseClassError, ParseCtx, ParseResult,
     node::insert_node_ui_rect,
     utils::{
         parse_neg,
         val::{ParseValSettings, Val},
     },
+    ParseClassError, ParseCtx, ParseResult,
 };
 
 use super::NodeProp;
@@ -44,9 +44,13 @@ pub fn parse_padding(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("p-") {
         let val = parse_padding_val(class, neg)?;
-        insert_node_ui_rect!(ctx, NodeProp::Padding, val, 0, [
-            "top", "right", "bottom", "left"
-        ]);
+        insert_node_ui_rect!(
+            ctx,
+            NodeProp::Padding,
+            val,
+            0,
+            ["top", "right", "bottom", "left"]
+        );
     }
 
     Ok(false)
@@ -98,9 +102,13 @@ pub fn parse_margin(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("m-") {
         let val = parse_margin_val(class)?;
-        insert_node_ui_rect!(ctx, NodeProp::Margin, val, 0, [
-            "top", "right", "bottom", "left"
-        ]);
+        insert_node_ui_rect!(
+            ctx,
+            NodeProp::Margin,
+            val,
+            0,
+            ["top", "right", "bottom", "left"]
+        );
     }
 
     Ok(false)

@@ -1,6 +1,6 @@
 use quote::quote;
 
-use crate::{ParseClassError, ParseCtx, ParseResult, utils::parse_neg};
+use crate::{utils::parse_neg, ParseClassError, ParseCtx, ParseResult};
 
 impl ParseCtx {
     pub fn parse_z_index(&mut self, class: &str) -> ParseResult {

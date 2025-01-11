@@ -1,6 +1,6 @@
 use crate::{
-    ParseCtx, ParseResult,
     utils::val::{ParseValSettings, Val},
+    ParseCtx, ParseResult,
 };
 
 use super::NodeProp;
