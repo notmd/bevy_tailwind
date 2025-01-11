@@ -1,9 +1,6 @@
 use super::NodeProp;
 use crate::{ParseClassError, ParseCtx, ParseResult};
-use crate::{
-    node::insert_node_ui_rect,
-    utils::val::Val,
-};
+use crate::{node::insert_node_ui_rect, utils::val::Val};
 
 pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     if !class.starts_with("border") {

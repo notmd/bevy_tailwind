@@ -1,7 +1,4 @@
-use crate::{
-    ParseCtx, ParseResult,
-    utils::color::Color,
-};
+use crate::{ParseCtx, ParseResult, utils::color::Color};
 use quote::quote;
 
 macro_rules! parse_class {

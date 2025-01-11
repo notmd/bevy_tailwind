@@ -22,12 +22,10 @@ jobs:
 
       - name: Format
         run: |
-          cargo fmt --workspace --check
+          cargo fmt --check
       - name: Check
         run: |
           cargo check --workspace --all-features
       - name: Test
         run: |
           cargo test --workspace --all-features
-
-  
