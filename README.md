@@ -1,4 +1,5 @@
-<!-- <img alt="Crates.io Version" src="https://img.shields.io/crates/v/bevy_remote_inspector"><img alt="docs.rs" src="https://img.shields.io/docsrs/bevy_remote_inspector"> -->
+[![Crates.io](https://img.shields.io/crates/v/bevy_tailwind.svg)](https://crates.io/crates/bevy_tailwind)
+[![Docs](https://docs.rs/bevy_tailwind/badge.svg)](https://docs.rs/bevy/latest/bevy_tailwind/)
 
 ## Features
 
