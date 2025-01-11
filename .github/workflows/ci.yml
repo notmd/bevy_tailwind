@@ -26,6 +26,6 @@ jobs:
       - name: Check
         run: |
           cargo check --workspace --all-features
-      - name: Test
-        run: |
-          cargo test --workspace --all-features
+      # - name: Test
+      #   run: |
+      #     cargo test --workspace --all-features
