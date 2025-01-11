@@ -1,0 +1,11 @@
+{
+  "tailwindCSS.experimental.classRegex": [
+    [
+      "tw!\\(([^)(]*(?:\\([^)(]*(?:\\([^)(]*(?:\\([^)(]*\\)[^)(]*)*\\)[^)(]*)*\\)[^)(]*)*)\\)",
+      "\"(.*?)\""
+    ]
+  ],
+  "tailwindCSS.includeLanguages": {
+    "rust": "html"
+  }
+}
