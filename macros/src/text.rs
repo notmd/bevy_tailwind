@@ -1,6 +1,6 @@
 use crate::{
     ParseCtx, ParseResult,
-    utils::{StructPropValue, color::Color},
+    utils::color::Color,
 };
 use quote::quote;
 
@@ -58,10 +58,9 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
-    ctx.components.text_font.insert(
-        "font_size",
-        StructPropValue::simple(ctx.class_type, quote! {#font_size}),
-    );
+    ctx.components
+        .text_font
+        .insert("font_size", quote! {#font_size}, ctx.class_type, 0);
 
     Ok(true)
 }
@@ -73,9 +72,11 @@ fn parse_font_smoothing(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components.text_font.insert(
         "font_smoothing",
-        StructPropValue::simple(ctx.class_type, quote! {
+        quote! {
             bevy::text::FontSmoothing::AntiAliased
-        }),
+        },
+        ctx.class_type,
+        0,
     );
 
     return Ok(true);
@@ -99,8 +100,8 @@ fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     };
 
     ctx.components
-        .text_layouut
-        .insert("justify", StructPropValue::simple(ctx.class_type, justify));
+        .text_layout
+        .insert("justify", justify, ctx.class_type, 0);
 
     Ok(true)
 }
@@ -114,10 +115,9 @@ fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
-    ctx.components.text_layouut.insert(
-        "linebreak",
-        StructPropValue::simple(ctx.class_type, line_break),
-    );
+    ctx.components
+        .text_layout
+        .insert("linebreak", line_break, ctx.class_type, 0);
 
     Ok(true)
 }
@@ -133,7 +133,7 @@ fn parse_text_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .text_color
-        .insert("0", StructPropValue::simple(ctx.class_type, color));
+        .insert("0", color, ctx.class_type, 0);
 
     Ok(true)
 }

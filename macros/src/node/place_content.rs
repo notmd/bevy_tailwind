@@ -40,13 +40,9 @@ pub fn parse_place_content(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    if !ctx.components.node.contains_key(&NodeProp::AlignContent) {
-        ctx.insert_node_prop_simple(NodeProp::AlignContent, align_content);
-    }
+    ctx.insert_node_prop_priority(NodeProp::AlignContent, align_content, 0);
 
-    if !ctx.components.node.contains_key(&NodeProp::JustifyContent) {
-        ctx.insert_node_prop_simple(NodeProp::JustifyContent, justify_content);
-    }
+    ctx.insert_node_prop_priority(NodeProp::JustifyContent, justify_content, 0);
 
     Ok(true)
 }

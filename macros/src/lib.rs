@@ -12,10 +12,7 @@ use quote::{format_ident, quote};
 use syn::{
     Expr, LitStr, Token, parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned,
 };
-use utils::{
-    StructProps,
-    quote2::{Quote, QuoteCtx, Struct},
-};
+use utils::quote::{Quote, QuoteCtx, Struct};
 
 macro_rules! parse_class {
     ($class:ident, $span:ident, $($expr:expr),*) => {
@@ -74,11 +71,15 @@ macro_rules! parse_classes {
 /// })
 /// ```
 ///
-/// To mutate components, you can pass an expression as the first argument. The expression either returns an owned value or a mutable reference to the component. You can only one component at a time.
+/// To mutate components, you can pass an expression as the first argument. The expression either returns an owned value or a mutable reference to the component. You can only one component at a time. The macro will return whatever the expression returns.
 /// ```rust,ignore
 /// use bevy_tailwind::tw;
 ///
-/// let node: Node = tw!(get_node(), "w-full h-full");
+/// let node: Node = tw!(get_node(), "w-full h-full", {
+///   "p-6": true,
+/// });
+///
+/// let node: &mut Node = tw!(&mut node, "m-10");
 /// ```
 ///
 #[proc_macro]
@@ -135,55 +136,25 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         })
         .collect::<Vec<_>>();
 
+    let mut qctx = QuoteCtx {
+        condition_idents: &condition_idents,
+        is_create: matches!(ctx.macro_type, MacroType::Create),
+        parent_props: vec!["__comp".to_string()],
+    };
+
     let components = [
-        ctx.components.node.quote(
-            quote! { bevy::ui::Node },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.background_color.quote(
-            quote! { bevy::ui::BackgroundColor },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.z_index.quote(
-            quote! { bevy::ui::ZIndex },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.text_font.quote(
-            quote! { bevy::text::TextFont },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.text_layouut.quote(
-            quote! { bevy::text::TextLayout },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.text_color.quote(
-            quote! { bevy::text::TextColor },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.border_radius.quote(
-            quote! { bevy::ui::BorderRadius },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.border_color.quote(
-            quote! { bevy::ui::BorderColor },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
-        ctx.components.outline.quote(
-            quote! { bevy::ui::Outline },
-            &condition_idents,
-            &ctx.macro_type,
-        ),
+        ctx.components.node.quote(&mut qctx),
+        ctx.components.background_color.quote(&mut qctx),
+        ctx.components.z_index.quote(&mut qctx),
+        ctx.components.text_font.quote(&mut qctx),
+        ctx.components.text_layout.quote(&mut qctx),
+        ctx.components.text_color.quote(&mut qctx),
+        ctx.components.border_radius.quote(&mut qctx),
+        ctx.components.border_color.quote(&mut qctx),
+        ctx.components.outline.quote(&mut qctx),
     ]
     .into_iter()
-    .filter(Option::is_some)
+    .filter(|component| !component.is_empty())
     .collect::<Vec<_>>();
 
     let conditions = &ctx.conditions;
@@ -191,36 +162,37 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         #(#conditions)*
     };
 
-    let inner = quote! {
-         #(#components),*
-    };
-
-    if is_mutate {
-        if components.len() > 1 {
-            return syn::Error::new(
-                Span::call_site(),
-                "Mutation syntax does not support mutate multiple components",
-            )
-            .to_compile_error()
+    match ctx.macro_type {
+        MacroType::Create => {
+            return quote! {
+                {
+                    #condition
+                    ( #(#components),* )
+                }
+            }
             .into();
         }
-
-        return quote! {
-            {
-                #condition
-                #inner
+        MacroType::Mutate(expr) => {
+            if components.len() > 1 {
+                return syn::Error::new(
+                    Span::call_site(),
+                    "Mutation syntax does not support mutate multiple components",
+                )
+                .to_compile_error()
+                .into();
             }
-        }
-        .into();
-    }
 
-    return quote! {
-        {
-            #condition
-            ( #inner )
+            return quote! {
+                {
+                    let mut __comp = #expr;
+                    #condition
+                    #(#components)*
+                    __comp
+                }
+            }
+            .into();
         }
     }
-    .into();
 }
 
 struct Input {
@@ -273,17 +245,32 @@ enum MacroType {
     Mutate(Expr),
 }
 
-#[derive(Default)]
 struct UiComponents {
-    node: StructProps<NodeProp>,
-    background_color: StructProps<&'static str>,
-    z_index: StructProps<&'static str>,
-    text_font: StructProps<&'static str>,
-    text_layouut: StructProps<&'static str>,
-    text_color: StructProps<&'static str>,
-    border_radius: StructProps<&'static str>,
-    border_color: StructProps<&'static str>,
-    outline: StructProps<&'static str>,
+    node: Struct<NodeProp>,
+    background_color: Struct<&'static str>,
+    z_index: Struct<&'static str>,
+    text_font: Struct<&'static str>,
+    text_layout: Struct<&'static str>,
+    text_color: Struct<&'static str>,
+    border_radius: Struct<&'static str>,
+    border_color: Struct<&'static str>,
+    outline: Struct<&'static str>,
+}
+
+impl Default for UiComponents {
+    fn default() -> Self {
+        Self {
+            node: Struct::new(quote! { bevy::ui::Node }),
+            background_color: Struct::new(quote! { bevy::ui::BackgroundColor }),
+            z_index: Struct::new(quote! { bevy::ui::ZIndex }),
+            text_font: Struct::new(quote! { bevy::text::TextFont }),
+            text_layout: Struct::new(quote! { bevy::text::TextLayout }),
+            text_color: Struct::new(quote! { bevy::text::TextColor }),
+            border_radius: Struct::new(quote! { bevy::ui::BorderRadius }),
+            border_color: Struct::new(quote! { bevy::ui::BorderColor }),
+            outline: Struct::new(quote! { bevy::ui::Outline }),
+        }
+    }
 }
 
 #[derive(Default)]

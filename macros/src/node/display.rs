@@ -12,6 +12,7 @@ pub fn parse_display(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::Display, display);
+    ctx.insert_node_prop(NodeProp::Display, display);
+
     Ok(true)
 }

@@ -23,7 +23,7 @@ pub fn parse_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    ctx.insert_node_prop_simple(NodeProp::Width, val);
+    ctx.insert_node_prop_priority(NodeProp::Width, val, 1);
 
     Ok(true)
 }
@@ -45,7 +45,7 @@ pub fn parse_min_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    ctx.insert_node_prop_simple(NodeProp::MinWidth, val);
+    ctx.insert_node_prop(NodeProp::MinWidth, val);
 
     Ok(true)
 }
@@ -66,7 +66,7 @@ pub fn parse_max_width(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    ctx.insert_node_prop_simple(NodeProp::MaxWidth, val);
+    ctx.insert_node_prop(NodeProp::MaxWidth, val);
 
     Ok(true)
 }
@@ -89,7 +89,7 @@ pub fn parse_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    ctx.insert_node_prop_simple(NodeProp::Height, val);
+    ctx.insert_node_prop_priority(NodeProp::Height, val, 1);
 
     Ok(true)
 }
@@ -110,7 +110,7 @@ pub fn parse_min_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    ctx.insert_node_prop_simple(NodeProp::MinHeight, val);
+    ctx.insert_node_prop(NodeProp::MinHeight, val);
 
     Ok(true)
 }
@@ -131,7 +131,7 @@ pub fn parse_max_height(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    ctx.insert_node_prop_simple(NodeProp::MaxHeight, val);
+    ctx.insert_node_prop(NodeProp::MaxHeight, val);
 
     Ok(true)
 }
@@ -153,13 +153,8 @@ pub fn parse_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     )
     .ok_or(ParseClassError::Unknown)?;
 
-    if !ctx.components.node.contains_key(&NodeProp::Width) {
-        ctx.insert_node_prop_simple(NodeProp::Width, val);
-    }
-
-    if !ctx.components.node.contains_key(&NodeProp::Height) {
-        ctx.insert_node_prop_simple(NodeProp::Height, val);
-    }
+    ctx.insert_node_prop_priority(NodeProp::Width, val, 0);
+    ctx.insert_node_prop_priority(NodeProp::Height, val, 0);
 
     Ok(true)
 }

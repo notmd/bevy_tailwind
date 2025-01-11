@@ -1,6 +1,6 @@
 use crate::{
     ParseCtx, ParseResult,
-    utils::{StructPropValue, color::Color},
+    utils::color::Color,
 };
 
 macro_rules! parse_class {
@@ -37,7 +37,7 @@ fn parse_background_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .background_color
-        .insert("0", StructPropValue::simple(ctx.class_type, color));
+        .insert("0", color, ctx.class_type, 0);
 
     Ok(true)
 }

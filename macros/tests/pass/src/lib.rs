@@ -1,7 +1,62 @@
+#![allow(dead_code)]
+#![allow(unused_variables)]
+use bevy::prelude::*;
 use bevy_tailwind_macro::tw;
 
-#[allow(dead_code)]
-fn test() {
+fn simple() {
+    let mut node = Node::default();
+    tw!("flex");
+    tw!(&mut node, "flex");
+    tw!("block",{
+        "flex": true
+    });
+    tw!(&mut node, "block",{
+        "flex": true
+    });
+    tw!(&mut node, {
+        "flex": true
+    });
+    tw!(&mut node, {
+        "flex": true,
+        "block": true
+    });
+}
+
+fn nested_with_priority() {
+    let mut node = Node::default();
+    let prio_1lv = tw!("pt-0 pr-1 pb-2 pl-3");
+    let prio_1lv_cod = tw!({
+        "pt-0": true,
+        "pl-1": true,
+        "pr-2": true,
+        "pb-3": true
+    });
+    let prio_2lv = tw!("px-1 pl-2");
+    let prio_2lv_cond = tw!({
+        "px-1": true,
+        "pr-2": true
+    });
+    let prio_2lv_cond_complex = tw!("px-1 pl-2 pl-3", {
+        "pr-4 pl-5 pl-6": true,
+        "pl-7": false,
+        "px-8": false
+    });
+    tw!(&mut node, "pt-1");
+    tw!(&mut node, "pl-1", {
+        "pl-2": true
+    });
+    tw!(&mut node, "p-1", {
+        "pl-2": true,
+        "px-3 pl-4": true
+    });
+    tw!(&mut node, "p-1", {
+        "pl-2": true,
+        "px-3 pl-4": true,
+        "p-5": true
+    });
+}
+
+fn test_all() {
     // aspect-ratio
     tw!("aspect-auto");
     tw!("aspect-square");

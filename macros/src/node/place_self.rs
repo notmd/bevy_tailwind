@@ -28,13 +28,9 @@ pub fn parse_place_self(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    if !ctx.components.node.contains_key(&NodeProp::AlignSelf) {
-        ctx.insert_node_prop_simple(NodeProp::AlignSelf, align_self);
-    }
+    ctx.insert_node_prop_priority(NodeProp::AlignSelf, align_self, 0);
 
-    if !ctx.components.node.contains_key(&NodeProp::JustifySelf) {
-        ctx.insert_node_prop_simple(NodeProp::JustifySelf, justity_self);
-    }
+    ctx.insert_node_prop_priority(NodeProp::JustifySelf, justity_self, 0);
 
     Ok(true)
 }

@@ -16,21 +16,22 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     match prefix {
         "top" => {
-            ctx.insert_node_prop_simple(NodeProp::Top, val);
+            ctx.insert_node_prop_priority(NodeProp::Top, val, 1);
             Ok(true)
         }
         "right" => {
-            ctx.insert_node_prop_simple(NodeProp::Right, val);
+            ctx.insert_node_prop_priority(NodeProp::Right, val, 1);
             Ok(true)
         }
         "bottom" => {
-            ctx.insert_node_prop_simple(NodeProp::Bottom, val);
+            ctx.insert_node_prop_priority(NodeProp::Bottom, val, 1);
             Ok(true)
         }
         "left" => {
-            ctx.insert_node_prop_simple(NodeProp::Left, val);
+            ctx.insert_node_prop_priority(NodeProp::Left, val, 1);
             Ok(true)
         }
+        // TODO parse inset* class
         _ => Ok(false),
     }
 }

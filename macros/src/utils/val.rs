@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use super::ToTokenStream;
+use super::quote::Quote;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Val {
@@ -14,8 +14,8 @@ pub enum Val {
     VMax(f32),
 }
 
-impl ToTokenStream for Val {
-    fn to_token_stream(&self) -> TokenStream {
+impl Quote for Val {
+    fn quote(&self, _: &mut super::quote::QuoteCtx) -> TokenStream {
         match self {
             Val::Auto => quote! { bevy::ui::Val::Auto },
             Val::Px(val) => quote! { bevy::ui::Val::Px(#val) },
@@ -259,23 +259,23 @@ mod test {
         );
         assert_eq!(
             Val::parse("1/3", ParseValSettings::default_allow()),
-            Some(Val::Percent(1. / 3.))
+            Some(Val::Percent(1. / 3. * 100.))
         );
         assert_eq!(
             Val::parse("2/3", ParseValSettings::default_allow()),
-            Some(Val::Percent(2. / 3.))
+            Some(Val::Percent(2. / 3. * 100.))
         );
         assert_eq!(
             Val::parse("1/4", ParseValSettings::default_allow()),
-            Some(Val::Percent(1. / 4.))
+            Some(Val::Percent(1. / 4. * 100.))
         );
         assert_eq!(
             Val::parse("2/4", ParseValSettings::default_allow()),
-            Some(Val::Percent(1. / 2.))
+            Some(Val::Percent(1. / 2. * 100.))
         );
         assert_eq!(
             Val::parse("3/4", ParseValSettings::default_allow()),
-            Some(Val::Percent(3. / 4.))
+            Some(Val::Percent(3. / 4. * 100.))
         );
     }
 

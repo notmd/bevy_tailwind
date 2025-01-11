@@ -16,6 +16,6 @@ pub fn parse_align_content(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::AlignContent, align_content);
+    ctx.insert_node_prop_priority(NodeProp::AlignContent, align_content, 1);
     Ok(true)
 }

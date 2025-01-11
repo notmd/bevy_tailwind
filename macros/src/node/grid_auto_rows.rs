@@ -12,6 +12,6 @@ pub fn parse_grid_auto_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::GridAutoRows, grid_auto_rows);
+    ctx.insert_node_prop(NodeProp::GridAutoRows, grid_auto_rows);
     Ok(true)
 }

@@ -1,6 +1,6 @@
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
-    utils::{PrioritizedStructPropValue, StructPropValue, color::Color, val::Val},
+    utils::{color::Color, val::Val},
 };
 
 impl ParseCtx {
@@ -12,22 +12,14 @@ impl ParseCtx {
         let class = &class["rounded".len()..];
 
         macro_rules! insert_props {
-            ($ctx:ident, $value:expr, $priority:literal , [$($prop:literal),*]) => {
-                $(
-                    let value = $ctx.components.border_radius.get_mut($prop);
-                    if let Some(value) = value {
-                        let value = value.value.downcast_mut::<PrioritizedStructPropValue<Val>>();
-                        value.set_if_gte_priority($value, $priority);
-                    } else {
-                        $ctx.components.border_radius.insert(
-                            $prop,
-                            StructPropValue::wrapped(
-                                $ctx.class_type,
-                                PrioritizedStructPropValue::new($value, $priority)
-                            ),
-                        );
-                    }
-                )*
+            ($ctx:ident, $value:expr, $priority:literal, $props:expr) => {
+                for prop in $props {
+                    $ctx.components
+                        .border_radius
+                        .insert(prop, $value, $ctx.class_type, $priority);
+                }
+
+                return Ok(true);
             };
         }
 
@@ -39,8 +31,6 @@ impl ParseCtx {
                 "bottom_left",
                 "bottom_right"
             ]);
-
-            return Ok(true);
         }
 
         let class = &class[1..];
@@ -49,64 +39,48 @@ impl ParseCtx {
             let class = &class["tl".len()..];
 
             insert_props!(self, parse_size(class)?, 2, ["top_left"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("tr") {
             let class = &class["tr".len()..];
 
             insert_props!(self, parse_size(class)?, 2, ["top_right"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("br") {
             let class = &class["br".len()..];
 
             insert_props!(self, parse_size(class)?, 2, ["bottom_right"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("bl") {
             let class = &class["bl".len()..];
 
             insert_props!(self, parse_size(class)?, 2, ["bottom_left"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("t") {
             let class = &class["t".len()..];
 
             insert_props!(self, parse_size(class)?, 1, ["top_left", "top_right"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("r") {
             let class = &class["r".len()..];
 
             insert_props!(self, parse_size(class)?, 1, ["top_right", "bottom_right"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("b") {
             let class = &class["b".len()..];
 
             insert_props!(self, parse_size(class)?, 1, ["bottom_right", "bottom_left"]);
-
-            return Ok(true);
         }
 
         if class.starts_with("l") {
             let class = &class["l".len()..];
 
             insert_props!(self, parse_size(class)?, 1, ["bottom_left", "top_left"]);
-
-            return Ok(true);
         }
 
         Ok(false)
@@ -125,7 +99,7 @@ impl ParseCtx {
 
         self.components
             .border_color
-            .insert("0", StructPropValue::simple(self.class_type, color));
+            .insert("0", color, self.class_type, 0);
 
         Ok(true)
     }

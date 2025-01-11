@@ -2,7 +2,8 @@ use proc_macro2::TokenStream;
 use quote::format_ident;
 use quote::quote;
 
-use super::ToTokenStream;
+use super::quote::Quote;
+use super::quote::QuoteCtx;
 
 pub struct Color {
     name: String,
@@ -10,8 +11,8 @@ pub struct Color {
     alpha: Option<f32>,
 }
 
-impl ToTokenStream for Color {
-    fn to_token_stream(&self) -> TokenStream {
+impl Quote for Color {
+    fn quote(&self, _ctx: &mut QuoteCtx) -> TokenStream {
         let color = match &self.level {
             Some(level) => {
                 let color = format_ident!("{}_{}", self.name.to_uppercase(), level);

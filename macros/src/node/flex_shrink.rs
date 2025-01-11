@@ -11,6 +11,6 @@ pub fn parse_flex_shrink(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::FlexShrink, quote! { #value });
+    ctx.insert_node_prop_priority(NodeProp::FlexShrink, quote! { #value }, 0);
     Ok(true)
 }

@@ -1,7 +1,8 @@
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
-    utils::{StructPropValue, ToTokenStream},
+    utils::quote::{Quote, QuoteCtx},
 };
+use proc_macro2::TokenStream;
 use quote::quote;
 
 use super::NodeProp;
@@ -13,52 +14,33 @@ pub fn parse_overflow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     let class = &class["overflow-".len()..];
 
+    macro_rules! insert_props {
+        ($ctx:ident, $node_prop:expr, $value:expr, $priority:literal, $props:expr) => {
+            crate::node::insert_node_prop_nested!(
+                $ctx,
+                $node_prop,
+                quote::quote! {bevy::ui::Overflow},
+                $value,
+                $priority,
+                $props
+            );
+        };
+    }
+
     if let Ok(axis) = parse_axis(class) {
-        let overflow = ctx
-            .components
-            .node
-            .entry(NodeProp::Overflow)
-            .or_insert_with(|| StructPropValue::nested(ctx.class_type, Overflow::default()))
-            .value
-            .downcast_mut::<Overflow>();
-
-        if overflow.x.is_none() {
-            overflow.x = Some(axis);
-        }
-
-        if overflow.y.is_none() {
-            overflow.y = Some(axis);
-        }
-
-        return Ok(true);
+        insert_props!(ctx, NodeProp::Overflow, axis, 0, ["x", "y"]);
     }
 
     if class.starts_with("x-") {
         let class = &class["x-".len()..];
         let axis = parse_axis(class)?;
-        let overflow = ctx
-            .components
-            .node
-            .entry(NodeProp::Overflow)
-            .or_insert_with(|| StructPropValue::nested(ctx.class_type, Overflow::default()))
-            .value
-            .downcast_mut::<Overflow>();
-        overflow.x = Some(axis);
-        return Ok(true);
+        insert_props!(ctx, NodeProp::Overflow, axis, 1, ["x"]);
     }
 
     if class.starts_with("y-") {
         let class = &class["y-".len()..];
         let axis = parse_axis(class)?;
-        let overflow = ctx
-            .components
-            .node
-            .entry(NodeProp::Overflow)
-            .or_insert_with(|| StructPropValue::nested(ctx.class_type, Overflow::default()))
-            .value
-            .downcast_mut::<Overflow>();
-        overflow.y = Some(axis);
-        return Ok(true);
+        insert_props!(ctx, NodeProp::Overflow, axis, 1, ["y"]);
     }
 
     Ok(false)
@@ -84,62 +66,13 @@ enum OverflowAxis {
     Scroll,
 }
 
-impl ToTokenStream for OverflowAxis {
-    fn to_token_stream(&self) -> proc_macro2::TokenStream {
+impl Quote for OverflowAxis {
+    fn quote(&self, _ctx: &mut QuoteCtx) -> TokenStream {
         match self {
             OverflowAxis::Visible => quote! { bevy::ui::OverflowAxis::Visible },
             OverflowAxis::Clip => quote! { bevy::ui::OverflowAxis::Clip },
             OverflowAxis::Hidden => quote! { bevy::ui::OverflowAxis::Hidden },
             OverflowAxis::Scroll => quote! { bevy::ui::OverflowAxis::Scroll },
         }
-    }
-}
-
-#[derive(Default)]
-struct Overflow {
-    x: Option<OverflowAxis>,
-    y: Option<OverflowAxis>,
-}
-
-impl ToTokenStream for Overflow {
-    fn to_token_stream(&self) -> proc_macro2::TokenStream {
-        let x = self.x.map(|v| {
-            let v = v.to_token_stream();
-            quote! {
-                x: #v
-            }
-        });
-        let y = self.y.map(|v| {
-            let v = v.to_token_stream();
-            quote! {
-                y: #v
-            }
-        });
-
-        let props = [x, y].into_iter().filter(Option::is_some);
-
-        quote! {
-            bevy::ui::Overflow {
-                #(#props,)*
-                ..Default::default()
-            }
-        }
-    }
-
-    fn structual_to_token_stream(&self) -> Option<crate::utils::StructualTokenStream> {
-        let mut res = crate::utils::StructualTokenStream::default();
-        if let Some(ref x) = self.x {
-            res.push(("x", x.to_token_stream()));
-        }
-
-        if let Some(ref y) = self.y {
-            res.push(("y", y.to_token_stream()));
-        }
-
-        Some(res)
-    }
-
-    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
-        Some(self)
     }
 }

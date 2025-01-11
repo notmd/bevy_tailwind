@@ -10,6 +10,6 @@ pub fn parse_flex_grow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::FlexGrow, quote! { #value });
+    ctx.insert_node_prop_priority(NodeProp::FlexGrow, quote! { #value }, 0);
     Ok(true)
 }

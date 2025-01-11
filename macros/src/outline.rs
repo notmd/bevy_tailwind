@@ -1,6 +1,6 @@
 use crate::{
     ParseCtx, ParseResult,
-    utils::{StructPropValue, color::Color, val::Val},
+    utils::{color::Color, val::Val},
 };
 
 impl ParseCtx {
@@ -12,10 +12,9 @@ impl ParseCtx {
         let class = &class["outline-".len()..];
 
         if let Ok(width) = class.parse::<u32>() {
-            self.components.outline.insert(
-                "width",
-                StructPropValue::simple(self.class_type, Val::Px(width as f32)),
-            );
+            self.components
+                .outline
+                .insert("width", Val::Px(width as f32), self.class_type, 0);
             return Ok(true);
         }
 
@@ -24,7 +23,9 @@ impl ParseCtx {
             if let Ok(offset) = class.parse::<u32>() {
                 self.components.outline.insert(
                     "offset",
-                    StructPropValue::simple(self.class_type, Val::Px(offset as f32)),
+                    Val::Px(offset as f32),
+                    self.class_type,
+                    0,
                 );
                 return Ok(true);
             }
@@ -33,7 +34,7 @@ impl ParseCtx {
         if let Some(color) = Color::parse(class) {
             self.components
                 .outline
-                .insert("color", StructPropValue::simple(self.class_type, color));
+                .insert("color", color, self.class_type, 0);
             return Ok(true);
         }
 

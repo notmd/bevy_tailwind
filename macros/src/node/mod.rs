@@ -1,11 +1,4 @@
-use std::num::NonZero;
-
-use quote::quote;
-
-use crate::{
-    ParseCtx, ParseResult,
-    utils::{StructPropValue, StructPropValueType, StructualTokenStream, ToTokenStream},
-};
+use crate::{ParseCtx, ParseResult, utils::quote::Quote};
 
 // mod box_sizing;
 mod align_content;
@@ -103,11 +96,19 @@ impl ParseCtx {
         return Ok(false);
     }
 
-    fn insert_node_prop_simple(&mut self, prop: NodeProp, value: impl ToTokenStream) {
-        self.components.node.insert(prop, StructPropValue {
-            class_type: self.class_type,
-            value: StructPropValueType::Simple(value.to_token_stream()),
-        });
+    fn insert_node_prop(&mut self, prop: NodeProp, value: impl Quote + 'static) {
+        self.insert_node_prop_priority(prop, value, 0);
+    }
+
+    fn insert_node_prop_priority(
+        &mut self,
+        prop: NodeProp,
+        value: impl Quote + 'static,
+        priority: u8,
+    ) {
+        self.components
+            .node
+            .insert(prop, value, self.class_type, priority);
     }
 }
 
@@ -200,84 +201,68 @@ impl AsRef<str> for NodeProp {
     }
 }
 
-struct GridPlacement {
-    start: Option<NonZero<i16>>,
-    span: Option<NonZero<u16>>,
-    end: Option<NonZero<i16>>,
+macro_rules! insert_node_prop_nested {
+    ($ctx:ident, $node_prop:expr, $path:expr, $value:expr, $priority:literal, $props:expr, $use_setter:literal) => {
+        let s = $ctx
+            .components
+            .node
+            .props
+            .entry($node_prop)
+            .or_insert_with(|| {
+                crate::utils::quote::StructVal::nested(
+                    crate::utils::quote::Struct::<&'static str>::new($path).use_setter($use_setter),
+                )
+            })
+            .as_nested_mut();
+
+        for prop in $props {
+            if let Some(prop) = s.props.get_mut(prop) {
+                prop.as_priotized_mut()
+                    .insert($value, $ctx.class_type, $priority);
+            } else {
+                s.insert(prop, $value, $ctx.class_type, $priority);
+            }
+        }
+
+        return Ok(true);
+    };
+
+    ($ctx:ident, $node_prop:expr, $path:expr, $value:expr, $priority:literal, $props:expr) => {
+        crate::node::insert_node_prop_nested!(
+            $ctx, $node_prop, $path, $value, $priority, $props, false
+        );
+    };
 }
 
-impl Default for GridPlacement {
-    fn default() -> Self {
-        Self {
-            start: None,
-            span: None,
-            end: None,
-        }
-    }
+pub(crate) use insert_node_prop_nested;
+
+macro_rules! insert_grid_placement_props {
+    ($ctx:ident, $node_prop:expr, $value:expr, $priority:literal, $props:expr) => {
+        crate::node::insert_node_prop_nested!(
+            $ctx,
+            $node_prop,
+            quote::quote! {bevy::ui::GridPlacement},
+            $value,
+            $priority,
+            $props,
+            true
+        );
+    };
 }
 
-impl ToTokenStream for GridPlacement {
-    fn to_token_stream(&self) -> proc_macro2::TokenStream {
-        if self.start.is_none() && self.span.is_none() && self.end.is_none() {
-            return quote! {
-                bevy::ui::GridPlacement::default()
-            };
-        }
+pub(crate) use insert_grid_placement_props;
 
-        let start = self.start.clone().map(|v| {
-            let v = v.get();
-            quote! {
-                .set_start(#v)
-            }
-        });
-        let span = self.span.clone().map(|v| {
-            let v = v.get();
-            quote! {
-                .set_span(#v)
-            }
-        });
-        let end = self.end.clone().map(|v| {
-            let v = v.get();
-            quote! {
-                .set_end(#v)
-            }
-        });
-        quote! {
-            bevy::ui::GridPlacement::default()
-                #start
-                #span
-                #end
-        }
-    }
-
-    fn structual_to_token_stream(&self) -> Option<crate::utils::StructualTokenStream> {
-        if self.start.is_none() && self.span.is_none() && self.end.is_none() {
-            return Some(StructualTokenStream(vec![
-                ("set_start()", quote! {0}),
-                ("set_span()", quote! {1}),
-                ("set_end()", quote! {0}),
-            ]));
-        }
-        let mut res = StructualTokenStream::default();
-        if let Some(ref start) = self.start {
-            let start = start.get();
-            res.push(("set_start()", quote! {#start}));
-        }
-
-        if let Some(ref span) = self.span {
-            let span = span.get();
-            res.push(("set_span()", quote! {#span}));
-        }
-
-        if let Some(ref end) = self.end {
-            let end = end.get();
-            res.push(("set_end()", quote! {#end}));
-        }
-
-        Some(res)
-    }
-
-    fn as_any_mut(&mut self) -> Option<&mut dyn std::any::Any> {
-        Some(self)
-    }
+macro_rules! insert_node_ui_rect {
+    ($ctx:ident, $node_prop:expr, $value:expr, $priority:literal, $props:expr) => {
+        crate::node::insert_node_prop_nested!(
+            $ctx,
+            $node_prop,
+            quote::quote! {bevy::ui::UiRect},
+            $value,
+            $priority,
+            $props
+        );
+    };
 }
+
+pub(crate) use insert_node_ui_rect;

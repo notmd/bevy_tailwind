@@ -2,7 +2,7 @@ use quote::quote;
 
 use crate::{
     ParseClassError, ParseCtx, ParseResult,
-    utils::{StructPropValue, parse_neg},
+    utils::parse_neg,
 };
 
 impl ParseCtx {
@@ -25,10 +25,10 @@ impl ParseCtx {
             return Err(ParseClassError::Unknown);
         }
 
-        self.components.z_index.insert(
-            "0",
-            StructPropValue::simple(self.class_type, quote! {#z_index}),
-        );
+        self.components
+            .z_index
+            .insert("0", quote! {#z_index}, self.class_type, 0);
+
         return Ok(true);
     }
 }

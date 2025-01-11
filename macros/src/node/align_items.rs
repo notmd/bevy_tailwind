@@ -13,6 +13,6 @@ pub fn parse_align_items(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::AlignItems, align_items);
+    ctx.insert_node_prop_priority(NodeProp::AlignItems, align_items, 1);
     Ok(true)
 }

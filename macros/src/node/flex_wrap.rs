@@ -12,7 +12,7 @@ pub fn parse_flex_wrap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::FlexWrap, flex_wrap);
+    ctx.insert_node_prop(NodeProp::FlexWrap, flex_wrap);
 
     Ok(true)
 }

@@ -16,7 +16,7 @@ pub fn parse_aspect_ratio(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Err(ParseClassError::Unknown),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::AspectRatio, token_stream);
+    ctx.insert_node_prop(NodeProp::AspectRatio, token_stream);
 
     Ok(true)
 }

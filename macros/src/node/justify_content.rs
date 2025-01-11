@@ -16,6 +16,6 @@ pub fn parse_justify_content(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
-    ctx.insert_node_prop_simple(NodeProp::JustifyContent, justify_content);
+    ctx.insert_node_prop_priority(NodeProp::JustifyContent, justify_content, 1);
     Ok(true)
 }
