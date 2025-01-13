@@ -3,8 +3,8 @@
 use bevy::prelude::*;
 use bevy_tailwind_macro::tw;
 
-fn simple() {
-    let mut node = Node::default();
+fn simple(mut query: Query<EntityMut>) {
+    let mut node = query.single_mut();
     tw!("flex");
     tw!(&mut node, "flex");
     tw!("block",{
@@ -22,8 +22,8 @@ fn simple() {
     });
 }
 
-fn nested_with_priority() {
-    let mut node = Node::default();
+fn nested_with_priority(mut query: Query<EntityMut>) {
+    let mut node = query.single_mut();
     let prio_1lv = tw!("pt-0 pr-1 pb-2 pl-3");
     let prio_1lv_cod = tw!({
         "pt-0": true,

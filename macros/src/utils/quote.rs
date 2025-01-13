@@ -285,6 +285,10 @@ impl<K: AsRef<str> + Eq + Hash> Struct<K> {
             );
         }
     }
+
+    pub fn path(&self) -> &TokenStream {
+        &self.path
+    }
 }
 
 impl<K: AsRef<str> + 'static> Quote for Struct<K> {

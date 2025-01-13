@@ -142,28 +142,55 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         parent_props: vec!["__comp".to_string()],
     };
 
-    let components = [
-        ctx.components.node.quote(&mut qctx),
-        ctx.components.background_color.quote(&mut qctx),
-        ctx.components.z_index.quote(&mut qctx),
-        ctx.components.text_font.quote(&mut qctx),
-        ctx.components.text_layout.quote(&mut qctx),
-        ctx.components.text_color.quote(&mut qctx),
-        ctx.components.border_radius.quote(&mut qctx),
-        ctx.components.border_color.quote(&mut qctx),
-        ctx.components.outline.quote(&mut qctx),
-    ]
-    .into_iter()
-    .filter(|component| !component.is_empty())
-    .collect::<Vec<_>>();
-
     let conditions = &ctx.conditions;
     let condition = quote! {
         #(#conditions)*
     };
 
+    let components = [
+        (
+            ctx.components.node.quote(&mut qctx),
+            ctx.components.node.path(),
+        ),
+        (
+            ctx.components.background_color.quote(&mut qctx),
+            ctx.components.background_color.path(),
+        ),
+        (
+            ctx.components.z_index.quote(&mut qctx),
+            ctx.components.z_index.path(),
+        ),
+        (
+            ctx.components.text_font.quote(&mut qctx),
+            ctx.components.text_font.path(),
+        ),
+        (
+            ctx.components.text_layout.quote(&mut qctx),
+            ctx.components.text_layout.path(),
+        ),
+        (
+            ctx.components.text_color.quote(&mut qctx),
+            ctx.components.text_color.path(),
+        ),
+        (
+            ctx.components.border_radius.quote(&mut qctx),
+            ctx.components.border_radius.path(),
+        ),
+        (
+            ctx.components.border_color.quote(&mut qctx),
+            ctx.components.border_color.path(),
+        ),
+        (
+            ctx.components.outline.quote(&mut qctx),
+            ctx.components.outline.path(),
+        ),
+    ]
+    .into_iter()
+    .filter(|component| !component.0.is_empty());
+
     match ctx.macro_type {
         MacroType::Create => {
+            let components = components.map(|(component, _)| component);
             return quote! {
                 {
                     #condition
@@ -173,21 +200,29 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             .into();
         }
         MacroType::Mutate(expr) => {
-            if components.len() > 1 {
-                return syn::Error::new(
-                    Span::call_site(),
-                    "Mutation syntax does not support mutate multiple components",
-                )
-                .to_compile_error()
-                .into();
-            }
+            // if components.len() > 1 {
+            //     return syn::Error::new(
+            //         Span::call_site(),
+            //         "Mutation syntax does not support mutate multiple components",
+            //     )
+            //     .to_compile_error()
+            //     .into();
+            // }
+
+            let components = components.into_iter().map(|(stmts, path)| {
+                quote! {
+                    if let Some(mut __comp) = __entity.get_mut::<#path>() {
+                        #stmts
+                    }
+                }
+            });
 
             return quote! {
                 {
-                    let mut __comp = #expr;
+                    let mut __entity = #expr;
                     #condition
                     #(#components)*
-                    __comp
+                    __entity
                 }
             }
             .into();

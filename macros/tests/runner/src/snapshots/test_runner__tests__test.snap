@@ -20,9 +20,11 @@ fn simple() {
         })
     };
     {
-        let mut __comp = &mut node;
-        __comp.display = bevy::ui::Display::Flex;
-        __comp
+        let mut __entity = &mut node;
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
+            __comp.display = bevy::ui::Display::Flex;
+        }
+        __entity
     };
     {
         let __class__cond_0 = true;
@@ -36,35 +38,41 @@ fn simple() {
         })
     };
     {
-        let mut __comp = &mut node;
+        let mut __entity = &mut node;
         let __class__cond_0 = true;
-        if __class__cond_0 {
-            __comp.display = bevy::ui::Display::Flex;
-        } else {
-            __comp.display = bevy::ui::Display::Block;
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
+            if __class__cond_0 {
+                __comp.display = bevy::ui::Display::Flex;
+            } else {
+                __comp.display = bevy::ui::Display::Block;
+            }
         }
-        __comp
+        __entity
     };
     {
-        let mut __comp = &mut node;
+        let mut __entity = &mut node;
         let __class__cond_0 = true;
-        if __class__cond_0 {
-            __comp.display = bevy::ui::Display::Flex;
-        }
-        __comp
-    };
-    {
-        let mut __comp = &mut node;
-        let __class__cond_0 = true;
-        let __class__cond_1 = true;
-        if __class__cond_1 {
-            __comp.display = bevy::ui::Display::Block;
-        } else {
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             if __class__cond_0 {
                 __comp.display = bevy::ui::Display::Flex;
             }
         }
-        __comp
+        __entity
+    };
+    {
+        let mut __entity = &mut node;
+        let __class__cond_0 = true;
+        let __class__cond_1 = true;
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
+            if __class__cond_1 {
+                __comp.display = bevy::ui::Display::Block;
+            } else {
+                if __class__cond_0 {
+                    __comp.display = bevy::ui::Display::Flex;
+                }
+            }
+        }
+        __entity
     };
 }
 fn nested_with_priority() {
@@ -177,80 +185,88 @@ fn nested_with_priority() {
         })
     };
     {
-        let mut __comp = &mut node;
-        __comp.padding.top = bevy::ui::Val::Px(4f32);
-        __comp
+        let mut __entity = &mut node;
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
+            __comp.padding.top = bevy::ui::Val::Px(4f32);
+        }
+        __entity
     };
     {
-        let mut __comp = &mut node;
+        let mut __entity = &mut node;
         let __class__cond_0 = true;
-        if __class__cond_0 {
-            __comp.padding.left = bevy::ui::Val::Px(8f32);
-        } else {
-            __comp.padding.left = bevy::ui::Val::Px(4f32);
-        }
-        __comp
-    };
-    {
-        let mut __comp = &mut node;
-        let __class__cond_0 = true;
-        let __class__cond_1 = true;
-        __comp.padding.top = bevy::ui::Val::Px(4f32);
-        if __class__cond_1 {
-            __comp.padding.right = bevy::ui::Val::Px(12f32);
-        } else {
-            __comp.padding.right = bevy::ui::Val::Px(4f32);
-        }
-        __comp.padding.bottom = bevy::ui::Val::Px(4f32);
-        if __class__cond_1 {
-            __comp.padding.left = bevy::ui::Val::Px(16f32);
-        } else {
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             if __class__cond_0 {
                 __comp.padding.left = bevy::ui::Val::Px(8f32);
             } else {
                 __comp.padding.left = bevy::ui::Val::Px(4f32);
             }
         }
-        __comp
+        __entity
     };
     {
-        let mut __comp = &mut node;
+        let mut __entity = &mut node;
         let __class__cond_0 = true;
         let __class__cond_1 = true;
-        let __class__cond_2 = true;
-        if __class__cond_2 {
-            __comp.padding.top = bevy::ui::Val::Px(20f32);
-        } else {
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             __comp.padding.top = bevy::ui::Val::Px(4f32);
-        }
-        if __class__cond_1 {
-            __comp.padding.right = bevy::ui::Val::Px(12f32);
-        } else {
-            if __class__cond_2 {
-                __comp.padding.right = bevy::ui::Val::Px(20f32);
+            if __class__cond_1 {
+                __comp.padding.right = bevy::ui::Val::Px(12f32);
             } else {
                 __comp.padding.right = bevy::ui::Val::Px(4f32);
             }
-        }
-        if __class__cond_2 {
-            __comp.padding.bottom = bevy::ui::Val::Px(20f32);
-        } else {
             __comp.padding.bottom = bevy::ui::Val::Px(4f32);
-        }
-        if __class__cond_1 {
-            __comp.padding.left = bevy::ui::Val::Px(16f32);
-        } else {
-            if __class__cond_0 {
-                __comp.padding.left = bevy::ui::Val::Px(8f32);
+            if __class__cond_1 {
+                __comp.padding.left = bevy::ui::Val::Px(16f32);
             } else {
-                if __class__cond_2 {
-                    __comp.padding.left = bevy::ui::Val::Px(20f32);
+                if __class__cond_0 {
+                    __comp.padding.left = bevy::ui::Val::Px(8f32);
                 } else {
                     __comp.padding.left = bevy::ui::Val::Px(4f32);
                 }
             }
         }
-        __comp
+        __entity
+    };
+    {
+        let mut __entity = &mut node;
+        let __class__cond_0 = true;
+        let __class__cond_1 = true;
+        let __class__cond_2 = true;
+        if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
+            if __class__cond_2 {
+                __comp.padding.top = bevy::ui::Val::Px(20f32);
+            } else {
+                __comp.padding.top = bevy::ui::Val::Px(4f32);
+            }
+            if __class__cond_1 {
+                __comp.padding.right = bevy::ui::Val::Px(12f32);
+            } else {
+                if __class__cond_2 {
+                    __comp.padding.right = bevy::ui::Val::Px(20f32);
+                } else {
+                    __comp.padding.right = bevy::ui::Val::Px(4f32);
+                }
+            }
+            if __class__cond_2 {
+                __comp.padding.bottom = bevy::ui::Val::Px(20f32);
+            } else {
+                __comp.padding.bottom = bevy::ui::Val::Px(4f32);
+            }
+            if __class__cond_1 {
+                __comp.padding.left = bevy::ui::Val::Px(16f32);
+            } else {
+                if __class__cond_0 {
+                    __comp.padding.left = bevy::ui::Val::Px(8f32);
+                } else {
+                    if __class__cond_2 {
+                        __comp.padding.left = bevy::ui::Val::Px(20f32);
+                    } else {
+                        __comp.padding.left = bevy::ui::Val::Px(4f32);
+                    }
+                }
+            }
+        }
+        __entity
     };
 }
 fn test_all() {
