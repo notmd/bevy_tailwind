@@ -4,7 +4,7 @@ use std::{
     hash::Hash,
 };
 
-use crate::ClassType;
+use crate::{ClassType, ParseCtx};
 use indexmap::IndexMap;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
@@ -14,15 +14,29 @@ pub struct QuoteCtx<'a> {
     pub condition_idents: &'a [TokenStream],
     pub is_create: bool,
     pub parent_props: Vec<String>,
+    pub parse_ctx: &'a ParseCtx,
+}
+
+pub trait ToTokenStream {
+    fn to_token_stream(&self) -> TokenStream;
+}
+
+impl ToTokenStream for TokenStream {
+    fn to_token_stream(&self) -> TokenStream {
+        self.clone()
+    }
 }
 
 pub trait Quote {
     fn quote(&self, ctx: &mut QuoteCtx) -> TokenStream;
 }
 
-impl Quote for TokenStream {
+impl<T> Quote for T
+where
+    T: ToTokenStream,
+{
     fn quote(&self, _: &mut QuoteCtx) -> TokenStream {
-        self.clone()
+        self.to_token_stream()
     }
 }
 
@@ -206,6 +220,7 @@ impl Quote for StructValPrioritized {
 pub enum StructVal {
     Prioritized(StructValPrioritized),
     Nested(Struct<&'static str>),
+    Raw(TokenStream),
 }
 
 impl Quote for StructVal {
@@ -213,6 +228,7 @@ impl Quote for StructVal {
         match self {
             StructVal::Prioritized(val) => val.quote(ctx),
             StructVal::Nested(val) => val.quote(ctx),
+            StructVal::Raw(val) => val.clone(),
         }
     }
 }
@@ -233,6 +249,10 @@ impl StructVal {
         StructVal::Nested(value)
     }
 
+    pub fn raw(value: TokenStream) -> Self {
+        StructVal::Raw(value)
+    }
+
     pub fn as_priotized_mut(&mut self) -> &mut StructValPrioritized {
         match self {
             StructVal::Prioritized(v) => v,
@@ -241,6 +261,13 @@ impl StructVal {
     }
 
     pub fn as_nested_mut(&mut self) -> &mut Struct<&'static str> {
+        match self {
+            StructVal::Nested(v) => v,
+            _ => panic!("Expected nested"),
+        }
+    }
+
+    pub fn as_nested(&self) -> &Struct<&'static str> {
         match self {
             StructVal::Nested(v) => v,
             _ => panic!("Expected nested"),

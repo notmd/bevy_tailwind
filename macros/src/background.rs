@@ -1,4 +1,4 @@
-use crate::{utils::color::Color, ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, utils::color::Color, ParseCtx, ParseResult};
 
 macro_rules! parse_class {
     ($($expr:expr),*) => {
@@ -31,6 +31,8 @@ fn parse_background_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     let Some(color) = Color::parse(&class["bg-".len()..]) else {
         return Ok(false);
     };
+
+    insert_picking_style!(ctx, BackgroundColor, color);
 
     ctx.components
         .background_color

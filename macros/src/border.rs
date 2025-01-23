@@ -1,4 +1,5 @@
 use crate::{
+    picking::{deny_picking_style, insert_picking_style},
     utils::{color::Color, val::Val},
     ParseClassError, ParseCtx, ParseResult,
 };
@@ -25,6 +26,7 @@ impl ParseCtx {
 
         if let Ok(size) = parse_size(class) {
             // rounded*
+            deny_picking_style!(self);
             insert_props!(
                 self,
                 size,
@@ -37,49 +39,53 @@ impl ParseCtx {
 
         if class.starts_with("tl") {
             let class = &class["tl".len()..];
-
-            insert_props!(self, parse_size(class)?, 2, ["top_left"]);
+            let size = parse_size(class)?;
+            insert_picking_style!(self, BorderRadiusTl, size);
+            insert_props!(self, size, 2, ["top_left"]);
         }
 
         if class.starts_with("tr") {
             let class = &class["tr".len()..];
-
+            let size = parse_size(class)?;
+            insert_picking_style!(self, BorderRadiusTr, size);
             insert_props!(self, parse_size(class)?, 2, ["top_right"]);
         }
 
         if class.starts_with("br") {
             let class = &class["br".len()..];
-
+            let size = parse_size(class)?;
+            insert_picking_style!(self, BorderRadiusBr, size);
             insert_props!(self, parse_size(class)?, 2, ["bottom_right"]);
         }
 
         if class.starts_with("bl") {
             let class = &class["bl".len()..];
-
+            let size = parse_size(class)?;
+            insert_picking_style!(self, BorderRadiusBl, size);
             insert_props!(self, parse_size(class)?, 2, ["bottom_left"]);
         }
 
         if class.starts_with("t") {
             let class = &class["t".len()..];
-
+            deny_picking_style!(self);
             insert_props!(self, parse_size(class)?, 1, ["top_left", "top_right"]);
         }
 
         if class.starts_with("r") {
             let class = &class["r".len()..];
-
+            deny_picking_style!(self);
             insert_props!(self, parse_size(class)?, 1, ["top_right", "bottom_right"]);
         }
 
         if class.starts_with("b") {
             let class = &class["b".len()..];
-
+            deny_picking_style!(self);
             insert_props!(self, parse_size(class)?, 1, ["bottom_right", "bottom_left"]);
         }
 
         if class.starts_with("l") {
             let class = &class["l".len()..];
-
+            deny_picking_style!(self);
             insert_props!(self, parse_size(class)?, 1, ["bottom_left", "top_left"]);
         }
 
@@ -97,6 +103,7 @@ impl ParseCtx {
             return Ok(false);
         };
 
+        insert_picking_style!(self, BorderColor, color);
         self.components
             .border_color
             .insert("0", color, self.class_type, 0);

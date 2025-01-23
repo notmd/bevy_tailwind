@@ -1,6 +1,8 @@
 use quote::quote;
 
-use crate::{utils::parse_neg, ParseClassError, ParseCtx, ParseResult};
+use crate::{
+    picking::insert_picking_style, utils::parse_neg, ParseClassError, ParseCtx, ParseResult,
+};
 
 impl ParseCtx {
     pub fn parse_z_index(&mut self, class: &str) -> ParseResult {
@@ -22,9 +24,11 @@ impl ParseCtx {
             return Err(ParseClassError::Unknown);
         }
 
+        let z_index = quote! {#z_index};
+        insert_picking_style!(self, ZIndex, z_index);
         self.components
             .z_index
-            .insert("0", quote! {#z_index}, self.class_type, 0);
+            .insert("0", z_index, self.class_type, 0);
 
         return Ok(true);
     }

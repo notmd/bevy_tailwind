@@ -1,4 +1,5 @@
 use crate::{
+    picking::insert_picking_style,
     utils::val::{ParseValSettings, Val},
     ParseCtx, ParseResult,
 };
@@ -16,18 +17,22 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     match prefix {
         "top" => {
+            insert_picking_style!(ctx, Top, val);
             ctx.insert_node_prop_priority(NodeProp::Top, val, 1);
             Ok(true)
         }
         "right" => {
+            insert_picking_style!(ctx, Right, val);
             ctx.insert_node_prop_priority(NodeProp::Right, val, 1);
             Ok(true)
         }
         "bottom" => {
+            insert_picking_style!(ctx, Bottom, val);
             ctx.insert_node_prop_priority(NodeProp::Bottom, val, 1);
             Ok(true)
         }
         "left" => {
+            insert_picking_style!(ctx, Left, val);
             ctx.insert_node_prop_priority(NodeProp::Left, val, 1);
             Ok(true)
         }

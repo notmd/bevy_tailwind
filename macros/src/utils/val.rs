@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 
-use super::quote::Quote;
+use super::quote::ToTokenStream;
 
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Val {
@@ -14,8 +14,8 @@ pub enum Val {
     VMax(f32),
 }
 
-impl Quote for Val {
-    fn quote(&self, _: &mut super::quote::QuoteCtx) -> TokenStream {
+impl ToTokenStream for Val {
+    fn to_token_stream(&self) -> TokenStream {
         match self {
             Val::Auto => quote! { bevy::ui::Val::Auto },
             Val::Px(val) => quote! { bevy::ui::Val::Px(#val) },

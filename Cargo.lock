@@ -3873,6 +3873,7 @@ name = "test_pass"
 version = "0.1.0"
 dependencies = [
  "bevy",
+ "bevy_tailwind",
  "bevy_tailwind_macro",
 ]
 

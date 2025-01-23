@@ -1,4 +1,5 @@
 use crate::{
+    picking::{deny_picking_style, insert_picking_style},
     utils::val::{ParseValSettings, Val},
     ParseClassError, ParseCtx, ParseResult,
 };
@@ -12,7 +13,8 @@ pub fn parse_gap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         let class = &class["gap-x-".len()..];
         let val = Val::parse(class, settings).ok_or(ParseClassError::Unknown)?;
 
-        ctx.insert_node_prop_priority(NodeProp::RowGap, val, 1);
+        insert_picking_style!(ctx, ColumnGap, val);
+        ctx.insert_node_prop_priority(NodeProp::ColumnGap, val, 1);
 
         return Ok(true);
     }
@@ -21,7 +23,8 @@ pub fn parse_gap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         let class = &class["gap-y-".len()..];
         let val = Val::parse(class, settings).ok_or(ParseClassError::Unknown)?;
 
-        ctx.insert_node_prop_priority(NodeProp::ColumnGap, val, 1);
+        insert_picking_style!(ctx, RowGap, val);
+        ctx.insert_node_prop_priority(NodeProp::RowGap, val, 1);
 
         return Ok(true);
     }
@@ -30,6 +33,7 @@ pub fn parse_gap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         let class = &class["gap-".len()..];
         let val = Val::parse(class, settings).ok_or(ParseClassError::Unknown)?;
 
+        deny_picking_style!(ctx);
         ctx.insert_node_prop(NodeProp::RowGap, val);
         ctx.insert_node_prop(NodeProp::ColumnGap, val);
 

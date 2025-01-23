@@ -1,4 +1,5 @@
 use super::NodeProp;
+use crate::picking::{deny_picking_style, insert_picking_style};
 use crate::{node::insert_node_ui_rect, utils::val::Val};
 use crate::{ParseClassError, ParseCtx, ParseResult};
 
@@ -11,6 +12,7 @@ pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if let Ok(val) = parse_val(class) {
         // border*
+        deny_picking_style!(ctx);
         insert_node_ui_rect!(
             ctx,
             NodeProp::Border,
@@ -24,6 +26,7 @@ pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("x") {
         let class = &class["x".len()..];
+        deny_picking_style!(ctx);
         insert_node_ui_rect!(
             ctx,
             NodeProp::Border,
@@ -35,6 +38,7 @@ pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("y") {
         let class = &class["y".len()..];
+        deny_picking_style!(ctx);
         insert_node_ui_rect!(
             ctx,
             NodeProp::Border,
@@ -46,22 +50,30 @@ pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if class.starts_with("t") {
         let class = &class["t".len()..];
-        insert_node_ui_rect!(ctx, NodeProp::Border, parse_val(class)?, 1, ["top"]);
+        let size = parse_val(class)?;
+        insert_picking_style!(ctx, BorderTop, size);
+        insert_node_ui_rect!(ctx, NodeProp::Border, size, 1, ["top"]);
     }
 
     if class.starts_with("r") {
         let class = &class["r".len()..];
-        insert_node_ui_rect!(ctx, NodeProp::Border, parse_val(class)?, 1, ["right"]);
+        let size = parse_val(class)?;
+        insert_picking_style!(ctx, BorderRight, size);
+        insert_node_ui_rect!(ctx, NodeProp::Border, size, 1, ["right"]);
     }
 
     if class.starts_with("b") {
         let class = &class["b".len()..];
-        insert_node_ui_rect!(ctx, NodeProp::Border, parse_val(class)?, 1, ["bottom"]);
+        let size = parse_val(class)?;
+        insert_picking_style!(ctx, BorderBottom, size);
+        insert_node_ui_rect!(ctx, NodeProp::Border, size, 1, ["bottom"]);
     }
 
     if class.starts_with("l") {
         let class = &class["l".len()..];
-        insert_node_ui_rect!(ctx, NodeProp::Border, parse_val(class)?, 1, ["left"]);
+        let size = parse_val(class)?;
+        insert_picking_style!(ctx, BorderLeft, size);
+        insert_node_ui_rect!(ctx, NodeProp::Border, size, 1, ["left"]);
     }
 
     Ok(false)

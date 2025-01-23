@@ -1,4 +1,4 @@
-use crate::{ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
 use quote::quote;
 
 use super::NodeProp;
@@ -10,6 +10,7 @@ pub fn parse_flex_grow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    insert_picking_style!(ctx, FlexGrow, quote! { #value });
     ctx.insert_node_prop_priority(NodeProp::FlexGrow, quote! { #value }, 0);
     Ok(true)
 }

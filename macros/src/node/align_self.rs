@@ -1,4 +1,4 @@
-use crate::{ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
 use quote::quote;
 
 use super::NodeProp;
@@ -14,6 +14,7 @@ pub fn parse_align_self(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    insert_picking_style!(ctx, AlignSelf, align_self);
     ctx.insert_node_prop_priority(NodeProp::AlignSelf, align_self, 1);
     Ok(true)
 }

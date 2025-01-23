@@ -1,4 +1,4 @@
-use crate::{utils::val::Val, ParseCtx, ParseResult};
+use crate::{picking::deny_picking_style, utils::val::Val, ParseCtx, ParseResult};
 
 use super::NodeProp;
 use quote::quote;
@@ -12,6 +12,7 @@ pub fn parse_flex(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    deny_picking_style!(ctx);
     ctx.insert_node_prop(NodeProp::FlexGrow, quote! {#flex_grow});
     ctx.insert_node_prop(NodeProp::FlexShrink, quote! {#flex_shrink});
     ctx.insert_node_prop(NodeProp::FlexBasis, flex_basis);

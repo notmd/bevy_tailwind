@@ -2,12 +2,14 @@ mod background;
 mod border;
 mod node;
 mod outline;
+mod picking;
 mod text;
 mod utils;
 mod z_index;
 
 use node::NodeProp;
-use proc_macro2::{Span, TokenStream};
+use picking::PickingStyles;
+use proc_macro2::TokenStream;
 use quote::{format_ident, quote};
 use syn::{
     parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned, Expr, LitStr, Token,
@@ -40,7 +42,10 @@ macro_rules! parse_class {
 macro_rules! parse_classes {
     ($classes:ident, $ctx:ident) => {
         let span = $classes.span();
-        for class in $classes.value().split_whitespace() {
+        for original_class in $classes.value().split_whitespace() {
+            let (hover, focus, class) = picking::parse_picking_class(original_class);
+            $ctx.hover = hover;
+            $ctx.focus = focus;
             parse_class!(
                 class,
                 span,
@@ -53,7 +58,7 @@ macro_rules! parse_classes {
                 $ctx.parse_node(class)
             );
 
-            return syn::Error::new(span, format!("Unknown class:  {}", class))
+            return syn::Error::new(span, format!("Unknown class:  {}", original_class))
                 .to_compile_error()
                 .into();
         }
@@ -140,6 +145,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         condition_idents: &condition_idents,
         is_create: matches!(ctx.macro_type, MacroType::Create),
         parent_props: vec!["__comp".to_string()],
+        parse_ctx: &ctx,
     };
 
     let conditions = &ctx.conditions;
@@ -183,6 +189,10 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         (
             ctx.components.outline.quote(&mut qctx),
             ctx.components.outline.path(),
+        ),
+        (
+            ctx.components.picking_styles.quote(&mut qctx),
+            ctx.components.picking_styles.path(),
         ),
     ]
     .into_iter()
@@ -290,6 +300,7 @@ struct UiComponents {
     border_radius: Struct<&'static str>,
     border_color: Struct<&'static str>,
     outline: Struct<&'static str>,
+    picking_styles: PickingStyles,
 }
 
 impl Default for UiComponents {
@@ -304,6 +315,7 @@ impl Default for UiComponents {
             border_radius: Struct::new(quote! { bevy::ui::BorderRadius }),
             border_color: Struct::new(quote! { bevy::ui::BorderColor }),
             outline: Struct::new(quote! { bevy::ui::Outline }),
+            picking_styles: PickingStyles::default(),
         }
     }
 }
@@ -314,6 +326,8 @@ struct ParseCtx {
     class_type: ClassType,
     conditions: Vec<TokenStream>,
     components: UiComponents,
+    hover: bool,
+    focus: bool,
 }
 
 impl ParseCtx {

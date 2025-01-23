@@ -1,4 +1,4 @@
-use crate::{utils::color::Color, ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, utils::color::Color, ParseCtx, ParseResult};
 use quote::quote;
 
 macro_rules! parse_class {
@@ -55,6 +55,8 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
+    insert_picking_style!(ctx, FontSize, quote! { #font_size });
+
     ctx.components
         .text_font
         .insert("font_size", quote! {#font_size}, ctx.class_type, 0);
@@ -96,6 +98,8 @@ fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
+    insert_picking_style!(ctx, TextJustify, justify);
+
     ctx.components
         .text_layout
         .insert("justify", justify, ctx.class_type, 0);
@@ -112,6 +116,8 @@ fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
+    insert_picking_style!(ctx, TextLinebreak, line_break);
+
     ctx.components
         .text_layout
         .insert("linebreak", line_break, ctx.class_type, 0);
@@ -127,6 +133,8 @@ fn parse_text_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     let Some(color) = Color::parse(&class["text-".len()..]) else {
         return Ok(false);
     };
+
+    insert_picking_style!(ctx, TextColor, color);
 
     ctx.components
         .text_color

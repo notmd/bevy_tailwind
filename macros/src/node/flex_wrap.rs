@@ -1,6 +1,6 @@
 use quote::quote;
 
-use crate::{ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
 
 use super::NodeProp;
 
@@ -12,6 +12,7 @@ pub fn parse_flex_wrap(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    insert_picking_style!(ctx, FlexWrap, flex_wrap);
     ctx.insert_node_prop(NodeProp::FlexWrap, flex_wrap);
 
     Ok(true)

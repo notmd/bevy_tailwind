@@ -2,17 +2,17 @@ use proc_macro2::TokenStream;
 use quote::format_ident;
 use quote::quote;
 
-use super::quote::Quote;
-use super::quote::QuoteCtx;
+use super::quote::ToTokenStream;
 
+#[derive(Clone)]
 pub struct Color {
     name: String,
     level: Option<String>,
     alpha: Option<f32>,
 }
 
-impl Quote for Color {
-    fn quote(&self, _ctx: &mut QuoteCtx) -> TokenStream {
+impl ToTokenStream for Color {
+    fn to_token_stream(&self) -> TokenStream {
         let color = match &self.level {
             Some(level) => {
                 let color = format_ident!("{}_{}", self.name.to_uppercase(), level);
@@ -88,11 +88,46 @@ impl Color {
             return None;
         }
 
+        // quote(name, Some(level), alpha)
         Some(Color {
             name: name.to_string(),
             level: Some(level.to_string()),
             alpha,
         })
+    }
+}
+
+fn quote(name: &str, level: Option<&str>, alpha: Option<f32>) -> TokenStream {
+    let color = match level {
+        Some(level) => {
+            let color = format_ident!("{}_{}", name.to_uppercase(), level);
+
+            quote! {
+                bevy::color::Color::Srgba(
+                   bevy::color::palettes::tailwind::#color
+                )
+            }
+        }
+        None => {
+            let color = match name {
+                "transparent" => quote! {NONE},
+                "black" => quote! {BLACK},
+                "white" => quote! {WHITE},
+                _ => unreachable!("Invalid color name: {}", name),
+            };
+
+            quote! {
+                bevy::color::Color::#color
+            }
+        }
+    };
+
+    if let Some(alpha) = alpha {
+        quote! {
+            <bevy::color::Color as bevy::color::Alpha>::with_alpha(&#color, #alpha)
+        }
+    } else {
+        color
     }
 }
 

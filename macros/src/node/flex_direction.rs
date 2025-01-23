@@ -1,6 +1,6 @@
 use quote::quote;
 
-use crate::{ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
 
 use super::NodeProp;
 
@@ -13,6 +13,7 @@ pub fn parse_flex_direction(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    insert_picking_style!(ctx, FlexDirection, flex_direction);
     ctx.insert_node_prop(NodeProp::FlexDirection, flex_direction);
 
     Ok(true)

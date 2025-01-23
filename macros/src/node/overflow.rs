@@ -1,5 +1,6 @@
 use crate::{
-    utils::quote::{Quote, QuoteCtx},
+    picking::{deny_picking_style, insert_picking_style},
+    utils::quote::ToTokenStream,
     ParseClassError, ParseCtx, ParseResult,
 };
 use proc_macro2::TokenStream;
@@ -28,18 +29,21 @@ pub fn parse_overflow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     }
 
     if let Ok(axis) = parse_axis(class) {
+        deny_picking_style!(ctx);
         insert_props!(ctx, NodeProp::Overflow, axis, 0, ["x", "y"]);
     }
 
     if class.starts_with("x-") {
         let class = &class["x-".len()..];
         let axis = parse_axis(class)?;
+        insert_picking_style!(ctx, OverflowX, axis);
         insert_props!(ctx, NodeProp::Overflow, axis, 1, ["x"]);
     }
 
     if class.starts_with("y-") {
         let class = &class["y-".len()..];
         let axis = parse_axis(class)?;
+        insert_picking_style!(ctx, OverflowY, axis);
         insert_props!(ctx, NodeProp::Overflow, axis, 1, ["y"]);
     }
 
@@ -66,8 +70,8 @@ enum OverflowAxis {
     Scroll,
 }
 
-impl Quote for OverflowAxis {
-    fn quote(&self, _ctx: &mut QuoteCtx) -> TokenStream {
+impl ToTokenStream for OverflowAxis {
+    fn to_token_stream(&self) -> TokenStream {
         match self {
             OverflowAxis::Visible => quote! { bevy::ui::OverflowAxis::Visible },
             OverflowAxis::Clip => quote! { bevy::ui::OverflowAxis::Clip },

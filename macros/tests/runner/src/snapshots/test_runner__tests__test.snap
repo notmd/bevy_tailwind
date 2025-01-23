@@ -10,9 +10,9 @@ use std::prelude::rust_2021::*;
 #[macro_use]
 extern crate std;
 use bevy::prelude::*;
-use bevy_tailwind_macro::tw;
-fn simple() {
-    let mut node = Node::default();
+use bevy_tailwind::tw;
+fn simple(mut query: Query<EntityMut>) {
+    let mut entity = query.single_mut();
     {
         (bevy::ui::Node {
             display: bevy::ui::Display::Flex,
@@ -20,7 +20,7 @@ fn simple() {
         })
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             __comp.display = bevy::ui::Display::Flex;
         }
@@ -38,7 +38,7 @@ fn simple() {
         })
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         let __class__cond_0 = true;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             if __class__cond_0 {
@@ -50,7 +50,7 @@ fn simple() {
         __entity
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         let __class__cond_0 = true;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             if __class__cond_0 {
@@ -60,7 +60,7 @@ fn simple() {
         __entity
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         let __class__cond_0 = true;
         let __class__cond_1 = true;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
@@ -75,8 +75,8 @@ fn simple() {
         __entity
     };
 }
-fn nested_with_priority() {
-    let mut node = Node::default();
+fn nested_with_priority(mut query: Query<EntityMut>) {
+    let mut entity = query.single_mut();
     let prio_1lv = {
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
@@ -185,14 +185,14 @@ fn nested_with_priority() {
         })
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             __comp.padding.top = bevy::ui::Val::Px(4f32);
         }
         __entity
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         let __class__cond_0 = true;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
             if __class__cond_0 {
@@ -204,7 +204,7 @@ fn nested_with_priority() {
         __entity
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         let __class__cond_0 = true;
         let __class__cond_1 = true;
         if let Some(mut __comp) = __entity.get_mut::<bevy::ui::Node>() {
@@ -228,7 +228,7 @@ fn nested_with_priority() {
         __entity
     };
     {
-        let mut __entity = &mut node;
+        let mut __entity = &mut entity;
         let __class__cond_0 = true;
         let __class__cond_1 = true;
         let __class__cond_2 = true;
@@ -269,12 +269,78 @@ fn nested_with_priority() {
         __entity
     };
 }
+fn picking_style(mut query: Query<EntityMut>) {
+    let entity = query.single_mut();
+    {
+        let __class__cond_0 = true;
+        (
+            bevy::ui::BackgroundColor {
+                0: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::RED_500),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    padding_top: Some(bevy::ui::Val::default()),
+                    background_color: Some(
+                        bevy::color::Color::Srgba(
+                            bevy::color::palettes::tailwind::RED_500,
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    background_color: if __class__cond_0 {
+                        Some(
+                            bevy::color::Color::Srgba(
+                                bevy::color::palettes::tailwind::YELLOW_500,
+                            ),
+                        )
+                    } else {
+                        Default::default()
+                    },
+                    padding_top: if __class__cond_0 {
+                        Some(bevy::ui::Val::Px(4f32))
+                    } else {
+                        Default::default()
+                    },
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    background_color: Some(
+                        bevy::color::Color::Srgba(
+                            bevy::color::palettes::tailwind::GREEN_500,
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+}
 fn test_all() {
     {
-        (bevy::ui::Node {
-            aspect_ratio: None,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                aspect_ratio: None,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    aspect_ratio: Some(None),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    aspect_ratio: Some(Some(1.0)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    aspect_ratio: Some(Some(16.0 / 9.0)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -289,10 +355,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            display: bevy::ui::Display::Flex,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                display: bevy::ui::Display::Flex,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    display: Some(bevy::ui::Display::Flex),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    display: Some(bevy::ui::Display::Grid),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    display: Some(bevy::ui::Display::Block),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -353,13 +436,30 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            overflow: bevy::ui::Overflow {
-                x: bevy::ui::OverflowAxis::Hidden,
+        (
+            bevy::ui::Node {
+                overflow: bevy::ui::Overflow {
+                    x: bevy::ui::OverflowAxis::Hidden,
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    overflow_x: Some(bevy::ui::OverflowAxis::Hidden),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    overflow_x: Some(bevy::ui::OverflowAxis::Clip),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    overflow_x: Some(bevy::ui::OverflowAxis::Visible),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -389,13 +489,30 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            overflow: bevy::ui::Overflow {
-                y: bevy::ui::OverflowAxis::Hidden,
+        (
+            bevy::ui::Node {
+                overflow: bevy::ui::Overflow {
+                    y: bevy::ui::OverflowAxis::Hidden,
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    overflow_y: Some(bevy::ui::OverflowAxis::Hidden),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    overflow_y: Some(bevy::ui::OverflowAxis::Clip),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    overflow_y: Some(bevy::ui::OverflowAxis::Visible),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -425,10 +542,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            position_type: bevy::ui::PositionType::Relative,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                position_type: bevy::ui::PositionType::Relative,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    position: Some(bevy::ui::PositionType::Relative),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    position: Some(bevy::ui::PositionType::Absolute),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    position: Some(bevy::ui::PositionType::Absolute),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -437,34 +571,119 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            top: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                top: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    top: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    top: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    top: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            right: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                right: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    right: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    right: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    right: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            bottom: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                bottom: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    bottom: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    bottom: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    bottom: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            left: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                left: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    left: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    left: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    left: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::ZIndex {
-            0: 10i32,
-            ..Default::default()
-        })
+        (
+            bevy::ui::ZIndex {
+                0: 10i32,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    z_index: Some(10i32),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    z_index: Some(20i32),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    z_index: Some(30i32),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::ZIndex {
@@ -473,10 +692,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            flex_basis: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                flex_basis: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    flex_basis: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    flex_basis: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    flex_basis: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -485,10 +721,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            flex_direction: bevy::ui::FlexDirection::Row,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                flex_direction: bevy::ui::FlexDirection::Row,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    flex_direction: Some(bevy::ui::FlexDirection::Row),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    flex_direction: Some(bevy::ui::FlexDirection::Column),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    flex_direction: Some(bevy::ui::FlexDirection::Column),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -509,10 +762,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            flex_wrap: bevy::ui::FlexWrap::Wrap,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                flex_wrap: bevy::ui::FlexWrap::Wrap,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    flex_wrap: Some(bevy::ui::FlexWrap::Wrap),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    flex_wrap: Some(bevy::ui::FlexWrap::WrapReverse),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    flex_wrap: Some(bevy::ui::FlexWrap::NoWrap),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -559,10 +829,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            flex_grow: 1f32,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                flex_grow: 1f32,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    flex_grow: Some(1f32),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    flex_grow: Some(0f32),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    flex_grow: Some(1f32),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -583,10 +870,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            flex_shrink: 1f32,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                flex_shrink: 1f32,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    flex_shrink: Some(1f32),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    flex_shrink: Some(0f32),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    flex_shrink: Some(1f32),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -607,14 +911,49 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            grid_template_columns: bevy::ui::RepeatedGridTrack::minmax(
-                1u16,
-                bevy::ui::MinTrackSizingFunction::Px(0.),
-                bevy::ui::MaxTrackSizingFunction::Fraction(1.),
-            ),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                grid_template_columns: bevy::ui::RepeatedGridTrack::minmax(
+                    1u16,
+                    bevy::ui::MinTrackSizingFunction::Px(0.),
+                    bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                ),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    grid_template_columns: Some(
+                        bevy::ui::RepeatedGridTrack::minmax(
+                            1u16,
+                            bevy::ui::MinTrackSizingFunction::Px(0.),
+                            bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    grid_template_columns: Some(
+                        bevy::ui::RepeatedGridTrack::minmax(
+                            2u16,
+                            bevy::ui::MinTrackSizingFunction::Px(0.),
+                            bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    grid_template_columns: Some(
+                        bevy::ui::RepeatedGridTrack::minmax(
+                            3u16,
+                            bevy::ui::MinTrackSizingFunction::Px(0.),
+                            bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -667,14 +1006,49 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            grid_template_rows: bevy::ui::RepeatedGridTrack::minmax(
-                1u16,
-                bevy::ui::MinTrackSizingFunction::Px(0.),
-                bevy::ui::MaxTrackSizingFunction::Fraction(1.),
-            ),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                grid_template_rows: bevy::ui::RepeatedGridTrack::minmax(
+                    1u16,
+                    bevy::ui::MinTrackSizingFunction::Px(0.),
+                    bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                ),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    grid_template_rows: Some(
+                        bevy::ui::RepeatedGridTrack::minmax(
+                            1u16,
+                            bevy::ui::MinTrackSizingFunction::Px(0.),
+                            bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    grid_template_rows: Some(
+                        bevy::ui::RepeatedGridTrack::minmax(
+                            2u16,
+                            bevy::ui::MinTrackSizingFunction::Px(0.),
+                            bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    grid_template_rows: Some(
+                        bevy::ui::RepeatedGridTrack::minmax(
+                            3u16,
+                            bevy::ui::MinTrackSizingFunction::Px(0.),
+                            bevy::ui::MaxTrackSizingFunction::Fraction(1.),
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -725,10 +1099,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            grid_auto_flow: bevy::ui::GridAutoFlow::Row,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                grid_auto_flow: bevy::ui::GridAutoFlow::Row,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    grid_auto_flow: Some(bevy::ui::GridAutoFlow::Row),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    grid_auto_flow: Some(bevy::ui::GridAutoFlow::Column),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    grid_auto_flow: Some(bevy::ui::GridAutoFlow::RowDense),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -749,10 +1140,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            grid_auto_columns: bevy::ui::GridTrack::auto(),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                grid_auto_columns: bevy::ui::GridTrack::auto(),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    grid_auto_columns: Some(bevy::ui::GridTrack::auto()),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    grid_auto_columns: Some(bevy::ui::GridTrack::min_content()),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    grid_auto_columns: Some(bevy::ui::GridTrack::max_content()),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -773,10 +1181,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            grid_auto_rows: bevy::ui::GridTrack::auto(),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                grid_auto_rows: bevy::ui::GridTrack::auto(),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    grid_auto_rows: Some(bevy::ui::GridTrack::auto()),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    grid_auto_rows: Some(bevy::ui::GridTrack::min_content()),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    grid_auto_rows: Some(bevy::ui::GridTrack::max_content()),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -804,20 +1229,60 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            row_gap: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                column_gap: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    column_gap: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    column_gap: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    column_gap: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            column_gap: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                row_gap: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    row_gap: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    row_gap: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    row_gap: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
             row_gap: bevy::ui::Val::Px(1f32),
+            column_gap: bevy::ui::Val::Px(1f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             column_gap: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
@@ -830,13 +1295,13 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
-            column_gap: bevy::ui::Val::Px(1f32),
+            row_gap: bevy::ui::Val::Px(6f32),
+            column_gap: bevy::ui::Val::Px(6f32),
             ..Default::default()
         })
     };
     {
         (bevy::ui::Node {
-            row_gap: bevy::ui::Val::Px(6f32),
             column_gap: bevy::ui::Val::Px(6f32),
             ..Default::default()
         })
@@ -848,16 +1313,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            column_gap: bevy::ui::Val::Px(6f32),
-            ..Default::default()
-        })
-    };
-    {
-        (bevy::ui::Node {
-            justify_content: bevy::ui::JustifyContent::Default,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                justify_content: bevy::ui::JustifyContent::Default,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    justify_content: Some(bevy::ui::JustifyContent::Default),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    justify_content: Some(bevy::ui::JustifyContent::FlexStart),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    justify_content: Some(bevy::ui::JustifyContent::FlexEnd),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -902,10 +1378,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            justify_items: bevy::ui::JustifyItems::Start,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                justify_items: bevy::ui::JustifyItems::Start,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    justify_items: Some(bevy::ui::JustifyItems::Start),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    justify_items: Some(bevy::ui::JustifyItems::End),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    justify_items: Some(bevy::ui::JustifyItems::Center),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -926,10 +1419,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            justify_self: bevy::ui::JustifySelf::Auto,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                justify_self: bevy::ui::JustifySelf::Auto,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    justify_self: Some(bevy::ui::JustifySelf::Auto),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    justify_self: Some(bevy::ui::JustifySelf::Start),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    justify_self: Some(bevy::ui::JustifySelf::End),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -950,10 +1460,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            align_content: bevy::ui::AlignContent::Default,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                align_content: bevy::ui::AlignContent::Default,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    align_content: Some(bevy::ui::AlignContent::Default),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    align_content: Some(bevy::ui::AlignContent::Center),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    align_content: Some(bevy::ui::AlignContent::FlexStart),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -998,10 +1525,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            align_items: bevy::ui::AlignItems::FlexStart,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                align_items: bevy::ui::AlignItems::FlexStart,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    align_items: Some(bevy::ui::AlignItems::FlexStart),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    align_items: Some(bevy::ui::AlignItems::FlexEnd),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    align_items: Some(bevy::ui::AlignItems::Center),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1028,10 +1572,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            align_self: bevy::ui::AlignSelf::Auto,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                align_self: bevy::ui::AlignSelf::Auto,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    align_self: Some(bevy::ui::AlignSelf::Auto),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    align_self: Some(bevy::ui::AlignSelf::FlexStart),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    align_self: Some(bevy::ui::AlignSelf::FlexEnd),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1222,40 +1783,108 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            padding: bevy::ui::UiRect {
-                top: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                padding: bevy::ui::UiRect {
+                    top: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    padding_top: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    padding_top: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    padding_top: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            padding: bevy::ui::UiRect {
-                right: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                padding: bevy::ui::UiRect {
+                    right: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    padding_right: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    padding_right: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    padding_right: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            padding: bevy::ui::UiRect {
-                bottom: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                padding: bevy::ui::UiRect {
+                    bottom: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    padding_bottom: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    padding_bottom: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    padding_bottom: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            padding: bevy::ui::UiRect {
-                left: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                padding: bevy::ui::UiRect {
+                    left: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    padding_left: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    padding_left: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    padding_left: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1426,40 +2055,108 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            margin: bevy::ui::UiRect {
-                top: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                margin: bevy::ui::UiRect {
+                    top: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    margin_top: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    margin_top: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    margin_top: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            margin: bevy::ui::UiRect {
-                right: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                margin: bevy::ui::UiRect {
+                    right: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    margin_right: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    margin_right: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    margin_right: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            margin: bevy::ui::UiRect {
-                bottom: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                margin: bevy::ui::UiRect {
+                    bottom: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    margin_bottom: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    margin_bottom: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    margin_bottom: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Node {
-            margin: bevy::ui::UiRect {
-                left: bevy::ui::Val::Px(0f32),
+        (
+            bevy::ui::Node {
+                margin: bevy::ui::UiRect {
+                    left: bevy::ui::Val::Px(0f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    margin_left: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    margin_left: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    margin_left: Some(bevy::ui::Val::Px(8f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1598,10 +2295,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            width: bevy::ui::Val::Auto,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                width: bevy::ui::Val::Auto,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    width: Some(bevy::ui::Val::Auto),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    width: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    width: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1652,10 +2366,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            min_width: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                min_width: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    min_width: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    min_width: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    min_width: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1682,10 +2413,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            max_width: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                max_width: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    max_width: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    max_width: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    max_width: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1712,10 +2460,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            height: bevy::ui::Val::Auto,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                height: bevy::ui::Val::Auto,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    height: Some(bevy::ui::Val::Auto),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    height: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    height: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1766,10 +2531,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            min_height: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                min_height: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    min_height: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    min_height: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    min_height: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1796,10 +2578,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            max_height: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Node {
+                max_height: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    max_height: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    max_height: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    max_height: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -1861,10 +2660,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::text::TextFont {
-            font_size: 12f32,
-            ..Default::default()
-        })
+        (
+            bevy::text::TextFont {
+                font_size: 12f32,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    font_size: Some(12f32),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    font_size: Some(14f32),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    font_size: Some(16f32),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::text::TextFont {
@@ -1945,10 +2761,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::text::TextLayout {
-            justify: bevy::text::JustifyText::Left,
-            ..Default::default()
-        })
+        (
+            bevy::text::TextLayout {
+                justify: bevy::text::JustifyText::Left,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    text_justity: Some(bevy::text::JustifyText::Left),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    text_justity: Some(bevy::text::JustifyText::Center),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    text_justity: Some(bevy::text::JustifyText::Right),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::text::TextLayout {
@@ -1969,10 +2802,32 @@ fn test_all() {
         })
     };
     {
-        (bevy::text::TextColor {
-            0: bevy::color::Color::NONE,
-            ..Default::default()
-        })
+        (
+            bevy::text::TextColor {
+                0: bevy::color::Color::NONE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    text_color: Some(bevy::color::Color::NONE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    text_color: Some(
+                        <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                            &bevy::color::Color::NONE,
+                            0.5f32,
+                        ),
+                    ),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    text_color: Some(bevy::color::Color::BLACK),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::text::TextColor {
@@ -2029,10 +2884,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::text::TextLayout {
-            linebreak: bevy::text::LineBreak::WordBoundary,
-            ..Default::default()
-        })
+        (
+            bevy::text::TextLayout {
+                linebreak: bevy::text::LineBreak::WordBoundary,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    text_linebreak: Some(bevy::text::LineBreak::WordBoundary),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    text_linebreak: Some(bevy::text::LineBreak::AnyCharacter),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    text_linebreak: Some(bevy::text::LineBreak::AnyCharacter),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::text::TextLayout {
@@ -2041,10 +2913,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::BackgroundColor {
-            0: bevy::color::Color::NONE,
-            ..Default::default()
-        })
+        (
+            bevy::ui::BackgroundColor {
+                0: bevy::color::Color::NONE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    background_color: Some(bevy::color::Color::NONE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    background_color: Some(bevy::color::Color::BLACK),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    background_color: Some(bevy::color::Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::BackgroundColor {
@@ -2249,10 +3138,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::BorderRadius {
-            top_left: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::BorderRadius {
+                top_left: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_radius_tl: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_radius_tl: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_radius_tl: Some(bevy::ui::Val::Px(4f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::BorderRadius {
@@ -2418,13 +3324,30 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Node {
-            border: bevy::ui::UiRect {
-                top: bevy::ui::Val::Px(1f32),
+        (
+            bevy::ui::Node {
+                border: bevy::ui::UiRect {
+                    top: bevy::ui::Val::Px(1f32),
+                    ..Default::default()
+                },
                 ..Default::default()
             },
-            ..Default::default()
-        })
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_top: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_top: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_top: Some(bevy::ui::Val::Px(3f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Node {
@@ -2481,10 +3404,27 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::BorderColor {
-            0: bevy::color::Color::NONE,
-            ..Default::default()
-        })
+        (
+            bevy::ui::BorderColor {
+                0: bevy::color::Color::NONE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color: Some(bevy::color::Color::NONE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color: Some(bevy::color::Color::BLACK),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color: Some(bevy::color::Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::BorderColor {
@@ -2541,16 +3481,50 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Outline {
-            width: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Outline {
+                width: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    outline_width: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    outline_width: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    outline_width: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
-        (bevy::ui::Outline {
-            color: bevy::color::Color::NONE,
-            ..Default::default()
-        })
+        (
+            bevy::ui::Outline {
+                color: bevy::color::Color::NONE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    outline_color: Some(bevy::color::Color::NONE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    outline_color: Some(bevy::color::Color::BLACK),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    outline_color: Some(bevy::color::Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         (bevy::ui::Outline {
@@ -2601,9 +3575,26 @@ fn test_all() {
         })
     };
     {
-        (bevy::ui::Outline {
-            offset: bevy::ui::Val::Px(0f32),
-            ..Default::default()
-        })
+        (
+            bevy::ui::Outline {
+                offset: bevy::ui::Val::Px(0f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    outline_offset: Some(bevy::ui::Val::Px(0f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    outline_offset: Some(bevy::ui::Val::Px(1f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    outline_offset: Some(bevy::ui::Val::Px(2f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
 }

@@ -1,6 +1,6 @@
 use quote::quote;
 
-use crate::{ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
 
 use super::NodeProp;
 
@@ -13,12 +13,11 @@ pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResu
 
     match suffix {
         "none" => {
-            ctx.insert_node_prop(
-                NodeProp::GridTemplateColumns,
-                quote! {
-                    Default::default()
-                },
-            );
+            let value = quote! {
+                Default::default()
+            };
+            insert_picking_style!(ctx, GridTemplateColumns, value);
+            ctx.insert_node_prop(NodeProp::GridTemplateColumns, value);
 
             Ok(true)
         }
@@ -27,16 +26,16 @@ pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResu
                 return Ok(false);
             };
 
-            ctx.insert_node_prop(
-                NodeProp::GridTemplateColumns,
-                quote! {
-                   bevy::ui::RepeatedGridTrack::minmax(
-                        #count,
-                        bevy::ui::MinTrackSizingFunction::Px(0.),
-                        bevy::ui::MaxTrackSizingFunction::Fraction(1.)
-                   )
-                },
-            );
+            let value = quote! {
+               bevy::ui::RepeatedGridTrack::minmax(
+                    #count,
+                    bevy::ui::MinTrackSizingFunction::Px(0.),
+                    bevy::ui::MaxTrackSizingFunction::Fraction(1.)
+               )
+            };
+
+            insert_picking_style!(ctx, GridTemplateColumns, value);
+            ctx.insert_node_prop(NodeProp::GridTemplateColumns, value);
 
             Ok(true)
         }
