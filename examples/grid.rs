@@ -21,17 +21,9 @@ fn spawn_layout(mut commands: Commands) {
 
     // Top-level grid (app frame)
     commands
-        .spawn((
-            tw!(
-                Node {
-                    grid_template_columns: vec![GridTrack::min_content(), GridTrack::flex(1.0)],
-                    grid_template_rows: vec![GridTrack::auto(), GridTrack::flex(1.0), GridTrack::px(20.)],
-                    ..Default::default()
-                },
-                "grid size-full"
-            ),
-           tw!("bg-white") 
-        ))
+        .spawn(
+            tw!("grid size-full grid-cols-[min-content_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)_20px] bg-white"),
+        )
         .with_children(|builder| {
             // Header
             builder
@@ -72,15 +64,9 @@ fn spawn_layout(mut commands: Commands) {
 
             // Right side bar (auto placed in row 2, column 2)
             builder
-                .spawn((
-                    tw!(Node {
-                        // Add an fr track to take up all the available space at the bottom of the column so that the text nodes
-                        // can be top-aligned. Normally you'd use flexbox for this, but this is the CSS Grid example so we're using grid.
-                        grid_template_rows: vec![GridTrack::auto(), GridTrack::auto(), GridTrack::fr(1.0)],
-                        ..default()
-                    }, "grid items-center justify-center p-2.5 gap-y-2.5"),
-                    tw!("bg-black")
-                ))
+                .spawn(
+                    tw!("grid items-center justify-center p-2.5 gap-y-2.5 grid-rows-[auto_auto_1fr] bg-black"),
+                )
                 .with_children(|builder| {
                     builder.spawn(Text::new("Sidebar"));
                     builder.spawn((Text::new("A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely."),

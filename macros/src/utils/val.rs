@@ -148,12 +148,39 @@ impl Val {
     }
 }
 
-fn parse_arbitrary(class: &str, _settings: ParseValSettings) -> Option<Val> {
-    if class.ends_with("px") {
-        let class = &class[..class.len() - 2];
-        let val = class.parse::<u32>().ok()?;
+pub fn parse_px(str: &str) -> Option<f32> {
+    if str.ends_with("px") {
+        let str = &str[..str.len() - 2];
+        let val = str.parse::<u32>().ok()?;
 
-        return Some(Val::Px(val as f32));
+        return Some(val as f32);
+    }
+
+    None
+}
+
+pub fn parse_percent(str: &str) -> Option<f32> {
+    if str.ends_with("%") {
+        let str = &str[..str.len() - 1];
+        let val = str.parse::<f32>().ok()?;
+
+        if val < 0.0 || val > 100.0 {
+            return None;
+        }
+
+        return Some(val);
+    }
+
+    None
+}
+
+fn parse_arbitrary(str: &str, _settings: ParseValSettings) -> Option<Val> {
+    if str.is_empty() {
+        return None;
+    }
+
+    if let Some(val) = parse_px(str) {
+        return Some(Val::Px(val));
     }
 
     None

@@ -19,8 +19,7 @@ mod grid_auto_flow;
 mod grid_auto_rows;
 mod grid_column;
 mod grid_row;
-mod grid_template_columns;
-mod grid_template_rows;
+mod grid_template;
 mod justify_content;
 mod justify_items;
 mod justity_self;
@@ -64,9 +63,9 @@ impl ParseCtx {
             flex::parse_flex(self, class),
             flex_grow::parse_flex_grow(self, class),
             flex_shrink::parse_flex_shrink(self, class),
-            grid_template_columns::parse_grid_template_columns(self, class),
+            grid_template::parse_grid_template_columns(self, class),
             grid_column::parse_grid_column(self, class),
-            grid_template_rows::parse_grid_template_rows(self, class),
+            grid_template::parse_grid_template_rows(self, class),
             grid_row::parse_grid_row(self, class),
             grid_auto_flow::parse_grid_auto_flow(self, class),
             grid_auto_columns::parse_grid_auto_columns(self, class),

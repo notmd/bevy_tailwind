@@ -97,40 +97,6 @@ impl Color {
     }
 }
 
-fn quote(name: &str, level: Option<&str>, alpha: Option<f32>) -> TokenStream {
-    let color = match level {
-        Some(level) => {
-            let color = format_ident!("{}_{}", name.to_uppercase(), level);
-
-            quote! {
-                bevy::color::Color::Srgba(
-                   bevy::color::palettes::tailwind::#color
-                )
-            }
-        }
-        None => {
-            let color = match name {
-                "transparent" => quote! {NONE},
-                "black" => quote! {BLACK},
-                "white" => quote! {WHITE},
-                _ => unreachable!("Invalid color name: {}", name),
-            };
-
-            quote! {
-                bevy::color::Color::#color
-            }
-        }
-    };
-
-    if let Some(alpha) = alpha {
-        quote! {
-            <bevy::color::Color as bevy::color::Alpha>::with_alpha(&#color, #alpha)
-        }
-    } else {
-        color
-    }
-}
-
 fn parse_alpha(str: &str) -> Option<f32> {
     let alpha = str.parse::<u8>().ok()?;
     if alpha > 100 {
