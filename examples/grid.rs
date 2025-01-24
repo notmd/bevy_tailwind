@@ -70,10 +70,7 @@ fn spawn_layout(mut commands: Commands) {
                 .with_children(|builder| {
                     builder.spawn(Text::new("Sidebar"));
                     builder.spawn((Text::new("A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely. A paragraph of text which ought to wrap nicely."),
-                        TextFont {
-                            font_size: 13.0,
-                            ..default()
-                        },
+                       tw!("text-[13px]") 
                     ));
                     builder.spawn(Node::default());
                 });

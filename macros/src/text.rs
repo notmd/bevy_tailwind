@@ -1,4 +1,8 @@
-use crate::{picking::insert_picking_style, utils::color::Color, ParseCtx, ParseResult};
+use crate::{
+    picking::insert_picking_style,
+    utils::{color::Color, val::parse_px},
+    ParseCtx, ParseResult,
+};
 use quote::quote;
 
 macro_rules! parse_class {
@@ -36,6 +40,7 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     }
 
     let class = &class["text-".len()..];
+
     let font_size: f32 = match class {
         "xs" => 12.,
         "sm" => 14.,
@@ -50,6 +55,13 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         "7xl" => 80.,
         "8xl" => 96.,
         "9xl" => 128.,
+        class if class.starts_with("[") && class.ends_with("]") => {
+            let class = &class[1..class.len() - 1];
+            let Some(px) = parse_px(class) else {
+                return Ok(false);
+            };
+            px
+        }
         _ => {
             return Ok(false);
         }
