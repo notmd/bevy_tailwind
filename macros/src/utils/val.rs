@@ -183,6 +183,10 @@ fn parse_arbitrary(str: &str, _settings: ParseValSettings) -> Option<Val> {
         return Some(Val::Px(val));
     }
 
+    if let Some(val) = parse_percent(str) {
+        return Some(Val::Percent(val));
+    }
+
     None
 }
 
@@ -272,71 +276,48 @@ mod test {
 
     #[test]
     fn parse_int() {
-        assert_eq!(
-            Val::parse("1", ParseValSettings::default_allow()),
-            Some(Val::Px(4.0))
-        );
-        assert_eq!(
-            Val::parse("12", ParseValSettings::default_allow()),
-            Some(Val::Px(48.0))
-        );
+        let settings = ParseValSettings::default_allow();
+        assert_eq!(Val::parse("1", settings), Some(Val::Px(4.0)));
+        assert_eq!(Val::parse("12", settings), Some(Val::Px(48.0)));
     }
 
     #[test]
     fn parse_str() {
+        let settings = ParseValSettings::default_allow();
+
+        assert_eq!(Val::parse("px", settings), Some(Val::Px(1.0)));
+        assert_eq!(Val::parse("auto", settings), Some(Val::Auto));
+        assert_eq!(Val::parse("full", settings), Some(Val::Percent(100.0)));
+        assert_eq!(Val::parse("1/2", settings), Some(Val::Percent(50.0)));
         assert_eq!(
-            Val::parse("px", ParseValSettings::default_allow()),
-            Some(Val::Px(1.0))
-        );
-        assert_eq!(
-            Val::parse("auto", ParseValSettings::default_allow()),
-            Some(Val::Auto)
-        );
-        assert_eq!(
-            Val::parse("full", ParseValSettings::default_allow()),
-            Some(Val::Percent(100.0))
-        );
-        assert_eq!(
-            Val::parse("1/2", ParseValSettings::default_allow()),
-            Some(Val::Percent(50.0))
-        );
-        assert_eq!(
-            Val::parse("1/3", ParseValSettings::default_allow()),
+            Val::parse("1/3", settings),
             Some(Val::Percent(1. / 3. * 100.))
         );
         assert_eq!(
-            Val::parse("2/3", ParseValSettings::default_allow()),
+            Val::parse("2/3", settings),
             Some(Val::Percent(2. / 3. * 100.))
         );
         assert_eq!(
-            Val::parse("1/4", ParseValSettings::default_allow()),
+            Val::parse("1/4", settings),
             Some(Val::Percent(1. / 4. * 100.))
         );
         assert_eq!(
-            Val::parse("2/4", ParseValSettings::default_allow()),
+            Val::parse("2/4", settings),
             Some(Val::Percent(1. / 2. * 100.))
         );
         assert_eq!(
-            Val::parse("3/4", ParseValSettings::default_allow()),
+            Val::parse("3/4", settings),
             Some(Val::Percent(3. / 4. * 100.))
         );
     }
 
     #[test]
     fn parse_float() {
-        assert_eq!(
-            Val::parse("1.25", ParseValSettings::default_allow()),
-            Some(Val::Px(5.0))
-        );
-        assert_eq!(
-            Val::parse("1.5", ParseValSettings::default_allow()),
-            Some(Val::Px(6.0))
-        );
-        assert_eq!(
-            Val::parse("1.75", ParseValSettings::default_allow()),
-            Some(Val::Px(7.0))
-        );
-        assert_eq!(Val::parse("1.50", ParseValSettings::default_allow()), None);
+        let settings = ParseValSettings::default_allow();
+        assert_eq!(Val::parse("1.25", settings), Some(Val::Px(5.0)));
+        assert_eq!(Val::parse("1.5", settings), Some(Val::Px(6.0)));
+        assert_eq!(Val::parse("1.75", settings), Some(Val::Px(7.0)));
+        assert_eq!(Val::parse("1.50", settings), None);
     }
 
     #[test]
@@ -344,5 +325,6 @@ mod test {
         let settings = ParseValSettings::default_allow();
 
         assert_eq!(Val::parse("[1px]", settings), Some(Val::Px(1.0)));
+        assert_eq!(Val::parse("[50%]", settings), Some(Val::Percent(50.0)));
     }
 }
