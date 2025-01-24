@@ -174,7 +174,7 @@ pub fn parse_percent(str: &str) -> Option<f32> {
     None
 }
 
-fn parse_arbitrary(str: &str, _settings: ParseValSettings) -> Option<Val> {
+fn parse_arbitrary(str: &str, settings: ParseValSettings) -> Option<Val> {
     if str.is_empty() {
         return None;
     }
@@ -183,8 +183,10 @@ fn parse_arbitrary(str: &str, _settings: ParseValSettings) -> Option<Val> {
         return Some(Val::Px(val));
     }
 
-    if let Some(val) = parse_percent(str) {
-        return Some(Val::Percent(val));
+    if settings.allow_fraction {
+        if let Some(val) = parse_percent(str) {
+            return Some(Val::Percent(val));
+        }
     }
 
     None
