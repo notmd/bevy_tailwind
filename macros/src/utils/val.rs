@@ -34,6 +34,11 @@ impl Val {
             return None;
         }
 
+        if str.starts_with("[") && str.ends_with("]") {
+            let str = &str[1..str.len() - 1];
+            return parse_arbitrary(str, settings);
+        }
+
         match str {
             "px" => {
                 if settings.allow_px {
@@ -141,6 +146,17 @@ impl Val {
             Some(self)
         }
     }
+}
+
+fn parse_arbitrary(class: &str, _settings: ParseValSettings) -> Option<Val> {
+    if class.ends_with("px") {
+        let class = &class[..class.len() - 2];
+        let val = class.parse::<u32>().ok()?;
+
+        return Some(Val::Px(val as f32));
+    }
+
+    None
 }
 
 #[derive(Clone, Copy)]
@@ -294,5 +310,12 @@ mod test {
             Some(Val::Px(7.0))
         );
         assert_eq!(Val::parse("1.50", ParseValSettings::default_allow()), None);
+    }
+
+    #[test]
+    fn parse_arbitrary() {
+        let settings = ParseValSettings::default_allow();
+
+        assert_eq!(Val::parse("[1px]", settings), Some(Val::Px(1.0)));
     }
 }
