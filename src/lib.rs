@@ -42,7 +42,7 @@ fn apply_picking_style(
     ) in query.iter_mut()
     {
         if interaction.is_added() {
-            return;
+            continue;
         }
 
         fn apply_style(
