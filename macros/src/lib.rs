@@ -9,7 +9,7 @@ mod z_index;
 
 use node::NodeProp;
 use picking::PickingStyles;
-use proc_macro2::TokenStream;
+use proc_macro2::{Span, TokenStream};
 use quote::{format_ident, quote};
 use syn::{
     parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned, Expr, LitStr, Token,
@@ -76,7 +76,7 @@ macro_rules! parse_classes {
 /// })
 /// ```
 ///
-/// To mutate components, you can pass an expression as the first argument. The expression either returns an owned value or a mutable reference to the component. You can only one component at a time. The macro will return whatever the expression returns.
+/// To mutate component, you can pass an expression as the first argument. The expression either returns an owned value or a mutable reference to the component. You can only one component at a time. The macro will return whatever the expression returns.
 /// ```rust,ignore
 /// use bevy_tailwind::tw;
 ///
@@ -86,7 +86,16 @@ macro_rules! parse_classes {
 ///
 /// let node: &mut Node = tw!(&mut node, "m-10");
 /// ```
+/// To mutate multiple components, you can use the entity syntax. The syntax is same as component mutation but with the leading `@` symbol and the expression must return `EntityMut`.
+/// ```rust,ignore
+/// use bevy_tailwind::tw;
 ///
+/// fn my_system(mut query: Query<EntityMut, With<Node>>) {
+///     for mut entity in query.iter_mut() {
+///       tw!(@ &mut entity, "p-1");
+///    }
+/// }
+
 #[proc_macro]
 pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input: Input = parse_macro_input!(input);
@@ -120,7 +129,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     parse_classes!(classes, ctx);
                 }
             }
-            InputElement::Mutate(expr) => {
+            InputElement::Mutate((expr, _)) => {
                 return syn::Error::new(expr.span(), "Unexpected expression. Component mutation is only allowed in the first argument")
                     .to_compile_error()
                     .into();
@@ -196,11 +205,12 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         ),
     ]
     .into_iter()
-    .filter(|component| !component.0.is_empty());
+    .filter(|component| !component.0.is_empty())
+    .collect::<Vec<_>>();
 
     match ctx.macro_type {
         MacroType::Create => {
-            let components = components.map(|(component, _)| component);
+            let components = components.into_iter().map(|(component, _)| component);
             return quote! {
                 {
                     #condition
@@ -209,15 +219,28 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             }
             .into();
         }
-        MacroType::Mutate(expr) => {
-            // if components.len() > 1 {
-            //     return syn::Error::new(
-            //         Span::call_site(),
-            //         "Mutation syntax does not support mutate multiple components",
-            //     )
-            //     .to_compile_error()
-            //     .into();
-            // }
+        MacroType::Mutate((expr, is_entity)) => {
+            if !is_entity && components.len() > 1 {
+                return syn::Error::new(
+                    Span::call_site(),
+                    "Mutation syntax does not support mutate multiple components",
+                )
+                .to_compile_error()
+                .into();
+            }
+
+            if !is_entity {
+                let components = components.into_iter().map(|(component, _)| component);
+                return quote! {
+                    {
+                        let mut __comp = #expr;
+                        #condition
+                        #(#components)*
+                        __comp
+                    }
+                }
+                .into();
+            }
 
             let components = components.into_iter().map(|(stmts, path)| {
                 quote! {
@@ -253,7 +276,7 @@ impl Parse for Input {
 }
 
 enum InputElement {
-    Mutate(Expr), // only first element
+    Mutate((Expr, bool)), // only first element
     String(LitStr),
     Object(Punctuated<(LitStr, Expr), Token![,]>),
 }
@@ -278,7 +301,11 @@ impl Parse for InputElement {
 
             Ok(InputElement::Object(exprs))
         } else {
-            Ok(InputElement::Mutate(input.parse()?))
+            let is_entity = input.peek(Token![@]);
+            if is_entity {
+                input.parse::<Token![@]>()?;
+            }
+            Ok(InputElement::Mutate((input.parse()?, is_entity)))
         }
     }
 }
@@ -287,7 +314,7 @@ impl Parse for InputElement {
 enum MacroType {
     #[default]
     Create,
-    Mutate(Expr),
+    Mutate((Expr, bool)),
 }
 
 struct UiComponents {

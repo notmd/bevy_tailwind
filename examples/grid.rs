@@ -1,17 +1,20 @@
 //! An example that rewrite the [grid](https://github.com/bevyengine/bevy/blob/main/examples/ui/grid.rs) example from `bevy` with `bevy_tailwind`
 use bevy::{color::palettes::css::*, prelude::*};
-use bevy_tailwind::tw;
+use bevy_tailwind::{tw, TailwindPlugin};
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(WindowPlugin {
-            primary_window: Some(Window {
-                resolution: [800., 600.].into(),
-                title: "Bevy CSS Grid Layout Example".to_string(),
+        .add_plugins((
+            DefaultPlugins.set(WindowPlugin {
+                primary_window: Some(Window {
+                    resolution: [800., 600.].into(),
+                    title: "Bevy CSS Grid Layout Example".to_string(),
+                    ..default()
+                }),
                 ..default()
             }),
-            ..default()
-        }))
+            TailwindPlugin,
+        ))
         .add_systems(Startup, spawn_layout)
         .run();
 }

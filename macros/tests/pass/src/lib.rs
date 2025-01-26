@@ -6,17 +6,17 @@ use bevy_tailwind::tw;
 fn simple(mut query: Query<EntityMut>) {
     let mut entity = query.single_mut();
     tw!("flex");
-    tw!(&mut entity, "flex");
+    tw!(@ &mut entity, "flex");
     tw!("block",{
         "flex": true
     });
-    tw!(&mut entity, "block",{
+    tw!(@ &mut entity, "block",{
         "flex": true
     });
-    tw!(&mut entity, {
+    tw!(@ &mut entity, {
         "flex": true
     });
-    tw!(&mut entity, {
+    tw!(@ &mut entity, {
         "flex": true,
         "block": true
     });
@@ -41,19 +41,25 @@ fn nested_with_priority(mut query: Query<EntityMut>) {
         "pl-7": false,
         "px-8": false
     });
-    tw!(&mut entity, "pt-1");
-    tw!(&mut entity, "pl-1", {
+    tw!(@ &mut entity, "pt-1");
+    tw!(@ &mut entity, "pl-1", {
         "pl-2": true
     });
-    tw!(&mut entity, "p-1", {
+    tw!(@ &mut entity, "p-1", {
         "pl-2": true,
         "px-3 pl-4": true
     });
-    tw!(&mut entity, "p-1", {
+    tw!(@ &mut entity, "p-1", {
         "pl-2": true,
         "px-3 pl-4": true,
         "p-5": true
     });
+}
+
+fn mutate_component() {
+    let node = Node::default();
+
+    tw!(node, "w-full");
 }
 
 fn picking_style(mut query: Query<EntityMut>) {

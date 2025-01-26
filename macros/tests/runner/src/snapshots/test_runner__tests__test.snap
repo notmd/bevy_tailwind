@@ -269,6 +269,14 @@ fn nested_with_priority(mut query: Query<EntityMut>) {
         __entity
     };
 }
+fn mutate_component() {
+    let node = Node::default();
+    {
+        let mut __comp = node;
+        __comp.width = bevy::ui::Val::Percent(100f32);
+        __comp
+    };
+}
 fn picking_style(mut query: Query<EntityMut>) {
     let entity = query.single_mut();
     {

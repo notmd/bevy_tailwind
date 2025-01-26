@@ -14,6 +14,17 @@
 cargo add bevy_tailwind
 ```
 
+And add plugin to your app, skip this step if you dont use `hover:` and `focus:` classes.
+
+```rust
+use bevy_tailwind::{TailwindPlugin};
+
+fn main() {
+    App::new()
+        .add_plugins(TailwindPlugin);
+}
+```
+
 ## Configure autocomplete
 
 - Install [TailwindCSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
