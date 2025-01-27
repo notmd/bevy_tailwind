@@ -37,9 +37,8 @@ fn spawn_layout(mut commands: Commands) {
 
             // Main content grid (auto placed in row 2, column 1)
             builder
-                .spawn((
-                    tw!("h-full aspect-square grid p-6 grid-cols-4 grid-rows-4 gap-3"),
-                    BackgroundColor(Color::srgb(0.25, 0.25, 0.25)),
+                .spawn(
+                    tw!("h-full aspect-square grid p-6 grid-cols-4 grid-rows-4 gap-3", "bg" = Color::srgb(0.25, 0.25, 0.25)
                 ))
                 .with_children(|builder| {
                     // Note there is no need to specify the position for each grid item. Grid items that are

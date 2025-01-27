@@ -1,4 +1,10 @@
-use crate::{picking::insert_picking_style, utils::color::Color, ParseCtx, ParseResult};
+use quote::ToTokens;
+
+use crate::{
+    picking::{insert_picking_style, PickingStyleProp},
+    utils::color::Color,
+    ClassType, ParseCtx, ParseResult,
+};
 
 macro_rules! parse_class {
     ($($expr:expr),*) => {
@@ -24,6 +30,17 @@ impl ParseCtx {
 }
 
 fn parse_background_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    match &ctx.class_type {
+        ClassType::Computed(expr) if class == "bg" => {
+            insert_picking_style!(ctx, BackgroundColor, expr.to_token_stream());
+            ctx.components
+                .background_color
+                .insert("0", expr.to_token_stream(), &ctx.class_type, 0);
+            return Ok(true);
+        }
+        _ => {}
+    }
+
     if !class.starts_with("bg-") {
         return Ok(false);
     }
@@ -36,7 +53,7 @@ fn parse_background_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .background_color
-        .insert("0", color, ctx.class_type, 0);
+        .insert("0", color, &ctx.class_type, 0);
 
     Ok(true)
 }

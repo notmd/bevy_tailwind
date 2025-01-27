@@ -35,8 +35,8 @@ pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
                 })
                 .as_nested_mut();
 
-            grid_placement.insert("set_start", quote! {1i16}, ctx.class_type, 0);
-            grid_placement.insert("set_end", quote! {-1i16}, ctx.class_type, 0);
+            grid_placement.insert("set_start", quote! {1i16}, &ctx.class_type, 0);
+            grid_placement.insert("set_end", quote! {-1i16}, &ctx.class_type, 0);
             return Ok(true);
         } else {
             let span = class.parse::<NonZero<u16>>();

@@ -17,7 +17,7 @@ impl ParseCtx {
             insert_picking_style!(self, OutlineWidth, val);
             self.components
                 .outline
-                .insert("width", val, self.class_type, 0);
+                .insert("width", val, &self.class_type, 0);
             return Ok(true);
         }
 
@@ -28,7 +28,7 @@ impl ParseCtx {
                 insert_picking_style!(self, OutlineOffset, val);
                 self.components
                     .outline
-                    .insert("offset", val, self.class_type, 0);
+                    .insert("offset", val, &self.class_type, 0);
                 return Ok(true);
             }
         }
@@ -37,7 +37,7 @@ impl ParseCtx {
             insert_picking_style!(self, OutlineColor, color);
             self.components
                 .outline
-                .insert("color", color, self.class_type, 0);
+                .insert("color", color, &self.class_type, 0);
             return Ok(true);
         }
 

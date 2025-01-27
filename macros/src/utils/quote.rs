@@ -8,7 +8,7 @@ use crate::{ClassType, ParseCtx};
 use indexmap::IndexMap;
 use proc_macro2::{Span, TokenStream};
 use quote::quote;
-use syn::Ident;
+use syn::{Expr, Ident};
 
 pub struct QuoteCtx<'a> {
     pub condition_idents: &'a [TokenStream],
@@ -40,10 +40,25 @@ where
     }
 }
 
+#[derive(Debug, PartialEq, Eq, Clone, Copy)]
+enum StructValPrioritizedType {
+    Normal,
+    Conditional(usize),
+}
+
+impl From<&ClassType> for StructValPrioritizedType {
+    fn from(class_type: &ClassType) -> Self {
+        match class_type {
+            ClassType::Object(indice) => StructValPrioritizedType::Conditional(*indice),
+            _ => StructValPrioritizedType::Normal,
+        }
+    }
+}
+
 #[derive(Debug, PartialEq, Eq)]
 struct StructValPrioritizedKey {
     priority: u8,
-    class_type: ClassType,
+    _type: StructValPrioritizedType,
 }
 
 pub struct StructValPrioritized {
@@ -62,11 +77,20 @@ impl Ord for StructValPrioritizedKey {
         let order = self.priority.cmp(&other.priority);
 
         match order {
-            Ordering::Equal => match (self.class_type, other.class_type) {
-                (ClassType::String, ClassType::String) => Ordering::Equal,
-                (ClassType::Object(a), ClassType::Object(b)) => a.cmp(&b),
-                (ClassType::Object(_), ClassType::String) => Ordering::Greater,
-                (ClassType::String, ClassType::Object(_)) => Ordering::Less,
+            Ordering::Equal => match (self._type, other._type) {
+                (StructValPrioritizedType::Normal, StructValPrioritizedType::Normal) => {
+                    Ordering::Equal
+                }
+                (
+                    StructValPrioritizedType::Conditional(a),
+                    StructValPrioritizedType::Conditional(b),
+                ) => a.cmp(&b),
+                (StructValPrioritizedType::Conditional(_), StructValPrioritizedType::Normal) => {
+                    Ordering::Greater
+                }
+                (StructValPrioritizedType::Normal, StructValPrioritizedType::Conditional(_)) => {
+                    Ordering::Less
+                }
             },
             _ => order,
         }
@@ -76,7 +100,7 @@ impl Ord for StructValPrioritizedKey {
 impl StructValPrioritized {
     pub fn new(
         value: impl Quote + 'static,
-        class_type: ClassType,
+        class_type: &ClassType,
         priority: u8,
         use_setter: bool,
     ) -> Self {
@@ -85,7 +109,7 @@ impl StructValPrioritized {
             Reverse({
                 StructValPrioritizedKey {
                     priority,
-                    class_type,
+                    _type: class_type.into(),
                 }
             }),
             Box::new(value),
@@ -96,10 +120,10 @@ impl StructValPrioritized {
         }
     }
 
-    pub fn insert(&mut self, value: impl Quote + 'static, class_type: ClassType, priority: u8) {
+    pub fn insert(&mut self, value: impl Quote + 'static, class_type: &ClassType, priority: u8) {
         self.values.insert(
             Reverse(StructValPrioritizedKey {
-                class_type,
+                _type: class_type.into(),
                 priority,
             }),
             Box::new(value),
@@ -122,8 +146,8 @@ impl Quote for StructValPrioritized {
             let entry = entries[idx];
             let value = entry.1.quote(ctx);
 
-            match entry.0 .0.class_type {
-                ClassType::String => {
+            match entry.0 .0._type {
+                StructValPrioritizedType::Normal => {
                     if ctx.is_create {
                         quote! {#value}
                     } else {
@@ -139,7 +163,7 @@ impl Quote for StructValPrioritized {
                         }
                     }
                 }
-                ClassType::Object(indice) => {
+                StructValPrioritizedType::Conditional(indice) => {
                     let cond = &ctx.condition_idents[indice];
                     let evaluated = evaluated_conds.contains(&indice);
                     if !evaluated {
@@ -236,12 +260,15 @@ impl Quote for StructVal {
 impl StructVal {
     pub fn prioritized(
         value: impl Quote + 'static,
-        class_type: ClassType,
+        class_type: &ClassType,
         priority: u8,
         use_setter: bool,
     ) -> Self {
         StructVal::Prioritized(StructValPrioritized::new(
-            value, class_type, priority, use_setter,
+            value,
+            &class_type,
+            priority,
+            use_setter,
         ))
     }
 
@@ -299,7 +326,7 @@ impl<K: AsRef<str> + Eq + Hash> Struct<K> {
         &mut self,
         prop: K,
         value: impl Quote + 'static,
-        class_type: ClassType,
+        class_type: &ClassType,
         priority: u8,
     ) {
         if let Some(prop) = self.props.get_mut(&prop) {

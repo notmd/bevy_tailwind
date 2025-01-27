@@ -7,10 +7,10 @@ mod text;
 mod utils;
 mod z_index;
 
-use node::NodeProp;
-use picking::PickingStyles;
+use node::{insert_node_prop_nested, NodeProp};
+use picking::{insert_picking_style, PickingStyleProp, PickingStyles};
 use proc_macro2::{Span, TokenStream};
-use quote::{format_ident, quote};
+use quote::{format_ident, quote, ToTokens};
 use syn::{
     parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned, Expr, LitStr, Token,
 };
@@ -101,10 +101,10 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input: Input = parse_macro_input!(input);
     let first = &input.elements[0];
 
-    let is_mutate = matches!(first, InputElement::Mutate(_));
+    let is_mutate = matches!(first, InputElement::Mutate(_, _));
 
     let macro_type = match first {
-        InputElement::Mutate(expr) => MacroType::Mutate(expr.clone()),
+        InputElement::Mutate(expr, is_entity) => MacroType::Mutate(expr.clone(), *is_entity),
         _ => MacroType::Create,
     };
 
@@ -129,7 +129,11 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     parse_classes!(classes, ctx);
                 }
             }
-            InputElement::Mutate((expr, _)) => {
+            InputElement::Computed(class, expr) => {
+                ctx.class_type = ClassType::Computed(expr);
+                parse_classes!(class, ctx);
+            }
+            InputElement::Mutate(expr, _) => {
                 return syn::Error::new(expr.span(), "Unexpected expression. Component mutation is only allowed in the first argument")
                     .to_compile_error()
                     .into();
@@ -219,7 +223,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             }
             .into();
         }
-        MacroType::Mutate((expr, is_entity)) => {
+        MacroType::Mutate(expr, is_entity) => {
             if !is_entity && components.len() > 1 {
                 return syn::Error::new(
                     Span::call_site(),
@@ -276,15 +280,22 @@ impl Parse for Input {
 }
 
 enum InputElement {
-    Mutate((Expr, bool)), // only first element
+    Mutate(Expr, bool), // only first element
     String(LitStr),
     Object(Punctuated<(LitStr, Expr), Token![,]>),
+    Computed(LitStr, Expr),
 }
 
 impl Parse for InputElement {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         if input.peek(LitStr) {
             let lit = input.parse()?;
+            if input.peek(Token![=]) {
+                input.parse::<Token![=]>()?;
+                let expr: Expr = input.parse()?;
+
+                return Ok(InputElement::Computed(lit, expr));
+            }
             Ok(InputElement::String(lit))
         } else if input.peek(syn::token::Brace) {
             let content;
@@ -305,7 +316,7 @@ impl Parse for InputElement {
             if is_entity {
                 input.parse::<Token![@]>()?;
             }
-            Ok(InputElement::Mutate((input.parse()?, is_entity)))
+            Ok(InputElement::Mutate(input.parse()?, is_entity))
         }
     }
 }
@@ -314,7 +325,7 @@ impl Parse for InputElement {
 enum MacroType {
     #[default]
     Create,
-    Mutate((Expr, bool)),
+    Mutate(Expr, bool),
 }
 
 struct UiComponents {
@@ -366,11 +377,26 @@ impl ParseCtx {
     }
 }
 
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Default, Debug, Clone, PartialEq, Eq, Hash)]
 enum ClassType {
     #[default]
     String,
     Object(usize),
+    Computed(Expr),
+}
+
+impl ClassType {
+    fn is_string(&self) -> bool {
+        matches!(self, ClassType::String)
+    }
+
+    fn is_object(&self) -> bool {
+        matches!(self, ClassType::Object(_))
+    }
+
+    fn is_computed(&self) -> bool {
+        matches!(self, ClassType::Computed(_))
+    }
 }
 
 enum ParseClassError {

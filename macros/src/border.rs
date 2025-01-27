@@ -17,7 +17,7 @@ impl ParseCtx {
                 for prop in $props {
                     $ctx.components
                         .border_radius
-                        .insert(prop, $value, $ctx.class_type, $priority);
+                        .insert(prop, $value, &$ctx.class_type, $priority);
                 }
 
                 return Ok(true);
@@ -106,7 +106,7 @@ impl ParseCtx {
         insert_picking_style!(self, BorderColor, color);
         self.components
             .border_color
-            .insert("0", color, self.class_type, 0);
+            .insert("0", color, &self.class_type, 0);
 
         Ok(true)
     }
