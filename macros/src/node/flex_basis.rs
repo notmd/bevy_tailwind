@@ -1,7 +1,7 @@
 use crate::{
     picking::insert_picking_style,
     utils::{
-        insert_computed_style,
+        deny_computed_style, insert_computed_style,
         val::{ParseValSettings, Val},
     },
     ParseClassError, ParseCtx, ParseResult,
@@ -21,6 +21,7 @@ pub fn parse_flex_basis(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     let val =
         Val::parse(class, ParseValSettings::default_allow()).ok_or(ParseClassError::Unknown)?;
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, FlexBasis, val);
     ctx.insert_node_prop_priority(NodeProp::FlexBasis, val, 0);
 

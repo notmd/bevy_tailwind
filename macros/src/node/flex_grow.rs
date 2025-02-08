@@ -1,4 +1,8 @@
-use crate::{picking::insert_picking_style, utils::insert_computed_style, ParseCtx, ParseResult};
+use crate::{
+    picking::insert_picking_style,
+    utils::{deny_computed_style, insert_computed_style},
+    ParseCtx, ParseResult,
+};
 use quote::quote;
 
 use super::NodeProp;
@@ -14,6 +18,7 @@ pub fn parse_flex_grow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, FlexGrow, quote! { #value });
     ctx.insert_node_prop_priority(NodeProp::FlexGrow, quote! { #value }, 0);
     Ok(true)

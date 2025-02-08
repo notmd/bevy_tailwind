@@ -1,6 +1,6 @@
 use crate::{
     picking::insert_picking_style,
-    utils::{color::Color, insert_computed_style},
+    utils::{color::Color, deny_computed_style, insert_computed_style},
     ParseCtx, ParseResult,
 };
 
@@ -40,6 +40,7 @@ fn parse_background_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(false);
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, BackgroundColor, color);
 
     ctx.components

@@ -2,7 +2,7 @@ use quote::quote;
 
 use crate::{
     picking::insert_picking_style,
-    utils::{insert_computed_style, parse_neg},
+    utils::{deny_computed_style, insert_computed_style, parse_neg},
     ParseClassError, ParseCtx, ParseResult,
 };
 
@@ -30,6 +30,7 @@ impl ParseCtx {
             return Err(ParseClassError::Unknown);
         }
 
+        deny_computed_style!(self);
         let z_index = quote! {#z_index};
         insert_picking_style!(self, ZIndex, z_index);
         self.components

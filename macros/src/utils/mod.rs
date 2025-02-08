@@ -27,3 +27,16 @@ macro_rules! insert_computed_style {
 }
 
 pub(crate) use insert_computed_style;
+
+macro_rules! deny_computed_style {
+    ($ctx:ident) => {
+        match $ctx.class_type {
+            crate::ClassType::Computed(_) => {
+                return Err(crate::ParseClassError::Unknown);
+            }
+            _ => {}
+        }
+    };
+}
+
+pub(crate) use deny_computed_style;
