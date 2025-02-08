@@ -109,12 +109,16 @@ fn test_all() {
 
     // top / right / bottom / left
     tw!("top-0 hover:top-1 focus:top-2");
+    tw!("-top-1");
     tw!("top": Val::Px(10.));
     tw!("right-0 hover:right-1 focus:right-2");
+    tw!("-right-1");
     tw!("right": Val::Px(10.));
     tw!("bottom-0 hover:bottom-1 focus:bottom-2");
+    tw!("-bottom-1");
     tw!("bottom": Val::Px(10.));
     tw!("left-0 hover:left-1 focus:left-2");
+    tw!("-left-1");
     tw!("left": Val::Px(10.));
     // tw!("inset-x-0");
     // tw!("inset-y-0");
@@ -122,6 +126,7 @@ fn test_all() {
     // z-index
     tw!("z-10 hover:z-20 focus:z-30");
     tw!("-z-10");
+    tw!("z": 100);
 
     // flex basis
     tw!("basis-0 hover:basis-1 focus:basis-2");

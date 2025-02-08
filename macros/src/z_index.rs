@@ -1,11 +1,17 @@
 use quote::quote;
 
 use crate::{
-    picking::insert_picking_style, utils::parse_neg, ParseClassError, ParseCtx, ParseResult,
+    picking::insert_picking_style,
+    utils::{insert_computed_style, parse_neg},
+    ParseClassError, ParseCtx, ParseResult,
 };
 
 impl ParseCtx {
     pub fn parse_z_index(&mut self, class: &str) -> ParseResult {
+        if class == "z" {
+            insert_computed_style!(self, z_index, ZIndex, "0", 1);
+        }
+
         let (neg, class) = parse_neg(class);
         let Some(z_index) = class.strip_prefix("z-") else {
             return Ok(false);

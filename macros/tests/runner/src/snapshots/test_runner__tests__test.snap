@@ -603,6 +603,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            top: bevy::ui::Val::Px(-4f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             top: Val::Px(10.),
             ..Default::default()
         })
@@ -629,6 +635,12 @@ fn test_all() {
                 ..Default::default()
             },
         )
+    };
+    {
+        (bevy::ui::Node {
+            right: bevy::ui::Val::Px(-4f32),
+            ..Default::default()
+        })
     };
     {
         (bevy::ui::Node {
@@ -661,6 +673,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            bottom: bevy::ui::Val::Px(-4f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             bottom: Val::Px(10.),
             ..Default::default()
         })
@@ -687,6 +705,12 @@ fn test_all() {
                 ..Default::default()
             },
         )
+    };
+    {
+        (bevy::ui::Node {
+            left: bevy::ui::Val::Px(-4f32),
+            ..Default::default()
+        })
     };
     {
         (bevy::ui::Node {
@@ -720,6 +744,12 @@ fn test_all() {
     {
         (bevy::ui::ZIndex {
             0: -10i32,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::ZIndex {
+            0: 100,
             ..Default::default()
         })
     };
