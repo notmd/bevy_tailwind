@@ -872,6 +872,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            flex_wrap: FlexWrap::Wrap,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             flex_grow: 1f32,
             flex_shrink: 1f32,
             flex_basis: bevy::ui::Val::Percent(0f32),

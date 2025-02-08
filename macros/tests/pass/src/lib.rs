@@ -144,6 +144,7 @@ fn test_all() {
     tw!("flex-wrap hover:flex-wrap-reverse focus:flex-nowrap");
     tw!("flex-wrap-reverse");
     tw!("flex-nowrap");
+    tw!("flex-wrap": FlexWrap::Wrap);
 
     // flex
     tw!("flex-1");
