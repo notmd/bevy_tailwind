@@ -242,18 +242,21 @@ fn test_all() {
     tw!("justify-around");
     tw!("justify-evenly");
     tw!("justify-stretch");
+    tw!("justity": JustifyContent::Center);
 
     // justify items
     tw!("justify-items-start hover:justify-items-end focus:justify-items-center");
     tw!("justify-items-end");
     tw!("justify-items-center");
     tw!("justify-items-stretch");
+    tw!("justify-items": JustifyItems::Center);
 
     // justify self
     tw!("justify-self-auto hover:justify-self-start focus:justify-self-end");
     tw!("justify-self-start");
     tw!("justify-self-end");
     tw!("justify-self-center");
+    tw!("justify-self": JustifySelf::Center);
 
     // align content
     tw!("content-normal hover:content-center focus:content-start");

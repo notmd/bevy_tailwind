@@ -1531,6 +1531,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            justify_content: JustifyContent::Center,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 justify_items: bevy::ui::JustifyItems::Start,
@@ -1572,6 +1578,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            justify_items: JustifyItems::Center,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 justify_self: bevy::ui::JustifySelf::Auto,
@@ -1609,6 +1621,12 @@ fn test_all() {
     {
         (bevy::ui::Node {
             justify_self: bevy::ui::JustifySelf::Center,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            justify_self: JustifySelf::Center,
             ..Default::default()
         })
     };
