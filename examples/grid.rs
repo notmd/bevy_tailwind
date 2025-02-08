@@ -94,10 +94,10 @@ fn item_rect(builder: &mut ChildBuilder, color: Srgba) {
     builder
         .spawn(tw!("grid p-0.75 bg-black"))
         .with_children(|builder| {
-            builder.spawn((Node::default(), BackgroundColor(color.into())));
+            builder.spawn((Node::default(), tw!("bg": color.into())));
         });
 }
 
 fn spawn_nested_text_bundle(builder: &mut ChildBuilder, text: &str) {
-    builder.spawn((Text::new(text), tw!("text-black")));
+    builder.spawn((Text::new(text), tw!("text-black"), TextFont::default()));
 }
