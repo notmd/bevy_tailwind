@@ -1,4 +1,4 @@
-use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, ClassType, ParseCtx, ParseResult};
 use quote::quote;
 
 use super::NodeProp;

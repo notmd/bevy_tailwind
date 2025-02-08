@@ -830,6 +830,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            flex_direction: FlexDirection::Row,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 flex_wrap: bevy::ui::FlexWrap::Wrap,

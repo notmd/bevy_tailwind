@@ -1,10 +1,14 @@
 use quote::quote;
 
-use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, utils::insert_computed_style, ParseCtx, ParseResult};
 
 use super::NodeProp;
 
 pub fn parse_flex_direction(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "flex-dir" {
+        insert_computed_style!(ctx, node, FlexDirection, NodeProp::FlexDirection, 0);
+    }
+
     let flex_direction = match class {
         "flex-row" => quote! { bevy::ui::FlexDirection::Row },
         "flex-row-reverse" => quote! { bevy::ui::FlexDirection::RowReverse },

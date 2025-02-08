@@ -138,6 +138,7 @@ fn test_all() {
     tw!("flex-row-reverse");
     tw!("flex-col");
     tw!("flex-col-reverse");
+    tw!("flex-dir": FlexDirection::Row);
 
     // flex wrap
     tw!("flex-wrap hover:flex-wrap-reverse focus:flex-nowrap");
