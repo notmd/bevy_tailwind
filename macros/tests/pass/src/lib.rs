@@ -131,6 +131,7 @@ fn test_all() {
     // flex basis
     tw!("basis-0 hover:basis-1 focus:basis-2");
     tw!("basis-1/2");
+    tw!("basis": Val::Px(10.));
 
     // flex direction
     tw!("flex-row hover:flex-col focus:flex-col");

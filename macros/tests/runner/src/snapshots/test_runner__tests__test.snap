@@ -783,6 +783,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            flex_basis: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 flex_direction: bevy::ui::FlexDirection::Row,
