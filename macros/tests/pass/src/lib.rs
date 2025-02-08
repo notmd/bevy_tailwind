@@ -109,9 +109,13 @@ fn test_all() {
 
     // top / right / bottom / left
     tw!("top-0 hover:top-1 focus:top-2");
+    tw!("top": Val::Px(10.));
     tw!("right-0 hover:right-1 focus:right-2");
+    tw!("right": Val::Px(10.));
     tw!("bottom-0 hover:bottom-1 focus:bottom-2");
+    tw!("bottom": Val::Px(10.));
     tw!("left-0 hover:left-1 focus:left-2");
+    tw!("left": Val::Px(10.));
     // tw!("inset-x-0");
     // tw!("inset-y-0");
 

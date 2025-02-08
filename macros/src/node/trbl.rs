@@ -1,12 +1,31 @@
 use crate::{
     picking::insert_picking_style,
-    utils::val::{ParseValSettings, Val},
+    utils::{
+        insert_computed_style,
+        val::{ParseValSettings, Val},
+    },
     ParseCtx, ParseResult,
 };
 
 use super::NodeProp;
 
 pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    match class {
+        "top" => {
+            insert_computed_style!(ctx, node, Top, NodeProp::Top, 1);
+        }
+        "right" => {
+            insert_computed_style!(ctx, node, Right, NodeProp::Right, 1);
+        }
+        "bottom" => {
+            insert_computed_style!(ctx, node, Bottom, NodeProp::Bottom, 1);
+        }
+        "left" => {
+            insert_computed_style!(ctx, node, Left, NodeProp::Left, 1);
+        }
+        _ => {}
+    }
+
     let Some((prefix, val)) = class.split_once("-") else {
         return Ok(false);
     };

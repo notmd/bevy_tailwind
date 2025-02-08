@@ -13,7 +13,7 @@ macro_rules! insert_computed_style {
         match $ctx.class_type.clone() {
             crate::ClassType::Computed(expr) => {
                 crate::picking::insert_picking_style!($ctx, $picking_prop, expr);
-                $ctx.components.background_color.insert(
+                $ctx.components.$component.insert(
                     $component_prop,
                     expr,
                     &$ctx.class_type,

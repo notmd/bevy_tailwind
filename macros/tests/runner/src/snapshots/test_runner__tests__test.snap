@@ -602,6 +602,12 @@ fn test_all() {
         )
     };
     {
+        (bevy::ui::Node {
+            top: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 right: bevy::ui::Val::Px(0f32),
@@ -623,6 +629,12 @@ fn test_all() {
                 ..Default::default()
             },
         )
+    };
+    {
+        (bevy::ui::Node {
+            right: Val::Px(10.),
+            ..Default::default()
+        })
     };
     {
         (
@@ -648,6 +660,12 @@ fn test_all() {
         )
     };
     {
+        (bevy::ui::Node {
+            bottom: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 left: bevy::ui::Val::Px(0f32),
@@ -669,6 +687,12 @@ fn test_all() {
                 ..Default::default()
             },
         )
+    };
+    {
+        (bevy::ui::Node {
+            left: Val::Px(10.),
+            ..Default::default()
+        })
     };
     {
         (
