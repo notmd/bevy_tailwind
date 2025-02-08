@@ -24,6 +24,25 @@ macro_rules! insert_computed_style {
             _ => {}
         }
     };
+
+    // multiple
+    ($ctx:ident, $component:ident, [$(($picking_prop:ident, $component_prop:expr, $priority:literal)),+]) => {
+        match $ctx.class_type.clone() {
+            crate::ClassType::Computed(expr) => {
+                $(
+                    crate::picking::insert_picking_style!($ctx, $picking_prop, expr);
+                    $ctx.components.$component.insert(
+                        $component_prop,
+                        expr.clone(),
+                        &$ctx.class_type,
+                        $priority,
+                    );
+                )+
+                return Ok(true);
+            }
+            _ => {}
+        }
+    };
 }
 
 pub(crate) use insert_computed_style;

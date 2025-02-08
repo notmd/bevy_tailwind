@@ -1363,6 +1363,13 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            row_gap: Val::Px(10.),
+            column_gap: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 column_gap: bevy::ui::Val::Px(0f32),
@@ -1386,6 +1393,12 @@ fn test_all() {
         )
     };
     {
+        (bevy::ui::Node {
+            column_gap: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 row_gap: bevy::ui::Val::Px(0f32),
@@ -1407,6 +1420,12 @@ fn test_all() {
                 ..Default::default()
             },
         )
+    };
+    {
+        (bevy::ui::Node {
+            row_gap: Val::Px(10.),
+            ..Default::default()
+        })
     };
     {
         (bevy::ui::Node {

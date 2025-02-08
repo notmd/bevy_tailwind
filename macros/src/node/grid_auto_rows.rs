@@ -1,4 +1,8 @@
-use crate::{picking::insert_picking_style, utils::insert_computed_style, ParseCtx, ParseResult};
+use crate::{
+    picking::insert_picking_style,
+    utils::{deny_computed_style, insert_computed_style},
+    ParseCtx, ParseResult,
+};
 
 use super::NodeProp;
 use quote::quote;
@@ -16,6 +20,7 @@ pub fn parse_grid_auto_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, GridAutoRows, grid_auto_rows);
     ctx.insert_node_prop(NodeProp::GridAutoRows, grid_auto_rows);
     Ok(true)

@@ -221,8 +221,11 @@ fn test_all() {
 
     // gap
     tw!("gap-0");
+    tw!("gap": Val::Px(10.));
     tw!("gap-x-0 hover:gap-x-1 focus:gap-x-2");
+    tw!("gap-x": Val::Px(10.));
     tw!("gap-y-0 hover:gap-y-1 focus:gap-y-2");
+    tw!("gap-y": Val::Px(10.));
     tw!("gap-px");
     tw!("gap-x-px");
     tw!("gap-y-px");
