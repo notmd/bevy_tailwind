@@ -11,7 +11,15 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(false);
     };
 
-    let Some(val) = Val::parse(val, ParseValSettings::default_allow()) else {
+    let Some(val) = Val::parse(
+        val,
+        ParseValSettings::default_disallow()
+            .allow_px(true)
+            .allow_fraction(true)
+            .allow_auto(true)
+            .allow_px(true)
+            .allow_full(true),
+    ) else {
         return Ok(false);
     };
 
