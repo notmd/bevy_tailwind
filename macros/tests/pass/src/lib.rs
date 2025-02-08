@@ -203,6 +203,7 @@ fn test_all() {
     tw!("grid-flow-col");
     tw!("grid-flow-row-dense");
     tw!("grid-flow-col-dense");
+    tw!("grid-flow": GridAutoFlow::Row);
 
     // grid auto columns
     tw!("auto-cols-auto hover:auto-cols-min focus:auto-cols-max");

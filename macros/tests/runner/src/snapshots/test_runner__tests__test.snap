@@ -1256,6 +1256,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            grid_auto_flow: GridAutoFlow::Row,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 grid_auto_columns: bevy::ui::GridTrack::auto(),
