@@ -157,6 +157,8 @@ fn test_all() {
     tw!("flex-grow");
     tw!("grow-0");
     tw!("flex-grow-0");
+    tw!("flex-grow": 1.0);
+    tw!("grow": 1.0);
 
     // flex shrink
     tw!("shrink hover:flex-shrink-0 focus:flex-shrink");
