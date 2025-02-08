@@ -28,7 +28,7 @@ impl ParseCtx {
         insert_picking_style!(self, ZIndex, z_index);
         self.components
             .z_index
-            .insert("0", z_index, self.class_type, 0);
+            .insert("0", z_index, &self.class_type, 0);
 
         return Ok(true);
     }

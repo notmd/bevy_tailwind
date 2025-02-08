@@ -76,22 +76,20 @@ impl ParseCtx {
         if self.hover {
             let val = val.to_token_stream();
             let val = quote! {Some(#val)};
-            self.components
-                .picking_styles
-                .hover
-                .props
-                .insert(prop, StructVal::prioritized(val, self.class_type, 0, false));
+            self.components.picking_styles.hover.props.insert(
+                prop,
+                StructVal::prioritized(val, &self.class_type, 0, false),
+            );
             return;
         }
 
         if self.focus {
             let val = val.to_token_stream();
             let val = quote! {Some(#val)};
-            self.components
-                .picking_styles
-                .focus
-                .props
-                .insert(prop, StructVal::prioritized(val, self.class_type, 0, false));
+            self.components.picking_styles.focus.props.insert(
+                prop,
+                StructVal::prioritized(val, &self.class_type, 0, false),
+            );
         }
     }
 }

@@ -101,10 +101,10 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input: Input = parse_macro_input!(input);
     let first = &input.elements[0];
 
-    let is_mutate = matches!(first, InputElement::Mutate(_));
+    let is_mutate = matches!(first, InputElement::Mutate(_, _));
 
     let macro_type = match first {
-        InputElement::Mutate(expr) => MacroType::Mutate(expr.clone()),
+        InputElement::Mutate(expr, is_entity) => MacroType::Mutate(expr.clone(), *is_entity),
         _ => MacroType::Create,
     };
 
@@ -129,7 +129,11 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     parse_classes!(classes, ctx);
                 }
             }
-            InputElement::Mutate((expr, _)) => {
+            InputElement::Computed(class, expr) => {
+                ctx.class_type = ClassType::Computed(expr);
+                parse_classes!(class, ctx);
+            }
+            InputElement::Mutate(expr, _) => {
                 return syn::Error::new(expr.span(), "Unexpected expression. Component mutation is only allowed in the first argument")
                     .to_compile_error()
                     .into();
@@ -219,7 +223,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             }
             .into();
         }
-        MacroType::Mutate((expr, is_entity)) => {
+        MacroType::Mutate(expr, is_entity) => {
             if !is_entity && components.len() > 1 {
                 return syn::Error::new(
                     Span::call_site(),
@@ -276,15 +280,22 @@ impl Parse for Input {
 }
 
 enum InputElement {
-    Mutate((Expr, bool)), // only first element
+    Mutate(Expr, bool), // only first element
     String(LitStr),
     Object(Punctuated<(LitStr, Expr), Token![,]>),
+    Computed(LitStr, Expr),
 }
 
 impl Parse for InputElement {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         if input.peek(LitStr) {
             let lit = input.parse()?;
+            if input.parse::<Token![:]>().is_ok() {
+                let expr: Expr = input.parse()?;
+
+                return Ok(InputElement::Computed(lit, expr));
+            }
+
             Ok(InputElement::String(lit))
         } else if input.peek(syn::token::Brace) {
             let content;
@@ -301,11 +312,8 @@ impl Parse for InputElement {
 
             Ok(InputElement::Object(exprs))
         } else {
-            let is_entity = input.peek(Token![@]);
-            if is_entity {
-                input.parse::<Token![@]>()?;
-            }
-            Ok(InputElement::Mutate((input.parse()?, is_entity)))
+            let is_entity = input.parse::<Token![@]>().is_ok();
+            Ok(InputElement::Mutate(input.parse()?, is_entity))
         }
     }
 }
@@ -314,7 +322,7 @@ impl Parse for InputElement {
 enum MacroType {
     #[default]
     Create,
-    Mutate((Expr, bool)),
+    Mutate(Expr, bool),
 }
 
 struct UiComponents {
@@ -366,11 +374,12 @@ impl ParseCtx {
     }
 }
 
-#[derive(Default, Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Default, Clone)]
 enum ClassType {
     #[default]
     String,
     Object(usize),
+    Computed(Expr),
 }
 
 enum ParseClassError {

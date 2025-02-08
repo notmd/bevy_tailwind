@@ -107,7 +107,7 @@ impl ParseCtx {
     ) {
         self.components
             .node
-            .insert(prop, value, self.class_type, priority);
+            .insert(prop, value, &self.class_type, priority);
     }
 }
 
@@ -217,9 +217,9 @@ macro_rules! insert_node_prop_nested {
         for prop in $props {
             if let Some(prop) = s.props.get_mut(prop) {
                 prop.as_priotized_mut()
-                    .insert($value, $ctx.class_type, $priority);
+                    .insert($value, &$ctx.class_type, $priority);
             } else {
-                s.insert(prop, $value, $ctx.class_type, $priority);
+                s.insert(prop, $value, &$ctx.class_type, $priority);
             }
         }
 

@@ -71,7 +71,7 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .text_font
-        .insert("font_size", quote! {#font_size}, ctx.class_type, 0);
+        .insert("font_size", quote! {#font_size}, &ctx.class_type, 0);
 
     Ok(true)
 }
@@ -86,7 +86,7 @@ fn parse_font_smoothing(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         quote! {
             bevy::text::FontSmoothing::AntiAliased
         },
-        ctx.class_type,
+        &ctx.class_type,
         0,
     );
 
@@ -114,7 +114,7 @@ fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .text_layout
-        .insert("justify", justify, ctx.class_type, 0);
+        .insert("justify", justify, &ctx.class_type, 0);
 
     Ok(true)
 }
@@ -132,7 +132,7 @@ fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .text_layout
-        .insert("linebreak", line_break, ctx.class_type, 0);
+        .insert("linebreak", line_break, &ctx.class_type, 0);
 
     Ok(true)
 }
@@ -150,7 +150,7 @@ fn parse_text_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     ctx.components
         .text_color
-        .insert("0", color, ctx.class_type, 0);
+        .insert("0", color, &ctx.class_type, 0);
 
     Ok(true)
 }
