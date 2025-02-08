@@ -1067,6 +1067,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            grid_template_columns: GridTrack::fr(1.0),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_span(1u16),
             ..Default::default()
         })
@@ -1157,6 +1163,12 @@ fn test_all() {
     {
         (bevy::ui::Node {
             grid_template_rows: Default::default(),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            grid_template_rows: GridTrack::fr(1.0),
             ..Default::default()
         })
     };

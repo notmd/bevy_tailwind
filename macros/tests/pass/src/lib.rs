@@ -173,6 +173,7 @@ fn test_all() {
     // grid template columns
     tw!("grid-cols-1 hover:grid-cols-2 focus:grid-cols-3");
     tw!("grid-cols-none");
+    tw!("grid-cols": GridTrack::fr(1.0));
 
     // grid template columns start/end
     tw!("col-auto");
@@ -186,6 +187,7 @@ fn test_all() {
     // grid template rows
     tw!("grid-rows-1 hover:grid-rows-2 focus:grid-rows-3");
     tw!("grid-rows-none");
+    tw!("grid-rows": GridTrack::fr(1.0));
 
     // grid template rows start/end
     tw!("row-auto");

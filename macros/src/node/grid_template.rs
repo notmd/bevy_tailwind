@@ -4,7 +4,7 @@ use quote::quote;
 use crate::{
     picking::insert_picking_style,
     utils::{
-        deny_computed_style,
+        deny_computed_style, insert_computed_style,
         quote::ToTokenStream,
         val::{parse_percent, parse_px},
     },
@@ -14,6 +14,16 @@ use crate::{
 use super::NodeProp;
 
 pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "grid-cols" {
+        insert_computed_style!(
+            ctx,
+            node,
+            GridTemplateColumns,
+            NodeProp::GridTemplateColumns,
+            0
+        );
+    }
+
     if !class.starts_with("grid-cols-") {
         return Ok(false);
     }
@@ -62,6 +72,10 @@ pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResu
 }
 
 pub fn parse_grid_template_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "grid-rows" {
+        insert_computed_style!(ctx, node, GridTemplateRows, NodeProp::GridTemplateRows, 0);
+    }
+
     if !class.starts_with("grid-rows-") {
         return Ok(false);
     }
