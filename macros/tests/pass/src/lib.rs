@@ -267,6 +267,7 @@ fn test_all() {
     tw!("content-around");
     tw!("content-evenly");
     tw!("content-stretch");
+    tw!("content": AlignContent::Center);
 
     // align items
     tw!("items-start hover:items-end focus:items-center");
@@ -274,6 +275,7 @@ fn test_all() {
     tw!("items-center");
     tw!("items-baseline");
     tw!("items-stretch");
+    tw!("items": AlignItems::Center);
 
     // align self
     tw!("self-auto hover:self-start focus:self-end");
@@ -282,6 +284,7 @@ fn test_all() {
     tw!("self-center");
     tw!("self-stretch");
     tw!("self-baseline");
+    tw!("self": AlignSelf::Center);
 
     // place content
     tw!("place-content-center");

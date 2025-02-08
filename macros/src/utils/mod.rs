@@ -10,12 +10,12 @@ pub fn parse_neg(str: &str) -> (bool, &str) {
 
 macro_rules! insert_computed_style {
     ($ctx:ident, $component:ident, $picking_prop:ident, $component_prop:expr, $priority:literal) => {
-        match $ctx.class_type.clone() {
+        match &$ctx.class_type {
             crate::ClassType::Computed(expr) => {
-                crate::picking::insert_picking_style!($ctx, $picking_prop, expr);
+                crate::picking::insert_picking_style!($ctx, $picking_prop, expr.clone());
                 $ctx.components.$component.insert(
                     $component_prop,
-                    expr,
+                    expr.clone(),
                     &$ctx.class_type,
                     $priority,
                 );
@@ -30,13 +30,17 @@ macro_rules! insert_computed_style {
         match $ctx.class_type.clone() {
             crate::ClassType::Computed(expr) => {
                 $(
-                    crate::picking::insert_picking_style!($ctx, $picking_prop, expr);
-                    $ctx.components.$component.insert(
-                        $component_prop,
-                        expr.clone(),
-                        &$ctx.class_type,
-                        $priority,
-                    );
+                    // can't use insert_picking_style! here because it's do early return
+                    if $ctx.hover || $ctx.focus {
+                        $ctx.insert_picking_style(crate::picking::PickingStyleProp::$picking_prop, expr.clone());
+                    } else {
+                        $ctx.components.$component.insert(
+                            $component_prop,
+                            expr.clone(),
+                            &$ctx.class_type,
+                            $priority,
+                        );
+                    }
                 )+
                 return Ok(true);
             }
@@ -49,11 +53,8 @@ pub(crate) use insert_computed_style;
 
 macro_rules! deny_computed_style {
     ($ctx:ident) => {
-        match $ctx.class_type {
-            crate::ClassType::Computed(_) => {
-                return Err(crate::ParseClassError::Unknown);
-            }
-            _ => {}
+        if matches!($ctx.class_type, crate::ClassType::Computed(_)) {
+            return Err(crate::ParseClassError::Unknown);
         }
     };
 }
