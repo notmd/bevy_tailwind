@@ -2,7 +2,10 @@ use std::num::NonZero;
 
 use crate::{
     node::insert_grid_placement_props,
-    utils::quote::{Struct, StructVal},
+    utils::{
+        deny_computed_style,
+        quote::{Struct, StructVal},
+    },
     ParseClassError, ParseCtx, ParseResult,
 };
 
@@ -10,6 +13,7 @@ use super::NodeProp;
 use quote::quote;
 
 pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    deny_computed_style!(ctx); // TODO: find a way to support computed style
     if !class.starts_with("col-") {
         return Ok(false);
     }
