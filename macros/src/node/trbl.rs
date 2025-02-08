@@ -1,7 +1,7 @@
 use crate::{
     picking::insert_picking_style,
     utils::{
-        insert_computed_style,
+        insert_computed_style, parse_neg,
         val::{ParseValSettings, Val},
     },
     ParseCtx, ParseResult,
@@ -26,11 +26,13 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => {}
     }
 
+    let (neg, class) = parse_neg(class);
+
     let Some((prefix, val)) = class.split_once("-") else {
         return Ok(false);
     };
 
-    let Some(val) = Val::parse(
+    let val = Val::parse(
         val,
         ParseValSettings::default_disallow()
             .allow_px(true)
@@ -38,7 +40,10 @@ pub fn parse_trbl(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             .allow_auto(true)
             .allow_px(true)
             .allow_full(true),
-    ) else {
+    )
+    .and_then(|v| v.eval_neg(neg));
+
+    let Some(val) = val else {
         return Ok(false);
     };
 
