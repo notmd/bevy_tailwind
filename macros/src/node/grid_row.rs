@@ -13,8 +13,8 @@ use crate::{
 
 use super::NodeProp;
 
+// TODO: find a way to support computed style
 pub fn parse_grid_row(ctx: &mut ParseCtx, class: &str) -> ParseResult {
-    deny_computed_style!(ctx); // TODO: find a way to support computed style
     if !class.starts_with("row-") {
         return Ok(false);
     }
@@ -22,6 +22,7 @@ pub fn parse_grid_row(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     let class = class["row-".len()..].to_string();
 
     if class == "auto" {
+        deny_computed_style!(ctx);
         insert_grid_placement_props!(ctx, NodeProp::GridRow, quote! {1u16}, 0, ["set_span"]);
     }
 
@@ -40,6 +41,7 @@ pub fn parse_grid_row(ctx: &mut ParseCtx, class: &str) -> ParseResult {
                 })
                 .as_nested_mut();
 
+            deny_computed_style!(ctx);
             grid_placement.insert("set_start", quote! {1i16}, &ctx.class_type, 0);
             grid_placement.insert("set_end", quote! {-1i16}, &ctx.class_type, 0);
 
@@ -50,6 +52,7 @@ pub fn parse_grid_row(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             match span {
                 Ok(span) => {
                     let span = span.get();
+                    deny_computed_style!(ctx);
                     insert_grid_placement_props!(
                         ctx,
                         NodeProp::GridRow,
@@ -76,6 +79,7 @@ pub fn parse_grid_row(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             start.get()
         };
 
+        deny_computed_style!(ctx);
         insert_grid_placement_props!(ctx, NodeProp::GridRow, quote! {#start}, 1, ["set_start"]);
     }
 
@@ -90,6 +94,7 @@ pub fn parse_grid_row(ctx: &mut ParseCtx, class: &str) -> ParseResult {
             end.get()
         };
 
+        deny_computed_style!(ctx);
         insert_grid_placement_props!(ctx, NodeProp::GridRow, quote! {#end}, 1, ["set_end"]);
     }
 

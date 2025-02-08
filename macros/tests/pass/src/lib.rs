@@ -210,12 +210,14 @@ fn test_all() {
     tw!("auto-cols-min");
     tw!("auto-cols-max");
     tw!("auto-cols-fr");
+    tw!("auto-cols": GridTrack::fr(1.0));
 
     // grid auto rows
     tw!("auto-rows-auto hover:auto-rows-min focus:auto-rows-max");
     tw!("auto-rows-min");
     tw!("auto-rows-max");
     tw!("auto-rows-fr");
+    tw!("auto-rows": GridTrack::fr(1.0));
 
     // gap
     tw!("gap-0");

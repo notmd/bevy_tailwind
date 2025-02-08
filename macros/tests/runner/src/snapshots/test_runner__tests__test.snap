@@ -1303,6 +1303,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            grid_auto_columns: GridTrack::fr(1.0),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 grid_auto_rows: bevy::ui::GridTrack::auto(),
@@ -1340,6 +1346,12 @@ fn test_all() {
     {
         (bevy::ui::Node {
             grid_auto_rows: bevy::ui::GridTrack::flex(1.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            grid_auto_rows: GridTrack::fr(1.0),
             ..Default::default()
         })
     };

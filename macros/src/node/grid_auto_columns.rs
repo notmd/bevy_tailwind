@@ -1,9 +1,13 @@
-use crate::{picking::insert_picking_style, ParseCtx, ParseResult};
+use crate::{picking::insert_picking_style, utils::insert_computed_style, ParseCtx, ParseResult};
 
 use super::NodeProp;
 use quote::quote;
 
 pub fn parse_grid_auto_columns(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "auto-cols" {
+        insert_computed_style!(ctx, node, GridAutoColumns, NodeProp::GridAutoColumns, 0);
+    }
+
     let prop = match class {
         "auto-cols-auto" => quote! { bevy::ui::GridTrack::auto() },
         "auto-cols-min" => quote! { bevy::ui::GridTrack::min_content() },
