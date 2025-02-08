@@ -17,7 +17,7 @@ use syn::{
 use utils::quote::{Quote, QuoteCtx, Struct};
 
 macro_rules! parse_class {
-    ($class:ident, $span:ident, $($expr:expr),*) => {
+    ($ctx:ident, $class:ident, $span:ident, $($expr:expr),*) => {
         $(
             match $expr {
                 Ok(true) => {
@@ -26,7 +26,14 @@ macro_rules! parse_class {
                 Err(e) => {
                     let msg = match e {
                         ParseClassError::Unknown => {
-                            format!("Unknown class: {}", $class)
+                            let prefix = if $ctx.hover {
+                                "hover:"
+                            } else if $ctx.focus {
+                                "focus:"
+                            } else {
+                                ""
+                            };
+                            format!("Unknown class: {}{}", prefix, $class)
                         }
                     };
                     return syn::Error::new($span, msg)
@@ -40,13 +47,14 @@ macro_rules! parse_class {
 }
 
 macro_rules! parse_classes {
-    ($classes:ident, $ctx:ident) => {
+    ($ctx:ident, $classes:ident) => {
         let span = $classes.span();
         for original_class in $classes.value().split_whitespace() {
             let (hover, focus, class) = picking::parse_picking_class(original_class);
             $ctx.hover = hover;
             $ctx.focus = focus;
             parse_class!(
+                $ctx,
                 class,
                 span,
                 $ctx.parse_z_index(class),
@@ -115,7 +123,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
         match element {
             InputElement::String(classes) => {
                 ctx.class_type = ClassType::String;
-                parse_classes!(classes, ctx);
+                parse_classes!(ctx, classes);
             }
             InputElement::Object(exprs) => {
                 for (classes, expr) in exprs {
@@ -126,12 +134,12 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                         let #ident = #expr;
                     });
                     ctx.class_type = ClassType::Object(ctx.conditions.len() - 1);
-                    parse_classes!(classes, ctx);
+                    parse_classes!(ctx, classes);
                 }
             }
-            InputElement::Computed(class, expr) => {
+            InputElement::Computed(classes, expr) => {
                 ctx.class_type = ClassType::Computed(expr);
-                parse_classes!(class, ctx);
+                parse_classes!(ctx, classes);
             }
             InputElement::Mutate(expr, _) => {
                 return syn::Error::new(expr.span(), "Unexpected expression. Component mutation is only allowed in the first argument")

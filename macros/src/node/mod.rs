@@ -265,3 +265,64 @@ macro_rules! insert_node_ui_rect {
 }
 
 pub(crate) use insert_node_ui_rect;
+
+macro_rules! insert_node_ui_rect_computed {
+    ($ctx:ident, $node_prop:expr, $picking_prop:ident, $priority:literal, $props:expr) => {
+        match &$ctx.class_type {
+            crate::ClassType::Computed(expr) => {
+                if $ctx.hover || $ctx.focus {
+                    $ctx.insert_picking_style(
+                        crate::picking::PickingStyleProp::$picking_prop,
+                        expr.clone(),
+                    );
+                } else {
+                    crate::node::insert_node_prop_nested!(
+                        $ctx,
+                        $node_prop,
+                        quote::quote! {bevy::ui::UiRect},
+                        expr.clone(),
+                        $priority,
+                        $props
+                    );
+                }
+                // crate::picking::insert_picking_style!($ctx, $picking_prop, expr.clone());
+                // $ctx.components.$component.insert(
+                //     $component_prop,
+                //     expr.clone(),
+                //     &$ctx.class_type,
+                //     $priority,
+                // );
+                return Ok(true);
+            }
+            _ => {}
+        }
+    };
+
+    ($ctx:ident, $node_prop:expr, [$($picking_prop:ident),*], $priority:literal, $props:expr) => {
+        match $ctx.class_type.clone() {
+            crate::ClassType::Computed(expr) => {
+                if $ctx.hover || $ctx.focus {
+                    $(
+                        $ctx.insert_picking_style(
+                            crate::picking::PickingStyleProp::$picking_prop,
+                            expr.clone(),
+                        );
+                    )*
+                } else {
+                    crate::node::insert_node_prop_nested!(
+                        $ctx,
+                        $node_prop,
+                        quote::quote! {bevy::ui::UiRect},
+                        expr.clone(),
+                        $priority,
+                        $props
+                    );
+                }
+                return Ok(true);
+            }
+            _ => {}
+        }
+    };
+}
+
+pub(crate) use insert_node_ui_rect_computed;

@@ -312,12 +312,19 @@ fn test_all() {
 
     // padding
     tw!("p-0");
+    tw!("p": Val::Px(10.));
     tw!("px-0");
+    tw!("px": Val::Px(10.));
     tw!("py-0");
+    tw!("py": Val::Px(10.));
     tw!("pt-0 hover:pt-1 focus:pt-2");
+    tw!("pt": Val::Px(10.), "hover:pt": Val::Px(20.), "focus:pt": Val::Px(30.));
     tw!("pr-0 hover:pr-1 focus:pr-2");
+    tw!("pr": Val::Px(10.), "hover:pr": Val::Px(20.), "focus:pr": Val::Px(30.));
     tw!("pb-0 hover:pb-1 focus:pb-2");
+    tw!("pb": Val::Px(10.), "hover:pb": Val::Px(20.), "focus:pb": Val::Px(30.));
     tw!("pl-0 hover:pl-1 focus:pl-2");
+    tw!("pl": Val::Px(10.), "hover:pl": Val::Px(20.), "focus:pl": Val::Px(30.));
     tw!("p-px");
     tw!("px-px");
     tw!("py-px");
@@ -335,12 +342,19 @@ fn test_all() {
 
     // margin
     tw!("m-0");
+    tw!("m": Val::Px(10.));
     tw!("mx-0");
+    tw!("mx": Val::Px(10.));
     tw!("my-0");
+    tw!("my": Val::Px(10.));
     tw!("mt-0 hover:mt-1 focus:mt-2");
+    tw!("mt": Val::Px(10.), "hover:mt": Val::Px(20.), "focus:mt": Val::Px(30.));
     tw!("mr-0 hover:mr-1 focus:mr-2");
+    tw!("mr": Val::Px(10.), "hover:mr": Val::Px(20.), "focus:mr": Val::Px(30.));
     tw!("mb-0 hover:mb-1 focus:mb-2");
+    tw!("mb": Val::Px(10.), "hover:mb": Val::Px(20.), "focus:mb": Val::Px(30.));
     tw!("ml-0 hover:ml-1 focus:ml-2");
+    tw!("ml": Val::Px(10.), "hover:ml": Val::Px(20.), "focus:ml": Val::Px(30.));
     tw!("m-px");
     tw!("mx-px");
     tw!("my-px");
