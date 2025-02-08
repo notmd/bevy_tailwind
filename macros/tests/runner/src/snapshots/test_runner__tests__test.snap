@@ -1003,6 +1003,18 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            flex_shrink: 1.0,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            flex_shrink: 1.0,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 grid_template_columns: bevy::ui::RepeatedGridTrack::minmax(

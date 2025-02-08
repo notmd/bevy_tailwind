@@ -1,6 +1,6 @@
 use crate::{
     picking::{deny_picking_style, insert_picking_style},
-    utils::quote::ToTokenStream,
+    utils::{deny_computed_style, quote::ToTokenStream},
     ParseClassError, ParseCtx, ParseResult,
 };
 use proc_macro2::TokenStream;
@@ -30,12 +30,14 @@ pub fn parse_overflow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 
     if let Ok(axis) = parse_axis(class) {
         deny_picking_style!(ctx);
+        deny_computed_style!(ctx);
         insert_props!(ctx, NodeProp::Overflow, axis, 0, ["x", "y"]);
     }
 
     if class.starts_with("x-") {
         let class = &class["x-".len()..];
         let axis = parse_axis(class)?;
+        deny_computed_style!(ctx);
         insert_picking_style!(ctx, OverflowX, axis);
         insert_props!(ctx, NodeProp::Overflow, axis, 1, ["x"]);
     }
@@ -43,6 +45,7 @@ pub fn parse_overflow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     if class.starts_with("y-") {
         let class = &class["y-".len()..];
         let axis = parse_axis(class)?;
+        deny_computed_style!(ctx);
         insert_picking_style!(ctx, OverflowY, axis);
         insert_props!(ctx, NodeProp::Overflow, axis, 1, ["y"]);
     }

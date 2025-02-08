@@ -165,6 +165,8 @@ fn test_all() {
     tw!("flex-shrink");
     tw!("shrink-0");
     tw!("flex-shrink-0");
+    tw!("flex-shrink": 1.0);
+    tw!("shrink": 1.0);
 
     // order
 

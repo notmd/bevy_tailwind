@@ -4,6 +4,7 @@ use quote::quote;
 use crate::{
     picking::insert_picking_style,
     utils::{
+        deny_computed_style,
         quote::ToTokenStream,
         val::{parse_percent, parse_px},
     },
@@ -20,6 +21,7 @@ pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResu
     let suffix = &class["grid-cols-".len()..];
 
     if let Some(val) = parse_arbitrary_grid_template(suffix) {
+        deny_computed_style!(ctx);
         insert_picking_style!(ctx, GridTemplateColumns, val);
         ctx.insert_node_prop(NodeProp::GridTemplateColumns, val);
 
@@ -31,6 +33,7 @@ pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResu
             let value = quote! {
                 Default::default()
             };
+            deny_computed_style!(ctx);
             insert_picking_style!(ctx, GridTemplateColumns, value);
             ctx.insert_node_prop(NodeProp::GridTemplateColumns, value);
 
@@ -49,6 +52,7 @@ pub fn parse_grid_template_columns(ctx: &mut ParseCtx, class: &str) -> ParseResu
                 )
             };
 
+            deny_computed_style!(ctx);
             insert_picking_style!(ctx, GridTemplateColumns, value);
             ctx.insert_node_prop(NodeProp::GridTemplateColumns, value);
 
@@ -65,6 +69,7 @@ pub fn parse_grid_template_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult 
     let suffix = &class["grid-rows-".len()..];
 
     if let Some(val) = parse_arbitrary_grid_template(suffix) {
+        deny_computed_style!(ctx);
         insert_picking_style!(ctx, GridTemplateRows, val);
         ctx.insert_node_prop(NodeProp::GridTemplateRows, val);
 
@@ -76,6 +81,7 @@ pub fn parse_grid_template_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult 
             let value = quote! {
                 Default::default()
             };
+            deny_computed_style!(ctx);
             insert_picking_style!(ctx, GridTemplateRows, value);
             ctx.insert_node_prop(NodeProp::GridTemplateRows, value);
 
@@ -92,6 +98,7 @@ pub fn parse_grid_template_rows(ctx: &mut ParseCtx, class: &str) -> ParseResult 
                     bevy::ui::MaxTrackSizingFunction::Fraction(1.)
                )
             };
+            deny_computed_style!(ctx);
             insert_picking_style!(ctx, GridTemplateRows, value);
             ctx.insert_node_prop(NodeProp::GridTemplateRows, value);
 
