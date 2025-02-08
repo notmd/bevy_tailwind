@@ -9,9 +9,21 @@ pub fn parse_neg(str: &str) -> (bool, &str) {
 }
 
 macro_rules! insert_computed_style {
-    ($ctx:expr, $style:ident, $val:expr) => {
-        $ctx.components
-            .$style
-            .insert("0", $val, &$ctx.class_type, 0);
+    ($ctx:ident, $component:ident, $picking_prop:ident, $component_prop:expr, $priority:literal) => {
+        match $ctx.class_type.clone() {
+            crate::ClassType::Computed(expr) => {
+                crate::picking::insert_picking_style!($ctx, $picking_prop, expr);
+                $ctx.components.background_color.insert(
+                    $component_prop,
+                    expr,
+                    &$ctx.class_type,
+                    $priority,
+                );
+                return Ok(true);
+            }
+            _ => {}
+        }
     };
 }
+
+pub(crate) use insert_computed_style;

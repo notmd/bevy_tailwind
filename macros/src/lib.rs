@@ -7,10 +7,10 @@ mod text;
 mod utils;
 mod z_index;
 
-use node::{insert_node_prop_nested, NodeProp};
-use picking::{insert_picking_style, PickingStyleProp, PickingStyles};
+use node::NodeProp;
+use picking::PickingStyles;
 use proc_macro2::{Span, TokenStream};
-use quote::{format_ident, quote, ToTokens};
+use quote::{format_ident, quote};
 use syn::{
     parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned, Expr, LitStr, Token,
 };
@@ -290,12 +290,12 @@ impl Parse for InputElement {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         if input.peek(LitStr) {
             let lit = input.parse()?;
-            if input.peek(Token![=]) {
-                input.parse::<Token![=]>()?;
+            if input.parse::<Token![:]>().is_ok() {
                 let expr: Expr = input.parse()?;
 
                 return Ok(InputElement::Computed(lit, expr));
             }
+
             Ok(InputElement::String(lit))
         } else if input.peek(syn::token::Brace) {
             let content;
@@ -312,10 +312,7 @@ impl Parse for InputElement {
 
             Ok(InputElement::Object(exprs))
         } else {
-            let is_entity = input.peek(Token![@]);
-            if is_entity {
-                input.parse::<Token![@]>()?;
-            }
+            let is_entity = input.parse::<Token![@]>().is_ok();
             Ok(InputElement::Mutate(input.parse()?, is_entity))
         }
     }
@@ -377,26 +374,12 @@ impl ParseCtx {
     }
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Eq, Hash)]
+#[derive(Default, Clone)]
 enum ClassType {
     #[default]
     String,
     Object(usize),
     Computed(Expr),
-}
-
-impl ClassType {
-    fn is_string(&self) -> bool {
-        matches!(self, ClassType::String)
-    }
-
-    fn is_object(&self) -> bool {
-        matches!(self, ClassType::Object(_))
-    }
-
-    fn is_computed(&self) -> bool {
-        matches!(self, ClassType::Computed(_))
-    }
 }
 
 enum ParseClassError {

@@ -27,6 +27,12 @@ impl ToTokenStream for TokenStream {
     }
 }
 
+impl ToTokenStream for Expr {
+    fn to_token_stream(&self) -> TokenStream {
+        quote! { #self }
+    }
+}
+
 pub trait Quote {
     fn quote(&self, ctx: &mut QuoteCtx) -> TokenStream;
 }

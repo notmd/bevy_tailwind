@@ -1,9 +1,7 @@
-use quote::ToTokens;
-
 use crate::{
-    picking::{insert_picking_style, PickingStyleProp},
-    utils::color::Color,
-    ClassType, ParseCtx, ParseResult,
+    picking::insert_picking_style,
+    utils::{color::Color, insert_computed_style},
+    ParseCtx, ParseResult,
 };
 
 macro_rules! parse_class {
@@ -30,15 +28,8 @@ impl ParseCtx {
 }
 
 fn parse_background_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
-    match &ctx.class_type {
-        ClassType::Computed(expr) if class == "bg" => {
-            insert_picking_style!(ctx, BackgroundColor, expr.to_token_stream());
-            ctx.components
-                .background_color
-                .insert("0", expr.to_token_stream(), &ctx.class_type, 0);
-            return Ok(true);
-        }
-        _ => {}
+    if class == "bg" {
+        insert_computed_style!(ctx, background_color, BackgroundColor, "0", 0);
     }
 
     if !class.starts_with("bg-") {
