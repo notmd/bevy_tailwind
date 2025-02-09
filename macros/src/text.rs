@@ -1,6 +1,6 @@
 use crate::{
     picking::insert_picking_style,
-    utils::{color::Color, insert_computed_style, val::parse_px},
+    utils::{color::Color, deny_computed_style, insert_computed_style, val::parse_px},
     ParseCtx, ParseResult,
 };
 use quote::quote;
@@ -67,6 +67,7 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, FontSize, quote! { #font_size });
 
     ctx.components
@@ -81,6 +82,7 @@ fn parse_font_smoothing(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(false);
     }
 
+    deny_computed_style!(ctx);
     ctx.components.text_font.insert(
         "font_smoothing",
         quote! {
@@ -110,6 +112,7 @@ fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, TextJustify, justify);
 
     ctx.components
@@ -132,6 +135,7 @@ fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         }
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, TextLinebreak, line_break);
 
     ctx.components
@@ -150,6 +154,7 @@ fn parse_text_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         return Ok(false);
     };
 
+    deny_computed_style!(ctx);
     insert_picking_style!(ctx, TextColor, color);
 
     ctx.components
