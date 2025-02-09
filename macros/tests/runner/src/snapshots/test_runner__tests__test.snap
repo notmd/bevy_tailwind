@@ -4207,6 +4207,12 @@ fn test_all() {
         )
     };
     {
+        (bevy::ui::Outline {
+            width: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Outline {
                 color: bevy::color::Color::NONE,
@@ -4278,6 +4284,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Outline {
+            color: Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Outline {
                 offset: bevy::ui::Val::Px(0f32),
@@ -4299,5 +4311,11 @@ fn test_all() {
                 ..Default::default()
             },
         )
+    };
+    {
+        (bevy::ui::Outline {
+            offset: Val::Px(10.),
+            ..Default::default()
+        })
     };
 }

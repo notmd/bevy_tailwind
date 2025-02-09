@@ -574,6 +574,7 @@ fn test_all() {
 
     // outline width
     tw!("outline-0 hover:outline-1 focus:outline-2");
+    tw!("outline": Val::Px(10.));
 
     // outline color
     tw!("outline-transparent hover:outline-black focus:outline-white");
@@ -583,7 +584,9 @@ fn test_all() {
     tw!("outline-white");
     tw!("outline-white/50");
     tw!("outline-gray-100/50");
+    tw!("outline-color": Color::WHITE);
 
     // outline offset
     tw!("outline-offset-0 hover:outline-offset-1 focus:outline-offset-2");
+    tw!("outline-offset": Val::Px(10.));
 }
