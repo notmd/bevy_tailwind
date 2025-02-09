@@ -1055,7 +1055,7 @@ dependencies = [
 
 [[package]]
 name = "bevy_tailwind"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "bevy",
  "bevy_tailwind_macro",
@@ -1063,7 +1063,7 @@ dependencies = [
 
 [[package]]
 name = "bevy_tailwind_macro"
-version = "0.2.2"
+version = "0.2.3"
 dependencies = [
  "indexmap",
  "proc-macro2",
