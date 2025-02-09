@@ -4178,6 +4178,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::BorderColor {
+            0: Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Outline {
                 width: bevy::ui::Val::Px(0f32),

@@ -174,6 +174,9 @@ impl ParseCtx {
     }
 
     pub fn parse_border_color(&mut self, class: &str) -> ParseResult {
+        if class == "border-color" {
+            insert_computed_style!(self, border_color, BorderColor, "0", 0);
+        }
         if !class.starts_with("border-") {
             return Ok(false);
         }

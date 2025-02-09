@@ -570,6 +570,7 @@ fn test_all() {
     tw!("border-white/50");
     tw!("border-gray-100");
     tw!("border-gray-100/50");
+    tw!("border-color": Color::WHITE);
 
     // outline width
     tw!("outline-0 hover:outline-1 focus:outline-2");
