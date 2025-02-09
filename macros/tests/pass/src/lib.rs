@@ -112,6 +112,7 @@ fn test_all() {
     // position
     tw!("relative hover:absolute focus:absolute");
     tw!("absolute");
+    tw!("position": PositionType::Relative);
 
     // top / right / bottom / left
     tw!("top-0 hover:top-1 focus:top-2");

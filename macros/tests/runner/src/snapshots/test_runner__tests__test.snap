@@ -625,6 +625,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            position_type: PositionType::Relative,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 top: bevy::ui::Val::Px(0f32),
