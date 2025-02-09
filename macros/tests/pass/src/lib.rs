@@ -90,6 +90,7 @@ fn test_all() {
     tw!("grid");
     tw!("block");
     tw!("hidden");
+    tw!("d": Display::Flex);
 
     // overflow
     tw!("overflow-hidden");

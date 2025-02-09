@@ -417,6 +417,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            display: Display::Flex,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Hidden,
                 y: bevy::ui::OverflowAxis::Hidden,
