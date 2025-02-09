@@ -3494,6 +3494,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::BackgroundColor {
+            0: Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(0f32),
             top_right: bevy::ui::Val::Px(0f32),
@@ -3517,6 +3523,15 @@ fn test_all() {
             top_right: bevy::ui::Val::Px(4f32),
             bottom_left: bevy::ui::Val::Px(4f32),
             bottom_right: bevy::ui::Val::Px(4f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
+            top_left: Val::Px(10.),
+            top_right: Val::Px(10.),
+            bottom_right: Val::Px(10.),
+            bottom_left: Val::Px(10.),
             ..Default::default()
         })
     };
@@ -3559,6 +3574,13 @@ fn test_all() {
     };
     {
         (bevy::ui::BorderRadius {
+            top_left: Val::Px(10.),
+            top_right: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(0f32),
             bottom_right: bevy::ui::Val::Px(0f32),
             ..Default::default()
@@ -3587,6 +3609,13 @@ fn test_all() {
     };
     {
         (bevy::ui::BorderRadius {
+            top_right: Val::Px(10.),
+            bottom_right: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(0f32),
             bottom_left: bevy::ui::Val::Px(0f32),
             ..Default::default()
@@ -3615,6 +3644,13 @@ fn test_all() {
     };
     {
         (bevy::ui::BorderRadius {
+            bottom_right: Val::Px(10.),
+            bottom_left: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(0f32),
             top_left: bevy::ui::Val::Px(0f32),
             ..Default::default()
@@ -3638,6 +3674,13 @@ fn test_all() {
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(9999f32),
             top_left: bevy::ui::Val::Px(9999f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
+            bottom_left: Val::Px(10.),
+            top_left: Val::Px(10.),
             ..Default::default()
         })
     };
@@ -3684,6 +3727,12 @@ fn test_all() {
     };
     {
         (bevy::ui::BorderRadius {
+            top_left: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
@@ -3703,6 +3752,12 @@ fn test_all() {
     {
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(9999f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
+            top_right: Val::Px(10.),
             ..Default::default()
         })
     };
@@ -3732,6 +3787,12 @@ fn test_all() {
     };
     {
         (bevy::ui::BorderRadius {
+            bottom_right: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
@@ -3751,6 +3812,12 @@ fn test_all() {
     {
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(9999f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::BorderRadius {
+            bottom_left: Val::Px(10.),
             ..Default::default()
         })
     };

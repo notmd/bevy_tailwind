@@ -481,44 +481,54 @@ fn test_all() {
     tw!("bg-white/50");
     tw!("bg-gray-100");
     tw!("bg-gray-100/50");
+    tw!("bg": Color::WHITE);
 
     // border radius
     tw!("rounded-none");
     tw!("rounded-sm");
     tw!("rounded");
+    tw!("rounded": Val::Px(10.));
     tw!("rounded-full");
     tw!("rounded-t-none");
     tw!("rounded-t-sm");
     tw!("rounded-t");
     tw!("rounded-t-full");
+    tw!("rounded-t": Val::Px(10.));
     tw!("rounded-r-none");
     tw!("rounded-r-sm");
     tw!("rounded-r");
     tw!("rounded-r-full");
+    tw!("rounded-r": Val::Px(10.));
     tw!("rounded-b-none");
     tw!("rounded-b-sm");
     tw!("rounded-b");
     tw!("rounded-b-full");
+    tw!("rounded-b": Val::Px(10.));
     tw!("rounded-l-none");
     tw!("rounded-l-sm");
     tw!("rounded-l");
     tw!("rounded-l-full");
+    tw!("rounded-l": Val::Px(10.));
     tw!("rounded-tl-none hover:rounded-tl-sm focus:rounded-tl");
     tw!("rounded-tl-sm");
     tw!("rounded-tl");
     tw!("rounded-tl-full");
+    tw!("rounded-tl": Val::Px(10.));
     tw!("rounded-tr-none");
     tw!("rounded-tr-sm");
     tw!("rounded-tr");
     tw!("rounded-tr-full");
+    tw!("rounded-tr": Val::Px(10.));
     tw!("rounded-br-none");
     tw!("rounded-br-sm");
     tw!("rounded-br");
     tw!("rounded-br-full");
+    tw!("rounded-br": Val::Px(10.));
     tw!("rounded-bl-none");
     tw!("rounded-bl-sm");
     tw!("rounded-bl");
     tw!("rounded-bl-full");
+    tw!("rounded-bl": Val::Px(10.));
 
     // border width
     tw!("border-0");
