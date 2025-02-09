@@ -1,6 +1,6 @@
 use crate::{
     picking::insert_picking_style,
-    utils::{color::Color, val::parse_px},
+    utils::{color::Color, insert_computed_style, val::parse_px},
     ParseCtx, ParseResult,
 };
 use quote::quote;
@@ -120,6 +120,10 @@ fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 }
 
 fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "break" {
+        insert_computed_style!(ctx, text_layout, TextLinebreak, "linebreak", 0);
+    }
+
     let line_break = match class {
         "break-words" => quote! {bevy::text::LineBreak::WordBoundary},
         "break-all" => quote! {bevy::text::LineBreak::AnyCharacter},

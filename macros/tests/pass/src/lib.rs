@@ -471,6 +471,7 @@ fn test_all() {
     // word break
     tw!("break-words hover:break-all focus:break-all");
     tw!("break-all");
+    tw!("break": LineBreak::NoWrap);
 
     // background color
     tw!("bg-transparent hover:bg-black focus:bg-white");

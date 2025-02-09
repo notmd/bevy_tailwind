@@ -3417,6 +3417,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::text::TextLayout {
+            linebreak: LineBreak::NoWrap,
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::BackgroundColor {
                 0: bevy::color::Color::NONE,
