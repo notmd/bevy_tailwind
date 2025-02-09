@@ -1,4 +1,4 @@
-use crate::{ParseCtx, ParseResult};
+use crate::{picking::deny_picking_style, utils::deny_computed_style, ParseCtx, ParseResult};
 use quote::quote;
 
 use super::NodeProp;
@@ -40,8 +40,9 @@ pub fn parse_place_content(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         _ => return Ok(false),
     };
 
+    deny_picking_style!(ctx);
+    deny_computed_style!(ctx);
     ctx.insert_node_prop_priority(NodeProp::AlignContent, align_content, 0);
-
     ctx.insert_node_prop_priority(NodeProp::JustifyContent, justify_content, 0);
 
     Ok(true)

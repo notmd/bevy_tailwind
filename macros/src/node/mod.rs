@@ -285,13 +285,6 @@ macro_rules! insert_node_ui_rect_computed {
                         $props
                     );
                 }
-                // crate::picking::insert_picking_style!($ctx, $picking_prop, expr.clone());
-                // $ctx.components.$component.insert(
-                //     $component_prop,
-                //     expr.clone(),
-                //     &$ctx.class_type,
-                //     $priority,
-                // );
                 return Ok(true);
             }
             _ => {}

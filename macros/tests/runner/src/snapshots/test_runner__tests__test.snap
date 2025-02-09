@@ -2827,6 +2827,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            width: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 min_width: bevy::ui::Val::Px(0f32),
@@ -2874,6 +2880,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            min_width: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 max_width: bevy::ui::Val::Px(0f32),
@@ -2917,6 +2929,12 @@ fn test_all() {
     {
         (bevy::ui::Node {
             max_width: bevy::ui::Val::Percent(100f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            max_width: Val::Px(10.),
             ..Default::default()
         })
     };
@@ -2992,6 +3010,12 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            height: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 min_height: bevy::ui::Val::Px(0f32),
@@ -3035,6 +3059,12 @@ fn test_all() {
     {
         (bevy::ui::Node {
             min_height: bevy::ui::Val::Percent(100f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            min_height: Val::Px(10.),
             ..Default::default()
         })
     };
@@ -3087,6 +3117,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            max_height: Val::Px(10.),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             width: bevy::ui::Val::Px(0f32),
             height: bevy::ui::Val::Px(0f32),
             ..Default::default()
@@ -3117,6 +3153,13 @@ fn test_all() {
         (bevy::ui::Node {
             width: bevy::ui::Val::Percent(100f32),
             height: bevy::ui::Val::Percent(100f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            width: Val::Px(10.),
+            height: Val::Px(10.),
             ..Default::default()
         })
     };

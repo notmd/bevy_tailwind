@@ -380,6 +380,7 @@ fn test_all() {
     tw!("w-screen");
     tw!("w-svw");
     tw!("w-lvw");
+    tw!("w": Val::Px(10.));
 
     // min width
     tw!("min-w-0 hover:min-w-0.5 focus:min-w-px");
@@ -387,6 +388,7 @@ fn test_all() {
     tw!("min-w-px");
     tw!("min-w-1/2");
     tw!("min-w-full");
+    tw!("min-w": Val::Px(10.));
 
     // max width
     tw!("max-w-0 hover:max-w-0.5 focus:max-w-px");
@@ -394,6 +396,7 @@ fn test_all() {
     tw!("max-w-px");
     tw!("max-w-1/2");
     tw!("max-w-full");
+    tw!("max-w": Val::Px(10.));
 
     // height
     tw!("h-auto hover:h-0 focus:h-0.5");
@@ -405,6 +408,7 @@ fn test_all() {
     tw!("h-screen");
     tw!("h-svh");
     tw!("h-lvh");
+    tw!("h": Val::Px(10.));
 
     // min height
     tw!("min-h-0 hover:min-h-0.5 focus:min-h-px");
@@ -412,6 +416,7 @@ fn test_all() {
     tw!("min-h-px");
     tw!("min-h-1/2");
     tw!("min-h-full");
+    tw!("min-h": Val::Px(10.));
 
     // max height
     tw!("max-h-0 hover:max-h-0.5 focus:max-h-px");
@@ -419,6 +424,7 @@ fn test_all() {
     tw!("max-h-px");
     tw!("max-h-1/2");
     tw!("max-h-full");
+    tw!("max-h": Val::Px(10.));
 
     // size
     tw!("size-0");
@@ -426,6 +432,7 @@ fn test_all() {
     tw!("size-px");
     tw!("size-1/2");
     tw!("size-full");
+    tw!("size": Val::Px(10.));
 
     // font size
     tw!("text-xs hover:text-sm focus:text-base");
