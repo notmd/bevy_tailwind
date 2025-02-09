@@ -455,6 +455,7 @@ fn test_all() {
     tw!("text-7xl");
     tw!("text-8xl");
     tw!("text-9xl");
+    tw!("text": 10.);
 
     // font smoothing
     tw!("antialiased");
@@ -464,6 +465,7 @@ fn test_all() {
     tw!("text-center");
     tw!("text-right");
     tw!("text-justify");
+    tw!("text-align": JustifyText::Center);
 
     // text color
     tw!("text-transparent hover:text-transparent/50 focus:text-black");
@@ -474,6 +476,7 @@ fn test_all() {
     tw!("text-white/50");
     tw!("text-gray-100");
     tw!("text-gray-100/50");
+    tw!("text-color": Color::WHITE);
 
     // word break
     tw!("break-words hover:break-all focus:break-all");

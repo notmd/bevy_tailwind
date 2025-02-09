@@ -3312,6 +3312,12 @@ fn test_all() {
     };
     {
         (bevy::text::TextFont {
+            font_size: 10.,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::text::TextFont {
             font_smoothing: bevy::text::FontSmoothing::AntiAliased,
             ..Default::default()
         })
@@ -3354,6 +3360,12 @@ fn test_all() {
     {
         (bevy::text::TextLayout {
             justify: bevy::text::JustifyText::Justified,
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::text::TextLayout {
+            justify: JustifyText::Center,
             ..Default::default()
         })
     };
@@ -3436,6 +3448,12 @@ fn test_all() {
                 &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
                 0.5f32,
             ),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::text::TextColor {
+            0: Color::WHITE,
             ..Default::default()
         })
     };

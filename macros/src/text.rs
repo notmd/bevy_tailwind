@@ -35,6 +35,10 @@ impl ParseCtx {
 }
 
 fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "text" {
+        insert_computed_style!(ctx, text_font, FontSize, "font_size", 0);
+    }
+
     if !class.starts_with("text-") {
         return Ok(false);
     }
@@ -96,6 +100,10 @@ fn parse_font_smoothing(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 }
 
 fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "text-align" {
+        insert_computed_style!(ctx, text_layout, TextJustify, "justify", 0);
+    }
+
     if !class.starts_with("text-") {
         return Ok(false);
     }
@@ -146,6 +154,10 @@ fn parse_line_break(ctx: &mut ParseCtx, class: &str) -> ParseResult {
 }
 
 fn parse_text_color(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    if class == "text-color" {
+        insert_computed_style!(ctx, text_color, TextColor, "0", 0);
+    }
+
     if !class.starts_with("text-") {
         return Ok(false);
     }
