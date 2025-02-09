@@ -5,8 +5,10 @@
 
 - Generate smart and efficient code (just like hand written) at compile time. Leaving no runtime overhead.
 - Support autocomplete with [TailwindCSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss).
-- Support `clsx` object syntax for conditional applying style.
-- Support both creation and mutation.
+- `clsx` object syntax for conditional applying style.
+- `hover:` and `focus:` classes for picking styling.
+- Computed classes eg: `tw!("bg": PRIMARY_COLOR)`.
+- Support both creation and mutation bundle/component.
 
 ## Installation
 
