@@ -107,14 +107,7 @@ impl Val {
                 return None;
             }
 
-            let (num, den) = str.split_once("/")?;
-            let num = num.parse::<u32>().ok()?;
-            let den = den.parse::<u32>().ok()?;
-            if num >= den || den == 0 {
-                return None;
-            }
-
-            return Some(Val::Percent(num as f32 / den as f32 * 100.));
+            return parse_fraction(str, false).map(|val| Val::Percent(val * 100.0));
         }
 
         if let Ok(val) = str.parse::<u32>() {
@@ -172,6 +165,17 @@ pub fn parse_percent(str: &str) -> Option<f32> {
     }
 
     None
+}
+
+pub fn parse_fraction(str: &str, allow_gte_1: bool) -> Option<f32> {
+    let (num, den) = str.split_once("/")?;
+    let num = num.parse::<usize>().ok()?;
+    let den = den.parse::<usize>().ok()?;
+    if den == 0 || (num >= den && !allow_gte_1) {
+        return None;
+    }
+
+    Some(num as f32 / den as f32)
 }
 
 fn parse_arbitrary(str: &str, settings: ParseValSettings) -> Option<Val> {

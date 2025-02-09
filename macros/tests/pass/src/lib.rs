@@ -79,6 +79,7 @@ fn test_all() {
     tw!("aspect-auto hover:aspect-square focus:aspect-video");
     tw!("aspect-square");
     tw!("aspect-video");
+    tw!("aspect-3/2");
     tw!("aspect": Some(0.5));
     // box-sizing
     // tw!("box-border");

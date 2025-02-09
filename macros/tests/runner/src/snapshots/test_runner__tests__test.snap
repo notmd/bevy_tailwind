@@ -364,6 +364,12 @@ fn test_all() {
     };
     {
         (bevy::ui::Node {
+            aspect_ratio: Some(1.5f32),
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
             aspect_ratio: Some(0.5),
             ..Default::default()
         })

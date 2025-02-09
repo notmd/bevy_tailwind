@@ -1,6 +1,6 @@
 use crate::{
     picking::insert_picking_style,
-    utils::{deny_computed_style, insert_computed_style},
+    utils::{deny_computed_style, insert_computed_style, val::parse_fraction},
     ParseClassError, ParseCtx, ParseResult,
 };
 
@@ -22,7 +22,13 @@ pub fn parse_aspect_ratio(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         "auto" => quote! { None },
         "square" => quote! { Some(1.0) },
         "video" => quote! { Some(16.0 / 9.0) },
-        _ => return Err(ParseClassError::Unknown),
+        _ => {
+            let Some(ratio) = parse_fraction(class, true) else {
+                return Err(ParseClassError::Unknown);
+            };
+
+            quote! { Some(#ratio)}
+        }
     };
     deny_computed_style!(ctx);
     insert_picking_style!(ctx, AspectRatio, token_stream.clone());
