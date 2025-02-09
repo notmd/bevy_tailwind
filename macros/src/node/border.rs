@@ -1,9 +1,55 @@
 use super::NodeProp;
+use crate::node::insert_node_ui_rect_computed;
 use crate::picking::{deny_picking_style, insert_picking_style};
 use crate::{node::insert_node_ui_rect, utils::val::Val};
 use crate::{ParseClassError, ParseCtx, ParseResult};
 
 pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    match class {
+        "border" => {
+            deny_picking_style!(ctx);
+            insert_node_ui_rect_computed!(
+                ctx,
+                NodeProp::Border,
+                [BorderTop, BorderRight, BorderBottom, BorderLeft],
+                0,
+                ["top", "right", "bottom", "left"]
+            )
+        }
+        "border-x" => {
+            deny_picking_style!(ctx);
+            insert_node_ui_rect_computed!(
+                ctx,
+                NodeProp::Border,
+                [BorderLeft, BorderRight],
+                1,
+                ["left", "right"]
+            )
+        }
+        "border-y" => {
+            deny_picking_style!(ctx);
+            insert_node_ui_rect_computed!(
+                ctx,
+                NodeProp::Border,
+                [BorderTop, BorderBottom],
+                1,
+                ["top", "bottom"]
+            )
+        }
+        "border-t" => {
+            insert_node_ui_rect_computed!(ctx, NodeProp::Border, BorderTop, 0, ["top"])
+        }
+        "border-r" => {
+            insert_node_ui_rect_computed!(ctx, NodeProp::Border, BorderRight, 0, ["right"])
+        }
+        "border-b" => {
+            insert_node_ui_rect_computed!(ctx, NodeProp::Border, BorderBottom, 0, ["bottom"])
+        }
+        "border-l" => {
+            insert_node_ui_rect_computed!(ctx, NodeProp::Border, BorderLeft, 0, ["left"])
+        }
+        _ => {}
+    }
     if !class.starts_with("border") {
         return Ok(false);
     }

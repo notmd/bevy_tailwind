@@ -533,18 +533,25 @@ fn test_all() {
     // border width
     tw!("border-0");
     tw!("border");
+    tw!("border": Val::Px(10.));
     tw!("border-x-0");
     tw!("border-x");
+    tw!("border-x": Val::Px(10.));
     tw!("border-y-0");
     tw!("border-y");
+    tw!("border-y": Val::Px(10.));
     tw!("border-t-0");
     tw!("border-t hover:border-t-2 focus:border-t-3");
+    tw!("border-t": Val::Px(10.));
     tw!("border-r-0");
     tw!("border-r");
+    tw!("border-r": Val::Px(10.));
     tw!("border-b-0");
     tw!("border-b");
+    tw!("border-b": Val::Px(10.));
     tw!("border-l-0");
     tw!("border-l");
+    tw!("border-l": Val::Px(10.));
 
     // border color
     tw!("border-transparent hover:border-black focus:border-white");
