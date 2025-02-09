@@ -8,7 +8,48 @@ use quote::quote;
 
 use super::NodeProp;
 
+macro_rules! insert_computed_props {
+    ($ctx:ident, [$($picking_prop:ident),*], $priority:literal, $props:expr) => {
+        match $ctx.class_type.clone() {
+            crate::ClassType::Computed(expr) => {
+                if $ctx.hover || $ctx.focus {
+                    $(
+                        $ctx.insert_picking_style(
+                            crate::picking::PickingStyleProp::$picking_prop,
+                            expr.clone(),
+                        );
+                    )*
+                } else {
+                    crate::node::insert_node_prop_nested!(
+                        $ctx,
+                        NodeProp::Overflow,
+                        quote::quote! {bevy::ui::Overflow},
+                        expr.clone(),
+                        $priority,
+                        $props
+                    );
+                }
+                return Ok(true);
+            }
+            _ => {}
+        }
+    };
+}
+
 pub fn parse_overflow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
+    match class {
+        "overflow" => {
+            deny_picking_style!(ctx);
+            insert_computed_props!(ctx, [OverflowX, OverflowY], 0, ["x", "y"]);
+        }
+        "overflow-x" => {
+            insert_computed_props!(ctx, [OverflowX], 1, ["x"]);
+        }
+        "overflow-y" => {
+            insert_computed_props!(ctx, [OverflowY], 1, ["y"]);
+        }
+        _ => {}
+    }
     if !class.starts_with("overflow-") {
         return Ok(false);
     }
@@ -29,8 +70,8 @@ pub fn parse_overflow(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     }
 
     if let Ok(axis) = parse_axis(class) {
-        deny_picking_style!(ctx);
         deny_computed_style!(ctx);
+        deny_picking_style!(ctx);
         insert_props!(ctx, NodeProp::Overflow, axis, 0, ["x", "y"]);
     }
 

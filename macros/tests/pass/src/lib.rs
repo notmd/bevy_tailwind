@@ -97,14 +97,17 @@ fn test_all() {
     tw!("overflow-clip");
     tw!("overflow-visible");
     tw!("overflow-scroll");
+    tw!("overflow": OverflowAxis::Hidden);
     tw!("overflow-x-hidden hover:overflow-x-clip focus:overflow-x-visible");
     tw!("overflow-x-clip");
     tw!("overflow-x-visible");
     tw!("overflow-x-scroll");
+    tw!("overflow-x": OverflowAxis::Hidden);
     tw!("overflow-y-hidden hover:overflow-y-clip focus:overflow-y-visible");
     tw!("overflow-y-clip");
     tw!("overflow-y-visible");
     tw!("overflow-y-scroll");
+    tw!("overflow-y": OverflowAxis::Hidden);
 
     // position
     tw!("relative hover:absolute focus:absolute");

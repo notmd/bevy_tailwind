@@ -462,6 +462,16 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            overflow: bevy::ui::Overflow {
+                x: OverflowAxis::Hidden,
+                y: OverflowAxis::Hidden,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 overflow: bevy::ui::Overflow {
@@ -515,6 +525,15 @@ fn test_all() {
         })
     };
     {
+        (bevy::ui::Node {
+            overflow: bevy::ui::Overflow {
+                x: OverflowAxis::Hidden,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
         (
             bevy::ui::Node {
                 overflow: bevy::ui::Overflow {
@@ -562,6 +581,15 @@ fn test_all() {
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 y: bevy::ui::OverflowAxis::Scroll,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        (bevy::ui::Node {
+            overflow: bevy::ui::Overflow {
+                y: OverflowAxis::Hidden,
                 ..Default::default()
             },
             ..Default::default()
