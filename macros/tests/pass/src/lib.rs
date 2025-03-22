@@ -4,7 +4,7 @@ use bevy::prelude::*;
 use bevy_tailwind::tw;
 
 fn simple(mut query: Query<EntityMut>) {
-    let mut entity = query.single_mut();
+    let mut entity = query.single_mut().unwrap();
     tw!("flex");
     tw!(@ &mut entity, "flex");
     tw!("block",{
@@ -23,7 +23,7 @@ fn simple(mut query: Query<EntityMut>) {
 }
 
 fn nested_with_priority(mut query: Query<EntityMut>) {
-    let mut entity = query.single_mut();
+    let mut entity = query.single_mut().unwrap();
     let prio_1lv = tw!("pt-0 pr-1 pb-2 pl-3");
     let prio_1lv_cod = tw!({
         "pt-0": true,
@@ -63,7 +63,7 @@ fn mutate_component() {
 }
 
 fn picking_style(mut query: Query<EntityMut>) {
-    let entity = query.single_mut();
+    let entity = query.single_mut().unwrap();
     tw!("bg-red-500 hover:bg-blue-500 focus:bg-green-500", {
         "hover:bg-yellow-500 hover:pt-1": true
     });
