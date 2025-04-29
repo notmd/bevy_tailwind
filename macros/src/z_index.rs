@@ -37,6 +37,6 @@ impl ParseCtx {
             .z_index
             .insert("0", z_index, &self.class_type, 0);
 
-        return Ok(true);
+        Ok(true)
     }
 }

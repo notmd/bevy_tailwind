@@ -236,14 +236,14 @@ impl Quote for StructValPrioritized {
             }
         }
 
-        return quote(
+        quote(
             0,
             &entries,
             ctx,
             TokenStream::new(),
             &mut evaluated_conds,
             self.use_setter,
-        );
+        )
     }
 }
 
@@ -271,10 +271,7 @@ impl StructVal {
         use_setter: bool,
     ) -> Self {
         StructVal::Prioritized(StructValPrioritized::new(
-            value,
-            &class_type,
-            priority,
-            use_setter,
+            value, class_type, priority, use_setter,
         ))
     }
 
@@ -337,7 +334,6 @@ impl<K: AsRef<str> + Eq + Hash> Struct<K> {
     ) {
         if let Some(prop) = self.props.get_mut(&prop) {
             prop.as_priotized_mut().insert(value, class_type, 0);
-            return;
         } else {
             self.props.insert(
                 prop,

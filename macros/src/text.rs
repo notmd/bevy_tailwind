@@ -96,7 +96,7 @@ fn parse_font_smoothing(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         0,
     );
 
-    return Ok(true);
+    Ok(true)
 }
 
 fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {

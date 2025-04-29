@@ -23,7 +23,7 @@ macro_rules! parse_class {
 impl ParseCtx {
     pub fn parse_background(&mut self, class: &str) -> ParseResult {
         parse_class!(parse_background_color(self, class));
-        return Ok(false);
+        Ok(false)
     }
 }
 

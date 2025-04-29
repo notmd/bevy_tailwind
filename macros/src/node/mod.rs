@@ -92,7 +92,7 @@ impl ParseCtx {
             border::parse_border(self, class)
         );
 
-        return Ok(false);
+        Ok(false)
     }
 
     fn insert_node_prop(&mut self, prop: NodeProp, value: impl Quote + 'static) {

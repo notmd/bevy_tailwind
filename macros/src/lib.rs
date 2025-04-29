@@ -223,13 +223,14 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     match ctx.macro_type {
         MacroType::Create => {
             let components = components.into_iter().map(|(component, _)| component);
-            return quote! {
+            quote! {
                 {
                     #condition
+                    #[allow(clippy::needless_update)]
                     ( #(#components),* )
                 }
             }
-            .into();
+            .into()
         }
         MacroType::Mutate(expr, is_entity) => {
             if !is_entity && components.len() > 1 {
@@ -262,7 +263,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 }
             });
 
-            return quote! {
+            quote! {
                 {
                     let mut __entity = #expr;
                     #condition
@@ -270,7 +271,7 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
                     __entity
                 }
             }
-            .into();
+            .into()
         }
     }
 }
@@ -283,7 +284,7 @@ impl Parse for Input {
     fn parse(input: syn::parse::ParseStream) -> syn::Result<Self> {
         let elements = Punctuated::<InputElement, Token![,]>::parse_separated_nonempty(input)?;
 
-        return Ok(Input { elements });
+        Ok(Input { elements })
     }
 }
 

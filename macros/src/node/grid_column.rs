@@ -94,5 +94,5 @@ pub fn parse_grid_column(ctx: &mut ParseCtx, class: &str) -> ParseResult {
         insert_grid_placement_props!(ctx, NodeProp::GridColumn, quote! {#end}, 1, ["set_end"]);
     }
 
-    return Ok(false);
+    Ok(false)
 }

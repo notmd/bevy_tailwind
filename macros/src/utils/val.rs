@@ -124,7 +124,7 @@ impl Val {
             }
         }
 
-        return None;
+        None
     }
 
     pub fn eval_neg(self, neg: bool) -> Option<Self> {
@@ -157,7 +157,7 @@ pub fn parse_percent(str: &str) -> Option<f32> {
         let str = &str[..str.len() - 1];
         let val = str.parse::<f32>().ok()?;
 
-        if val < 0.0 || val > 100.0 {
+        if !(0.0..=100.0).contains(&val) {
             return None;
         }
 
