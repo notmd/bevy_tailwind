@@ -8,7 +8,6 @@ impl ParseCtx {
     pub fn parse_border_radius(&mut self, class: &str) -> ParseResult {
         match class {
             "rounded" => {
-                deny_picking_style!(self);
                 insert_computed_style!(
                     self,
                     border_radius,
@@ -21,7 +20,6 @@ impl ParseCtx {
                 )
             }
             "rounded-t" => {
-                deny_picking_style!(self);
                 insert_computed_style!(
                     self,
                     border_radius,
@@ -32,7 +30,6 @@ impl ParseCtx {
                 )
             }
             "rounded-r" => {
-                deny_picking_style!(self);
                 insert_computed_style!(
                     self,
                     border_radius,
@@ -43,7 +40,6 @@ impl ParseCtx {
                 )
             }
             "rounded-b" => {
-                deny_picking_style!(self);
                 insert_computed_style!(
                     self,
                     border_radius,
@@ -54,7 +50,6 @@ impl ParseCtx {
                 )
             }
             "rounded-l" => {
-                deny_picking_style!(self);
                 insert_computed_style!(
                     self,
                     border_radius,
@@ -174,26 +169,85 @@ impl ParseCtx {
     }
 
     pub fn parse_border_color(&mut self, class: &str) -> ParseResult {
-        if class == "border-color" {
-            insert_computed_style!(self, border_color, BorderColor, "0", 0);
-        }
+        match class {
+            "border-color" => {
+                deny_picking_style!(self);
+                insert_computed_style!(
+                    self,
+                    border_color,
+                    [
+                        (BorderColorTop, "top", 0),
+                        (BorderColorRight, "right", 0),
+                        (BorderColorBottom, "bottom", 0),
+                        (BorderColorLeft, "left", 0)
+                    ]
+                );
+            }
+            "border-x-color" => {
+                insert_computed_style!(
+                    self,
+                    border_color,
+                    [(BorderColorRight, "right", 1), (BorderColorLeft, "left", 1)]
+                );
+            }
+            "border-y-color" => {
+                insert_computed_style!(
+                    self,
+                    border_color,
+                    [(BorderColorTop, "top", 1), (BorderColorBottom, "bottom", 1)]
+                );
+            }
+            "border-t-color" => {
+                insert_computed_style!(self, border_color, [(BorderColorTop, "top", 1)]);
+            }
+            "border-r-color" => {
+                insert_computed_style!(self, border_color, [(BorderColorRight, "right", 0)]);
+            }
+            "border-b-color" => {
+                insert_computed_style!(self, border_color, [(BorderColorBottom, "bottom", 0)]);
+            }
+            "border-l-color" => {
+                insert_computed_style!(self, border_color, [(BorderColorLeft, "left", 0)]);
+            }
+            _ => {}
+        };
+
         if !class.starts_with("border-") {
             return Ok(false);
         }
 
+        macro_rules! insert_props {
+            ($ctx:ident, $value:expr, $priority:literal, $props:expr) => {
+                for prop in $props {
+                    $ctx.components.border_color.insert(
+                        prop,
+                        $value.clone(),
+                        &$ctx.class_type,
+                        $priority,
+                    );
+                }
+
+                return Ok(true);
+            };
+        }
+
         let class = &class["border-".len()..];
+
+        if class.starts_with("x-") {
+            let class = &class["x-".len()..];
+            if let Some(color) = Color::parse(class) {
+                deny_computed_style!(self);
+                insert_props!(self, color, 1, ["right", "left"]);
+            }
+            return Ok(false);
+        }
 
         let Some(color) = Color::parse(class) else {
             return Ok(false);
         };
 
         deny_computed_style!(self);
-        insert_picking_style!(self, BorderColor, color);
-        self.components
-            .border_color
-            .insert("0", color, &self.class_type, 0);
-
-        Ok(true)
+        insert_props!(self, color, 0, ["top", "right", "bottom", "left"]);
     }
 }
 

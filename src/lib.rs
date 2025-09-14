@@ -137,7 +137,12 @@ fn apply_picking_style(
             }
 
             if let Some(mut border_color) = border_color {
-                apply_style!((border_color, border_color.0));
+                apply_style!(
+                    (border_color_top, border_color.top),
+                    (border_color_right, border_color.right),
+                    (border_color_bottom, border_color.bottom),
+                    (border_color_left, border_color.left)
+                );
             }
 
             if let Some(mut outline) = outline {
@@ -267,7 +272,7 @@ pub struct PickingStyle {
     pub min_height: Option<Val>,
     pub max_height: Option<Val>,
     pub font_size: Option<f32>,
-    pub text_justity: Option<JustifyText>,
+    pub text_justity: Option<Justify>,
     pub text_color: Option<Color>,
     pub text_linebreak: Option<LineBreak>,
     pub background_color: Option<Color>,
@@ -279,7 +284,10 @@ pub struct PickingStyle {
     pub border_right: Option<Val>,
     pub border_bottom: Option<Val>,
     pub border_left: Option<Val>,
-    pub border_color: Option<Color>,
+    pub border_color_top: Option<Color>,
+    pub border_color_right: Option<Color>,
+    pub border_color_bottom: Option<Color>,
+    pub border_color_left: Option<Color>,
     pub outline_width: Option<Val>,
     pub outline_color: Option<Color>,
     pub outline_offset: Option<Val>,
