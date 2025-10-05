@@ -5,15 +5,16 @@ expression: stdout
 #![feature(prelude_import)]
 #![allow(dead_code)]
 #![allow(unused_variables)]
-#[prelude_import]
-use std::prelude::rust_2021::*;
 #[macro_use]
 extern crate std;
+#[prelude_import]
+use std::prelude::rust_2021::*;
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn simple(mut query: Query<EntityMut>) {
-    let mut entity = query.single_mut();
+    let mut entity = query.single_mut().unwrap();
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             display: bevy::ui::Display::Flex,
             ..Default::default()
@@ -28,6 +29,7 @@ fn simple(mut query: Query<EntityMut>) {
     };
     {
         let __class__cond_0 = true;
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             display: if __class__cond_0 {
                 bevy::ui::Display::Flex
@@ -76,8 +78,9 @@ fn simple(mut query: Query<EntityMut>) {
     };
 }
 fn nested_with_priority(mut query: Query<EntityMut>) {
-    let mut entity = query.single_mut();
+    let mut entity = query.single_mut().unwrap();
     let prio_1lv = {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -94,6 +97,7 @@ fn nested_with_priority(mut query: Query<EntityMut>) {
         let __class__cond_1 = true;
         let __class__cond_2 = true;
         let __class__cond_3 = true;
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: if __class__cond_0 {
@@ -122,6 +126,7 @@ fn nested_with_priority(mut query: Query<EntityMut>) {
         })
     };
     let prio_2lv = {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(8f32),
@@ -134,6 +139,7 @@ fn nested_with_priority(mut query: Query<EntityMut>) {
     let prio_2lv_cond = {
         let __class__cond_0 = true;
         let __class__cond_1 = true;
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: if __class__cond_0 {
@@ -159,6 +165,7 @@ fn nested_with_priority(mut query: Query<EntityMut>) {
         let __class__cond_0 = true;
         let __class__cond_1 = false;
         let __class__cond_2 = false;
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: if __class__cond_1 {
@@ -278,9 +285,10 @@ fn mutate_component() {
     };
 }
 fn picking_style(mut query: Query<EntityMut>) {
-    let entity = query.single_mut();
+    let entity = query.single_mut().unwrap();
     {
         let __class__cond_0 = true;
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::BackgroundColor {
                 0: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::RED_500),
@@ -328,6 +336,7 @@ fn picking_style(mut query: Query<EntityMut>) {
 }
 fn test_all() {
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 aspect_ratio: None,
@@ -351,30 +360,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             aspect_ratio: Some(1.0),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             aspect_ratio: Some(16.0 / 9.0),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             aspect_ratio: Some(1.5f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             aspect_ratio: Some(0.5),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 display: bevy::ui::Display::Flex,
@@ -398,30 +412,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             display: bevy::ui::Display::Grid,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             display: bevy::ui::Display::Block,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             display: bevy::ui::Display::None,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             display: Display::Flex,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Hidden,
@@ -432,6 +451,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Clip,
@@ -442,6 +462,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Visible,
@@ -452,6 +473,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Scroll,
@@ -462,6 +484,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: OverflowAxis::Hidden,
@@ -472,6 +495,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 overflow: bevy::ui::Overflow {
@@ -498,6 +522,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Clip,
@@ -507,6 +532,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Visible,
@@ -516,6 +542,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: bevy::ui::OverflowAxis::Scroll,
@@ -525,6 +552,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 x: OverflowAxis::Hidden,
@@ -534,6 +562,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 overflow: bevy::ui::Overflow {
@@ -560,6 +589,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 y: bevy::ui::OverflowAxis::Clip,
@@ -569,6 +599,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 y: bevy::ui::OverflowAxis::Visible,
@@ -578,6 +609,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 y: bevy::ui::OverflowAxis::Scroll,
@@ -587,6 +619,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             overflow: bevy::ui::Overflow {
                 y: OverflowAxis::Hidden,
@@ -596,6 +629,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 position_type: bevy::ui::PositionType::Relative,
@@ -619,18 +653,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             position_type: bevy::ui::PositionType::Absolute,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             position_type: PositionType::Relative,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 top: bevy::ui::Val::Px(0f32),
@@ -654,18 +691,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             top: bevy::ui::Val::Px(-4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             top: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 right: bevy::ui::Val::Px(0f32),
@@ -689,18 +729,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             right: bevy::ui::Val::Px(-4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             right: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 bottom: bevy::ui::Val::Px(0f32),
@@ -724,18 +767,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             bottom: bevy::ui::Val::Px(-4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             bottom: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 left: bevy::ui::Val::Px(0f32),
@@ -759,18 +805,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             left: bevy::ui::Val::Px(-4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             left: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::ZIndex {
                 0: 10i32,
@@ -794,18 +843,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::ZIndex {
             0: -10i32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::ZIndex {
             0: 100,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 flex_basis: bevy::ui::Val::Px(0f32),
@@ -829,18 +881,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_basis: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_basis: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 flex_direction: bevy::ui::FlexDirection::Row,
@@ -864,30 +919,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_direction: bevy::ui::FlexDirection::RowReverse,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_direction: bevy::ui::FlexDirection::Column,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_direction: bevy::ui::FlexDirection::ColumnReverse,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_direction: FlexDirection::Row,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 flex_wrap: bevy::ui::FlexWrap::Wrap,
@@ -911,24 +971,28 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_wrap: bevy::ui::FlexWrap::WrapReverse,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_wrap: bevy::ui::FlexWrap::NoWrap,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_wrap: FlexWrap::Wrap,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 1f32,
             flex_shrink: 1f32,
@@ -937,6 +1001,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 1f32,
             flex_shrink: 1f32,
@@ -945,6 +1010,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 0f32,
             flex_shrink: 1f32,
@@ -953,6 +1019,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 0f32,
             flex_shrink: 0f32,
@@ -961,6 +1028,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 flex_grow: 1f32,
@@ -984,36 +1052,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 1f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 0f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 0f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 1.0,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_grow: 1.0,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 flex_shrink: 1f32,
@@ -1037,36 +1111,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_shrink: 1f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_shrink: 0f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_shrink: 0f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_shrink: 1.0,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             flex_shrink: 1.0,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 grid_template_columns: bevy::ui::RepeatedGridTrack::minmax(
@@ -1112,30 +1192,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_template_columns: Default::default(),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_template_columns: GridTrack::fr(1.0),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_span(1u16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_span(1u16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default()
                 .set_start(1i16)
@@ -1144,30 +1229,35 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_start(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_start(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_end(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_column: bevy::ui::GridPlacement::default().set_end(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 grid_template_rows: bevy::ui::RepeatedGridTrack::minmax(
@@ -1213,60 +1303,70 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_template_rows: Default::default(),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_template_rows: GridTrack::fr(1.0),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_span(1u16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_span(1u16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_start(1i16).set_end(-1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_start(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_start(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_end(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_row: bevy::ui::GridPlacement::default().set_end(1i16),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 grid_auto_flow: bevy::ui::GridAutoFlow::Row,
@@ -1290,30 +1390,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_flow: bevy::ui::GridAutoFlow::Column,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_flow: bevy::ui::GridAutoFlow::RowDense,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_flow: bevy::ui::GridAutoFlow::ColumnDense,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_flow: GridAutoFlow::Row,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 grid_auto_columns: bevy::ui::GridTrack::auto(),
@@ -1337,30 +1442,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_columns: bevy::ui::GridTrack::min_content(),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_columns: bevy::ui::GridTrack::max_content(),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_columns: bevy::ui::GridTrack::flex(1.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_columns: GridTrack::fr(1.0),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 grid_auto_rows: bevy::ui::GridTrack::auto(),
@@ -1384,30 +1494,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_rows: bevy::ui::GridTrack::min_content(),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_rows: bevy::ui::GridTrack::max_content(),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_rows: bevy::ui::GridTrack::flex(1.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             grid_auto_rows: GridTrack::fr(1.0),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: bevy::ui::Val::Px(0f32),
             column_gap: bevy::ui::Val::Px(0f32),
@@ -1415,6 +1530,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: Val::Px(10.),
             column_gap: Val::Px(10.),
@@ -1422,6 +1538,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 column_gap: bevy::ui::Val::Px(0f32),
@@ -1445,12 +1562,14 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             column_gap: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 row_gap: bevy::ui::Val::Px(0f32),
@@ -1474,12 +1593,14 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: bevy::ui::Val::Px(1f32),
             column_gap: bevy::ui::Val::Px(1f32),
@@ -1487,18 +1608,21 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             column_gap: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: bevy::ui::Val::Px(6f32),
             column_gap: bevy::ui::Val::Px(6f32),
@@ -1506,18 +1630,21 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             column_gap: bevy::ui::Val::Px(6f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             row_gap: bevy::ui::Val::Px(6f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 justify_content: bevy::ui::JustifyContent::Default,
@@ -1541,54 +1668,63 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::FlexStart,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::FlexEnd,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::SpaceBetween,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::SpaceAround,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::SpaceEvenly,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: bevy::ui::JustifyContent::Stretch,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_content: JustifyContent::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 justify_items: bevy::ui::JustifyItems::Start,
@@ -1612,30 +1748,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_items: bevy::ui::JustifyItems::End,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_items: bevy::ui::JustifyItems::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_items: bevy::ui::JustifyItems::Stretch,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_items: JustifyItems::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 justify_self: bevy::ui::JustifySelf::Auto,
@@ -1659,30 +1800,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_self: bevy::ui::JustifySelf::Start,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_self: bevy::ui::JustifySelf::End,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_self: bevy::ui::JustifySelf::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             justify_self: JustifySelf::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 align_content: bevy::ui::AlignContent::Default,
@@ -1706,54 +1852,63 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::FlexStart,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::FlexEnd,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::SpaceBetween,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::SpaceAround,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::SpaceEvenly,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::Stretch,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: AlignContent::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 align_items: bevy::ui::AlignItems::FlexStart,
@@ -1777,36 +1932,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::FlexEnd,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Baseline,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Stretch,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: AlignItems::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 align_self: bevy::ui::AlignSelf::Auto,
@@ -1830,42 +1991,49 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::FlexStart,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::FlexEnd,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Stretch,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Baseline,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: AlignSelf::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::Center,
             justify_content: bevy::ui::JustifyContent::Center,
@@ -1873,6 +2041,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::Start,
             justify_content: bevy::ui::JustifyContent::Start,
@@ -1880,6 +2049,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::End,
             justify_content: bevy::ui::JustifyContent::End,
@@ -1887,6 +2057,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::SpaceBetween,
             justify_content: bevy::ui::JustifyContent::SpaceBetween,
@@ -1894,6 +2065,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::SpaceAround,
             justify_content: bevy::ui::JustifyContent::SpaceAround,
@@ -1901,6 +2073,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::SpaceEvenly,
             justify_content: bevy::ui::JustifyContent::SpaceEvenly,
@@ -1908,6 +2081,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::Stretch,
             justify_content: bevy::ui::JustifyContent::Stretch,
@@ -1915,6 +2089,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_content: bevy::ui::AlignContent::Stretch,
             justify_content: bevy::ui::JustifyContent::Stretch,
@@ -1922,6 +2097,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Start,
             justify_items: bevy::ui::JustifyItems::Start,
@@ -1929,6 +2105,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::End,
             justify_items: bevy::ui::JustifyItems::End,
@@ -1936,6 +2113,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Center,
             justify_items: bevy::ui::JustifyItems::Center,
@@ -1943,6 +2121,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Baseline,
             justify_items: bevy::ui::JustifyItems::Baseline,
@@ -1950,6 +2129,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_items: bevy::ui::AlignItems::Stretch,
             justify_items: bevy::ui::JustifyItems::Stretch,
@@ -1957,6 +2137,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Auto,
             justify_self: bevy::ui::JustifySelf::Auto,
@@ -1964,6 +2145,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Start,
             justify_self: bevy::ui::JustifySelf::Start,
@@ -1971,6 +2153,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::End,
             justify_self: bevy::ui::JustifySelf::End,
@@ -1978,6 +2161,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Center,
             justify_self: bevy::ui::JustifySelf::Center,
@@ -1985,6 +2169,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             align_self: bevy::ui::AlignSelf::Stretch,
             justify_self: bevy::ui::JustifySelf::Stretch,
@@ -1992,6 +2177,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -2004,6 +2190,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -2016,6 +2203,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(0f32),
@@ -2026,6 +2214,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: Val::Px(10.),
@@ -2036,6 +2225,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -2046,6 +2236,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -2056,6 +2247,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2082,6 +2274,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2108,6 +2301,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2134,6 +2328,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2160,6 +2355,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2186,6 +2382,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2212,6 +2409,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2238,6 +2436,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 padding: bevy::ui::UiRect {
@@ -2264,6 +2463,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -2276,6 +2476,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(1f32),
@@ -2286,6 +2487,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -2296,6 +2498,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -2305,6 +2508,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 right: bevy::ui::Val::Px(1f32),
@@ -2314,6 +2518,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 bottom: bevy::ui::Val::Px(1f32),
@@ -2323,6 +2528,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(1f32),
@@ -2332,6 +2538,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(6f32),
@@ -2344,6 +2551,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(6f32),
@@ -2354,6 +2562,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(6f32),
@@ -2364,6 +2573,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(6f32),
@@ -2373,6 +2583,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 right: bevy::ui::Val::Px(6f32),
@@ -2382,6 +2593,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 bottom: bevy::ui::Val::Px(6f32),
@@ -2391,6 +2603,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             padding: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(6f32),
@@ -2400,6 +2613,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -2412,6 +2626,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -2424,6 +2639,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(0f32),
@@ -2434,6 +2650,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 left: Val::Px(10.),
@@ -2444,6 +2661,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -2454,6 +2672,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -2464,6 +2683,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2490,6 +2710,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2516,6 +2737,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2542,6 +2764,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2568,6 +2791,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2594,6 +2818,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2620,6 +2845,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2646,6 +2872,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 margin: bevy::ui::UiRect {
@@ -2672,6 +2899,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -2684,6 +2912,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(1f32),
@@ -2694,6 +2923,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -2704,6 +2934,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -2713,6 +2944,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 right: bevy::ui::Val::Px(1f32),
@@ -2722,6 +2954,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 bottom: bevy::ui::Val::Px(1f32),
@@ -2731,6 +2964,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(1f32),
@@ -2740,6 +2974,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(6f32),
@@ -2752,6 +2987,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(6f32),
@@ -2762,6 +2998,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(6f32),
@@ -2772,6 +3009,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(6f32),
@@ -2781,6 +3019,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 right: bevy::ui::Val::Px(6f32),
@@ -2790,6 +3029,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 bottom: bevy::ui::Val::Px(6f32),
@@ -2799,6 +3039,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             margin: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(6f32),
@@ -2808,6 +3049,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 width: bevy::ui::Val::Auto,
@@ -2831,60 +3073,70 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Percent(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Vw(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::VMin(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::VMax(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 min_width: bevy::ui::Val::Px(0f32),
@@ -2908,36 +3160,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_width: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_width: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_width: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_width: bevy::ui::Val::Percent(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_width: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 max_width: bevy::ui::Val::Px(0f32),
@@ -2961,36 +3219,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_width: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_width: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_width: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_width: bevy::ui::Val::Percent(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_width: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 height: bevy::ui::Val::Auto,
@@ -3014,60 +3278,70 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::Percent(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::Vh(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::VMin(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: bevy::ui::Val::VMax(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             height: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 min_height: bevy::ui::Val::Px(0f32),
@@ -3091,36 +3365,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_height: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_height: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_height: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_height: bevy::ui::Val::Percent(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             min_height: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 max_height: bevy::ui::Val::Px(0f32),
@@ -3144,36 +3424,42 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_height: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_height: bevy::ui::Val::Px(1f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_height: bevy::ui::Val::Percent(50f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_height: bevy::ui::Val::Percent(100f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             max_height: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Px(0f32),
             height: bevy::ui::Val::Px(0f32),
@@ -3181,6 +3467,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Px(2f32),
             height: bevy::ui::Val::Px(2f32),
@@ -3188,6 +3475,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Px(1f32),
             height: bevy::ui::Val::Px(1f32),
@@ -3195,6 +3483,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Percent(50f32),
             height: bevy::ui::Val::Percent(50f32),
@@ -3202,6 +3491,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: bevy::ui::Val::Percent(100f32),
             height: bevy::ui::Val::Percent(100f32),
@@ -3209,6 +3499,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             width: Val::Px(10.),
             height: Val::Px(10.),
@@ -3216,6 +3507,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::text::TextFont {
                 font_size: 12f32,
@@ -3239,106 +3531,121 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 14f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 16f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 18f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 20f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 24f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 30f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 36f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 48f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 64f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 80f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 96f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 128f32,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_size: 10.,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextFont {
             font_smoothing: bevy::text::FontSmoothing::AntiAliased,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::text::TextLayout {
-                justify: bevy::text::JustifyText::Left,
+                justify: bevy::text::Justify::Left,
                 ..Default::default()
             },
             bevy_tailwind::PickingStyles {
                 base: bevy_tailwind::PickingStyle {
-                    text_justity: Some(bevy::text::JustifyText::Left),
+                    text_justity: Some(bevy::text::Justify::Left),
                     ..Default::default()
                 },
                 hover: bevy_tailwind::PickingStyle {
-                    text_justity: Some(bevy::text::JustifyText::Center),
+                    text_justity: Some(bevy::text::Justify::Center),
                     ..Default::default()
                 },
                 focus: bevy_tailwind::PickingStyle {
-                    text_justity: Some(bevy::text::JustifyText::Right),
+                    text_justity: Some(bevy::text::Justify::Right),
                     ..Default::default()
                 },
                 ..Default::default()
@@ -3346,30 +3653,35 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextLayout {
-            justify: bevy::text::JustifyText::Center,
+            justify: bevy::text::Justify::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextLayout {
-            justify: bevy::text::JustifyText::Right,
+            justify: bevy::text::Justify::Right,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextLayout {
-            justify: bevy::text::JustifyText::Justified,
+            justify: bevy::text::Justify::Justified,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextLayout {
-            justify: JustifyText::Center,
+            justify: Justify::Center,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::text::TextColor {
                 0: bevy::color::Color::NONE,
@@ -3398,6 +3710,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::NONE,
@@ -3407,12 +3720,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: bevy::color::Color::BLACK,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::BLACK,
@@ -3422,12 +3737,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: bevy::color::Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::WHITE,
@@ -3437,12 +3754,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
@@ -3452,12 +3771,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextColor {
             0: Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::text::TextLayout {
                 linebreak: bevy::text::LineBreak::WordBoundary,
@@ -3481,18 +3802,21 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextLayout {
             linebreak: bevy::text::LineBreak::AnyCharacter,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::text::TextLayout {
             linebreak: LineBreak::NoWrap,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::BackgroundColor {
                 0: bevy::color::Color::NONE,
@@ -3516,6 +3840,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::NONE,
@@ -3525,12 +3850,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: bevy::color::Color::BLACK,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::BLACK,
@@ -3540,12 +3867,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: bevy::color::Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::WHITE,
@@ -3555,12 +3884,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
@@ -3570,12 +3901,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BackgroundColor {
             0: Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(0f32),
             top_right: bevy::ui::Val::Px(0f32),
@@ -3585,6 +3918,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(2f32),
             top_right: bevy::ui::Val::Px(2f32),
@@ -3594,6 +3928,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(4f32),
             top_right: bevy::ui::Val::Px(4f32),
@@ -3603,6 +3938,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: Val::Px(10.),
             top_right: Val::Px(10.),
@@ -3612,6 +3948,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(9999f32),
             top_right: bevy::ui::Val::Px(9999f32),
@@ -3621,6 +3958,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(0f32),
             top_right: bevy::ui::Val::Px(0f32),
@@ -3628,6 +3966,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(2f32),
             top_right: bevy::ui::Val::Px(2f32),
@@ -3635,6 +3974,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(4f32),
             top_right: bevy::ui::Val::Px(4f32),
@@ -3642,6 +3982,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(9999f32),
             top_right: bevy::ui::Val::Px(9999f32),
@@ -3649,6 +3990,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: Val::Px(10.),
             top_right: Val::Px(10.),
@@ -3656,6 +3998,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(0f32),
             bottom_right: bevy::ui::Val::Px(0f32),
@@ -3663,6 +4006,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(2f32),
             bottom_right: bevy::ui::Val::Px(2f32),
@@ -3670,6 +4014,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(4f32),
             bottom_right: bevy::ui::Val::Px(4f32),
@@ -3677,6 +4022,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(9999f32),
             bottom_right: bevy::ui::Val::Px(9999f32),
@@ -3684,6 +4030,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: Val::Px(10.),
             bottom_right: Val::Px(10.),
@@ -3691,6 +4038,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(0f32),
             bottom_left: bevy::ui::Val::Px(0f32),
@@ -3698,6 +4046,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(2f32),
             bottom_left: bevy::ui::Val::Px(2f32),
@@ -3705,6 +4054,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(4f32),
             bottom_left: bevy::ui::Val::Px(4f32),
@@ -3712,6 +4062,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(9999f32),
             bottom_left: bevy::ui::Val::Px(9999f32),
@@ -3719,6 +4070,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: Val::Px(10.),
             bottom_left: Val::Px(10.),
@@ -3726,6 +4078,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(0f32),
             top_left: bevy::ui::Val::Px(0f32),
@@ -3733,6 +4086,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(2f32),
             top_left: bevy::ui::Val::Px(2f32),
@@ -3740,6 +4094,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(4f32),
             top_left: bevy::ui::Val::Px(4f32),
@@ -3747,6 +4102,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(9999f32),
             top_left: bevy::ui::Val::Px(9999f32),
@@ -3754,6 +4110,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: Val::Px(10.),
             top_left: Val::Px(10.),
@@ -3761,6 +4118,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::BorderRadius {
                 top_left: bevy::ui::Val::Px(0f32),
@@ -3784,120 +4142,140 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: bevy::ui::Val::Px(9999f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_left: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: bevy::ui::Val::Px(9999f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             top_right: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: bevy::ui::Val::Px(9999f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_right: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(0f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(2f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(4f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: bevy::ui::Val::Px(9999f32),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderRadius {
             bottom_left: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -3910,6 +4288,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -3922,6 +4301,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -3934,6 +4314,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(0f32),
@@ -3944,6 +4325,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(1f32),
@@ -3954,6 +4336,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 left: Val::Px(10.),
@@ -3964,6 +4347,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -3974,6 +4358,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(1f32),
@@ -3984,6 +4369,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -3994,6 +4380,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: bevy::ui::Val::Px(0f32),
@@ -4003,6 +4390,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Node {
                 border: bevy::ui::UiRect {
@@ -4029,6 +4417,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 top: Val::Px(10.),
@@ -4038,6 +4427,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 right: bevy::ui::Val::Px(0f32),
@@ -4047,6 +4437,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 right: bevy::ui::Val::Px(1f32),
@@ -4056,6 +4447,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 right: Val::Px(10.),
@@ -4065,6 +4457,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 bottom: bevy::ui::Val::Px(0f32),
@@ -4074,6 +4467,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 bottom: bevy::ui::Val::Px(1f32),
@@ -4083,6 +4477,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 bottom: Val::Px(10.),
@@ -4092,6 +4487,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(0f32),
@@ -4101,6 +4497,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 left: bevy::ui::Val::Px(1f32),
@@ -4110,6 +4507,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Node {
             border: bevy::ui::UiRect {
                 left: Val::Px(10.),
@@ -4119,31 +4517,31 @@ fn test_all() {
         })
     };
     {
-        (
-            bevy::ui::BorderColor {
-                0: bevy::color::Color::NONE,
-                ..Default::default()
-            },
-            bevy_tailwind::PickingStyles {
-                base: bevy_tailwind::PickingStyle {
-                    border_color: Some(bevy::color::Color::NONE),
-                    ..Default::default()
-                },
-                hover: bevy_tailwind::PickingStyle {
-                    border_color: Some(bevy::color::Color::BLACK),
-                    ..Default::default()
-                },
-                focus: bevy_tailwind::PickingStyle {
-                    border_color: Some(bevy::color::Color::WHITE),
-                    ..Default::default()
-                },
-                ..Default::default()
-            },
-        )
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::WHITE,
+            right: bevy::color::Color::WHITE,
+            bottom: bevy::color::Color::WHITE,
+            left: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::NONE,
                 0.5f32,
             ),
@@ -4151,14 +4549,31 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: bevy::color::Color::BLACK,
+            top: bevy::color::Color::BLACK,
+            right: bevy::color::Color::BLACK,
+            bottom: bevy::color::Color::BLACK,
+            left: bevy::color::Color::BLACK,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::BLACK,
                 0.5f32,
             ),
@@ -4166,14 +4581,31 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: bevy::color::Color::WHITE,
+            top: bevy::color::Color::WHITE,
+            right: bevy::color::Color::WHITE,
+            bottom: bevy::color::Color::WHITE,
+            left: bevy::color::Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::WHITE,
                 0.5f32,
             ),
@@ -4181,14 +4613,31 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            top: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            right: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            bottom: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            left: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
                 0.5f32,
             ),
@@ -4196,12 +4645,618 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::BorderColor {
-            0: Color::WHITE,
+            top: Color::WHITE,
+            right: Color::WHITE,
+            bottom: Color::WHITE,
+            left: Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::NONE,
+            left: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::BLACK,
+            left: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::WHITE,
+            left: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            left: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                right: Color::WHITE,
+                left: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    border_color_left: Some(bevy::color::Color::default()),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::NONE,
+            bottom: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::BLACK,
+            bottom: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::WHITE,
+            bottom: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            bottom: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                top: Color::WHITE,
+                bottom: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                top: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                right: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                bottom: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::NONE,
+            top: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                top: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_left: Some(bevy::color::Color::default()),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Outline {
                 width: bevy::ui::Val::Px(0f32),
@@ -4225,12 +5280,14 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             width: Val::Px(10.),
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Outline {
                 color: bevy::color::Color::NONE,
@@ -4254,6 +5311,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::NONE,
@@ -4263,12 +5321,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: bevy::color::Color::BLACK,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::BLACK,
@@ -4278,12 +5338,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: bevy::color::Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::WHITE,
@@ -4293,6 +5355,7 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
                 &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
@@ -4302,12 +5365,14 @@ fn test_all() {
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             color: Color::WHITE,
             ..Default::default()
         })
     };
     {
+        #[allow(clippy::needless_update)]
         (
             bevy::ui::Outline {
                 offset: bevy::ui::Val::Px(0f32),
@@ -4331,6 +5396,7 @@ fn test_all() {
         )
     };
     {
+        #[allow(clippy::needless_update)]
         (bevy::ui::Outline {
             offset: Val::Px(10.),
             ..Default::default()

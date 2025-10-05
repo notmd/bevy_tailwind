@@ -249,7 +249,11 @@ fn create_base_style(picking_styles: &PickingStyles, ctx: &mut QuoteCtx) -> Toke
     #[rustfmt::skip]
     insert_prop!(BorderLeft, bevy::ui::Border, node, &NodeProp::Border, "left");
 
-    insert_prop!(BorderColor, bevy::color::Color, border_color, "0");
+    insert_prop!(BorderColorTop, bevy::color::Color, border_color, "top");
+    insert_prop!(BorderColorRight, bevy::color::Color, border_color, "right");
+    #[rustfmt::skip]
+    insert_prop!(BorderColorBottom, bevy::color::Color, border_color, "bottom");
+    insert_prop!(BorderColorLeft, bevy::color::Color, border_color, "lef");
 
     insert_prop!(OutlineWidth, bevy::ui::Val, outline, "width");
 
@@ -354,7 +358,10 @@ pub enum PickingStyleProp {
     BorderRight,
     BorderBottom,
     BorderLeft,
-    BorderColor,
+    BorderColorTop,
+    BorderColorRight,
+    BorderColorBottom,
+    BorderColorLeft,
     OutlineWidth,
     OutlineColor,
     OutlineOffset,
@@ -419,7 +426,10 @@ impl AsRef<str> for PickingStyleProp {
             PickingStyleProp::BorderRight => "border_right",
             PickingStyleProp::BorderBottom => "border_bottom",
             PickingStyleProp::BorderLeft => "border_left",
-            PickingStyleProp::BorderColor => "border_color",
+            PickingStyleProp::BorderColorTop => "border_color_top",
+            PickingStyleProp::BorderColorRight => "border_color_right",
+            PickingStyleProp::BorderColorBottom => "border_color_bottom",
+            PickingStyleProp::BorderColorLeft => "border_color_left",
             PickingStyleProp::OutlineWidth => "outline_width",
             PickingStyleProp::OutlineColor => "outline_color",
             PickingStyleProp::OutlineOffset => "outline_offset",

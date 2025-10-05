@@ -111,10 +111,10 @@ fn parse_text_align(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     let class = &class["text-".len()..];
 
     let justify = match class {
-        "left" => quote! {bevy::text::JustifyText::Left},
-        "center" => quote! {bevy::text::JustifyText::Center},
-        "right" => quote! {bevy::text::JustifyText::Right},
-        "justify" => quote! {bevy::text::JustifyText::Justified},
+        "left" => quote! {bevy::text::Justify::Left},
+        "center" => quote! {bevy::text::Justify::Center},
+        "right" => quote! {bevy::text::Justify::Right},
+        "justify" => quote! {bevy::text::Justify::Justified},
         _ => {
             return Ok(false);
         }
