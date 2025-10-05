@@ -23,6 +23,7 @@ fn apply_picking_style(
             Option<&mut TextFont>,
             Option<&mut TextLayout>,
             Option<&mut TextColor>,
+            Option<&mut UiTransform>,
         ),
         Changed<Interaction>,
     >,
@@ -39,6 +40,7 @@ fn apply_picking_style(
         text_font,
         text_layout,
         text_color,
+        ui_transform,
     ) in query.iter_mut()
     {
         if interaction.is_added() {
@@ -56,6 +58,7 @@ fn apply_picking_style(
             text_font: Option<Mut<TextFont>>,
             text_layout: Option<Mut<TextLayout>>,
             text_color: Option<Mut<TextColor>>,
+            ui_transform: Option<Mut<UiTransform>>,
         ) {
             macro_rules! apply_style {
                 ($(($picking_prop:ident, $lhs:expr)),+) => {
@@ -167,6 +170,16 @@ fn apply_picking_style(
             if let Some(mut text_color) = text_color {
                 apply_style!((text_color, text_color.0));
             }
+
+            if let Some(mut ui_transform) = ui_transform {
+                apply_style!(
+                    (translate_x, ui_transform.translation),
+                    (translate_y, ui_transform.translation),
+                    (scale_x, ui_transform.scale),
+                    (scale_y, ui_transform.scale),
+                    (rotation, ui_transform.rotation)
+                );
+            }
         }
 
         match interaction.into_inner() {
@@ -182,6 +195,7 @@ fn apply_picking_style(
                     text_font,
                     text_layout,
                     text_color,
+                    ui_transform,
                 );
             }
             Interaction::Hovered => {
@@ -196,6 +210,7 @@ fn apply_picking_style(
                     text_font,
                     text_layout,
                     text_color,
+                    ui_transform,
                 );
             }
             Interaction::Pressed => {
@@ -210,6 +225,7 @@ fn apply_picking_style(
                     text_font,
                     text_layout,
                     text_color,
+                    ui_transform,
                 );
             }
         }
@@ -291,4 +307,9 @@ pub struct PickingStyle {
     pub outline_width: Option<Val>,
     pub outline_color: Option<Color>,
     pub outline_offset: Option<Val>,
+    pub translate_x: Option<Val2>,
+    pub translate_y: Option<Val2>,
+    pub scale_x: Option<Vec2>,
+    pub scale_y: Option<Vec2>,
+    pub rotation: Option<Rot2>,
 }

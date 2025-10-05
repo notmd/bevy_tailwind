@@ -5402,4 +5402,602 @@ fn test_all() {
             ..Default::default()
         })
     };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                translation: bevy::ui::Val2 {
+                    x: bevy::ui::Val::Px(16f32),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    translate_x: Some(bevy::ui::Val2 {
+                        x: bevy::ui::Val::Px(16f32),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    translate_x: Some(bevy::ui::Val2 {
+                        x: bevy::ui::Val::Px(32f32),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    translate_x: Some(bevy::ui::Val2 {
+                        x: bevy::ui::Val::Px(48f32),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Px(-16f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Percent(50f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Percent(100f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Px(1f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                translation: Val2::ZERO,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    translate_x: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    translate_x: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    translate_x: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                translation: bevy::ui::Val2 {
+                    y: bevy::ui::Val::Px(16f32),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    translate_y: Some(bevy::ui::Val2 {
+                        y: bevy::ui::Val::Px(16f32),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    translate_y: Some(bevy::ui::Val2 {
+                        y: bevy::ui::Val::Px(32f32),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    translate_y: Some(bevy::ui::Val2 {
+                        y: bevy::ui::Val::Px(48f32),
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                y: bevy::ui::Val::Px(-16f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                y: bevy::ui::Val::Percent(50f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                y: bevy::ui::Val::Percent(100f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                y: bevy::ui::Val::Px(1f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                translation: Val2::ZERO,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    translate_y: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    translate_y: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    translate_y: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Px(16f32),
+                y: bevy::ui::Val::Px(16f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Px(-16f32),
+                y: bevy::ui::Val::Px(-16f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Percent(50f32),
+                y: bevy::ui::Val::Percent(50f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Percent(100f32),
+                y: bevy::ui::Val::Percent(100f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                translation: Val2::ZERO,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    translate_x: Some(Val2::ZERO),
+                    translate_y: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    translate_x: Some(Val2::ZERO),
+                    translate_y: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    translate_x: Some(Val2::ZERO),
+                    translate_y: Some(Val2::ZERO),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Px(32f32),
+                y: bevy::ui::Val::Px(16f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            translation: bevy::ui::Val2 {
+                x: bevy::ui::Val::Px(32f32),
+                y: bevy::ui::Val::Px(16f32),
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                scale: bevy::math::Vec2 {
+                    x: 0.75f32,
+                    y: 0.75f32,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    scale_x: Some(bevy::math::Vec2 {
+                        x: 0.75f32,
+                        y: 0.75f32,
+                        ..Default::default()
+                    }),
+                    scale_y: Some(bevy::math::Vec2 {
+                        x: 0.75f32,
+                        y: 0.75f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    scale_x: Some(bevy::math::Vec2 {
+                        x: 1f32,
+                        ..Default::default()
+                    }),
+                    scale_y: Some(bevy::math::Vec2 {
+                        y: 1f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    scale_x: Some(bevy::math::Vec2 {
+                        x: 1.25f32,
+                        ..Default::default()
+                    }),
+                    scale_y: Some(bevy::math::Vec2 {
+                        y: 1.25f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: 1f32,
+                y: 1f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: 1.5f32,
+                y: 1.5f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: -1f32,
+                y: -1f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2::new(2.0, 2.0),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                scale: bevy::math::Vec2 {
+                    x: 0.75f32,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    scale_x: Some(bevy::math::Vec2 {
+                        x: 0.75f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    scale_x: Some(bevy::math::Vec2 {
+                        x: 1f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    scale_x: Some(bevy::math::Vec2 {
+                        x: 1.25f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: 1f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: -1f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2::new(2.0, 1.0),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                scale: bevy::math::Vec2 {
+                    y: 0.75f32,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    scale_y: Some(bevy::math::Vec2 {
+                        y: 0.75f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    scale_y: Some(bevy::math::Vec2 {
+                        y: 1f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    scale_y: Some(bevy::math::Vec2 {
+                        y: 1.25f32,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                y: 1f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                y: -1f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2::new(1.0, 2.0),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: 1.5f32,
+                y: 0.75f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            scale: bevy::math::Vec2 {
+                x: 1.5f32,
+                y: 0.75f32,
+                ..Default::default()
+            },
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::UiTransform {
+                rotation: bevy::math::Rot2::degrees(45f32),
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    rotation: Some(bevy::math::Rot2::degrees(45f32)),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    rotation: Some(bevy::math::Rot2::degrees(90f32)),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    rotation: Some(bevy::math::Rot2::degrees(180f32)),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            rotation: bevy::math::Rot2::degrees(0f32),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            rotation: bevy::math::Rot2::degrees(90f32),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            rotation: bevy::math::Rot2::degrees(180f32),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            rotation: bevy::math::Rot2::degrees(-45f32),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            rotation: bevy::math::Rot2::degrees(-90f32),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::UiTransform {
+            rotation: bevy::math::Rot2::radians(1.5708),
+            ..Default::default()
+        })
+    };
 }

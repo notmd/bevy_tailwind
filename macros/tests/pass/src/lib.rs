@@ -652,4 +652,53 @@ fn test_all() {
     // outline offset
     tw!("outline-offset-0 hover:outline-offset-1 focus:outline-offset-2");
     tw!("outline-offset": Val::Px(10.));
+
+    // translate
+    tw!("translate-x-4 hover:translate-x-8 focus:translate-x-12");
+    tw!("-translate-x-4");
+    tw!("translate-x-1/2");
+    tw!("translate-x-full");
+    tw!("translate-x-px");
+    tw!("translate-x": Val2::ZERO, "hover:translate-x": Val2::ZERO, "focus:translate-x": Val2::ZERO);
+    tw!("translate-y-4 hover:translate-y-8 focus:translate-y-12");
+    tw!("-translate-y-4");
+    tw!("translate-y-1/2");
+    tw!("translate-y-full");
+    tw!("translate-y-px");
+    tw!("translate-y": Val2::ZERO, "hover:translate-y": Val2::ZERO, "focus:translate-y": Val2::ZERO);
+    tw!("translate-4");
+    tw!("-translate-4");
+    tw!("translate-1/2");
+    tw!("translate-full");
+    tw!("translate": Val2::ZERO, "hover:translate": Val2::ZERO, "focus:translate": Val2::ZERO);
+    // Priority tests: translate-x-8 (priority 2) should override translate-4 x value (priority 0)
+    tw!("translate-4 translate-x-8");
+    tw!("translate-x-8 translate-4");
+
+    // scale
+    tw!("scale-75 hover:scale-100 focus:scale-125");
+    tw!("scale-100");
+    tw!("scale-150");
+    tw!("-scale-100");
+    tw!("scale": bevy::math::Vec2::new(2.0, 2.0));
+    tw!("scale-x-75 hover:scale-x-100 focus:scale-x-125");
+    tw!("scale-x-100");
+    tw!("-scale-x-100");
+    tw!("scale-x": bevy::math::Vec2::new(2.0, 1.0));
+    tw!("scale-y-75 hover:scale-y-100 focus:scale-y-125");
+    tw!("scale-y-100");
+    tw!("-scale-y-100");
+    tw!("scale-y": bevy::math::Vec2::new(1.0, 2.0));
+    // Priority tests: scale-x-150 (priority 2) should override scale-75 x value (priority 0)
+    tw!("scale-75 scale-x-150");
+    tw!("scale-x-150 scale-75");
+
+    // rotate
+    tw!("rotate-45 hover:rotate-90 focus:rotate-180");
+    tw!("rotate-0");
+    tw!("rotate-90");
+    tw!("rotate-180");
+    tw!("-rotate-45");
+    tw!("-rotate-90");
+    tw!("rotate": bevy::math::Rot2::radians(1.5708));
 }
