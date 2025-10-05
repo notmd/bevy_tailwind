@@ -171,7 +171,6 @@ impl ParseCtx {
     pub fn parse_border_color(&mut self, class: &str) -> ParseResult {
         match class {
             "border-color" => {
-                deny_picking_style!(self);
                 insert_computed_style!(
                     self,
                     border_color,
@@ -238,6 +237,51 @@ impl ParseCtx {
             if let Some(color) = Color::parse(class) {
                 deny_computed_style!(self);
                 insert_props!(self, color, 1, ["right", "left"]);
+            }
+            return Ok(false);
+        }
+
+        if class.starts_with("y-") {
+            let class = &class["y-".len()..];
+            if let Some(color) = Color::parse(class) {
+                deny_computed_style!(self);
+                insert_props!(self, color, 1, ["top", "bottom"]);
+            }
+            return Ok(false);
+        }
+
+        if class.starts_with("t-") {
+            let class = &class["t-".len()..];
+            if let Some(color) = Color::parse(class) {
+                deny_computed_style!(self);
+                insert_props!(self, color, 2, ["top"]);
+            }
+            return Ok(false);
+        }
+
+        if class.starts_with("r-") {
+            let class = &class["r-".len()..];
+            if let Some(color) = Color::parse(class) {
+                deny_computed_style!(self);
+                insert_props!(self, color, 2, ["right"]);
+            }
+            return Ok(false);
+        }
+
+        if class.starts_with("b-") {
+            let class = &class["b-".len()..];
+            if let Some(color) = Color::parse(class) {
+                deny_computed_style!(self);
+                insert_props!(self, color, 2, ["bottom"]);
+            }
+            return Ok(false);
+        }
+
+        if class.starts_with("l-") {
+            let class = &class["l-".len()..];
+            if let Some(color) = Color::parse(class) {
+                deny_computed_style!(self);
+                insert_props!(self, color, 2, ["left"]);
             }
             return Ok(false);
         }

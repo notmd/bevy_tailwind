@@ -5,10 +5,10 @@ expression: stdout
 #![feature(prelude_import)]
 #![allow(dead_code)]
 #![allow(unused_variables)]
-#[prelude_import]
-use std::prelude::rust_2021::*;
 #[macro_use]
 extern crate std;
+#[prelude_import]
+use std::prelude::rust_2021::*;
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn simple(mut query: Query<EntityMut>) {
@@ -4653,6 +4653,607 @@ fn test_all() {
             left: Color::WHITE,
             ..Default::default()
         })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::NONE,
+            left: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::BLACK,
+            left: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::WHITE,
+            left: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            left: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                right: Color::WHITE,
+                left: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    border_color_left: Some(bevy::color::Color::default()),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::NONE,
+            bottom: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::BLACK,
+            bottom: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::WHITE,
+            bottom: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            bottom: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                top: Color::WHITE,
+                bottom: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            top: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                top: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_top: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            right: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                right: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_right: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::NONE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            bottom: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                bottom: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_bottom: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::NONE,
+            top: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::NONE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::BLACK,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::BLACK,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::WHITE,
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::WHITE,
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (bevy::ui::BorderColor {
+            left: <bevy::color::Color as bevy::color::Alpha>::with_alpha(
+                &bevy::color::Color::Srgba(bevy::color::palettes::tailwind::GRAY_100),
+                0.5f32,
+            ),
+            ..Default::default()
+        })
+    };
+    {
+        #[allow(clippy::needless_update)]
+        (
+            bevy::ui::BorderColor {
+                top: Color::WHITE,
+                ..Default::default()
+            },
+            bevy_tailwind::PickingStyles {
+                base: bevy_tailwind::PickingStyle {
+                    border_color_left: Some(bevy::color::Color::default()),
+                    ..Default::default()
+                },
+                hover: bevy_tailwind::PickingStyle {
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                focus: bevy_tailwind::PickingStyle {
+                    border_color_left: Some(Color::WHITE),
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+        )
     };
     {
         #[allow(clippy::needless_update)]
