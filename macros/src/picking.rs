@@ -260,6 +260,12 @@ fn create_base_style(picking_styles: &PickingStyles, ctx: &mut QuoteCtx) -> Toke
     insert_prop!(OutlineColor, bevy::color::Color, outline, "color");
     insert_prop!(OutlineOffset, bevy::ui::Val, outline, "offset");
 
+    insert_prop!(TranslateX, bevy::ui::Val2, transform, "translation");
+    insert_prop!(TranslateY, bevy::ui::Val2, transform, "translation");
+    insert_prop!(ScaleX, bevy::math::Vec2, transform, "scale");
+    insert_prop!(ScaleY, bevy::math::Vec2, transform, "scale");
+    insert_prop!(Rotation, bevy::math::Rot2, transform, "rotation");
+
     let base = base.quote(ctx);
     ctx.parent_props.pop();
 
@@ -365,6 +371,11 @@ pub enum PickingStyleProp {
     OutlineWidth,
     OutlineColor,
     OutlineOffset,
+    TranslateX,
+    TranslateY,
+    ScaleX,
+    ScaleY,
+    Rotation,
 }
 impl AsRef<str> for PickingStyleProp {
     fn as_ref(&self) -> &str {
@@ -433,6 +444,11 @@ impl AsRef<str> for PickingStyleProp {
             PickingStyleProp::OutlineWidth => "outline_width",
             PickingStyleProp::OutlineColor => "outline_color",
             PickingStyleProp::OutlineOffset => "outline_offset",
+            PickingStyleProp::TranslateX => "translate_x",
+            PickingStyleProp::TranslateY => "translate_y",
+            PickingStyleProp::ScaleX => "scale_x",
+            PickingStyleProp::ScaleY => "scale_y",
+            PickingStyleProp::Rotation => "rotation",
         }
     }
 }

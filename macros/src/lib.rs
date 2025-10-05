@@ -4,6 +4,7 @@ mod node;
 mod outline;
 mod picking;
 mod text;
+mod transform;
 mod utils;
 mod z_index;
 
@@ -63,6 +64,7 @@ macro_rules! parse_classes {
                 $ctx.parse_outline(class),
                 $ctx.parse_background(class),
                 $ctx.parse_text(class),
+                $ctx.parse_transform(class),
                 $ctx.parse_node(class)
             );
 
@@ -212,6 +214,10 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             ctx.components.outline.path(),
         ),
         (
+            ctx.components.transform.quote(&mut qctx),
+            ctx.components.transform.path(),
+        ),
+        (
             ctx.components.picking_styles.quote(&mut qctx),
             ctx.components.picking_styles.path(),
         ),
@@ -344,6 +350,7 @@ struct UiComponents {
     border_radius: Struct<&'static str>,
     border_color: Struct<&'static str>,
     outline: Struct<&'static str>,
+    transform: Struct<&'static str>,
     picking_styles: PickingStyles,
 }
 
@@ -359,6 +366,7 @@ impl Default for UiComponents {
             border_radius: Struct::new(quote! { bevy::ui::BorderRadius }),
             border_color: Struct::new(quote! { bevy::ui::BorderColor }),
             outline: Struct::new(quote! { bevy::ui::Outline }),
+            transform: Struct::new(quote! { bevy::ui::UiTransform }),
             picking_styles: PickingStyles::default(),
         }
     }
