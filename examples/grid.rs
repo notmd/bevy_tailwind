@@ -1,6 +1,6 @@
 //! An example that rewrite the [grid](https://github.com/bevyengine/bevy/blob/main/examples/ui/grid.rs) example from `bevy` with `bevy_tailwind`
 use bevy::{color::palettes::css::*, ecs::relationship::RelatedSpawnerCommands, prelude::*};
-use bevy_tailwind::{tw, TailwindPlugin};
+use bevy_tailwind::{TailwindPlugin, tw};
 
 fn main() {
     App::new()

@@ -1,7 +1,7 @@
 use crate::{
+    ParseClassError, ParseCtx, ParseResult,
     picking::{deny_picking_style, insert_picking_style},
     utils::{color::Color, deny_computed_style, insert_computed_style, val::Val},
-    ParseClassError, ParseCtx, ParseResult,
 };
 
 impl ParseCtx {

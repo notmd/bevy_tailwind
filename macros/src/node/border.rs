@@ -1,8 +1,8 @@
 use super::NodeProp;
 use crate::node::insert_node_ui_rect_computed;
 use crate::picking::{deny_picking_style, insert_picking_style};
-use crate::{node::insert_node_ui_rect, utils::val::Val};
 use crate::{ParseClassError, ParseCtx, ParseResult};
+use crate::{node::insert_node_ui_rect, utils::val::Val};
 
 pub fn parse_border(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     match class {

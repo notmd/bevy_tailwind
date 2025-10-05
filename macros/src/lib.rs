@@ -13,7 +13,7 @@ use picking::PickingStyles;
 use proc_macro2::{Span, TokenStream};
 use quote::{format_ident, quote};
 use syn::{
-    parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned, Expr, LitStr, Token,
+    Expr, LitStr, Token, parse::Parse, parse_macro_input, punctuated::Punctuated, spanned::Spanned,
 };
 use utils::quote::{Quote, QuoteCtx, Struct};
 

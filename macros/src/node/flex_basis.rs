@@ -1,10 +1,10 @@
 use crate::{
+    ParseClassError, ParseCtx, ParseResult,
     picking::insert_picking_style,
     utils::{
         deny_computed_style, insert_computed_style,
         val::{ParseValSettings, Val},
     },
-    ParseClassError, ParseCtx, ParseResult,
 };
 
 use super::NodeProp;

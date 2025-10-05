@@ -152,7 +152,7 @@ impl Quote for StructValPrioritized {
             let entry = entries[idx];
             let value = entry.1.quote(ctx);
 
-            match entry.0 .0._type {
+            match entry.0.0._type {
                 StructValPrioritizedType::Normal => {
                     if ctx.is_create {
                         quote! {#value}

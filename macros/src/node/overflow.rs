@@ -1,7 +1,7 @@
 use crate::{
+    ParseClassError, ParseCtx, ParseResult,
     picking::{deny_picking_style, insert_picking_style},
     utils::{deny_computed_style, quote::ToTokenStream},
-    ParseClassError, ParseCtx, ParseResult,
 };
 use proc_macro2::TokenStream;
 use quote::quote;

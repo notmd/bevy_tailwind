@@ -1,11 +1,11 @@
 use crate::{
-    picking::{insert_picking_style, PickingStyleProp},
+    ParseClassError, ParseCtx, ParseResult,
+    picking::{PickingStyleProp, insert_picking_style},
     utils::{
         deny_computed_style, insert_computed_style, parse_neg,
         quote::ToTokenStream,
         val::{ParseValSettings, Val},
     },
-    ParseClassError, ParseCtx, ParseResult,
 };
 
 impl ParseCtx {
@@ -189,11 +189,7 @@ fn parse_scale_val(val_str: &str, neg: bool) -> Result<f32, ParseClassError> {
         return Err(ParseClassError::Unknown);
     };
 
-    if neg {
-        Ok(-val)
-    } else {
-        Ok(val)
-    }
+    if neg { Ok(-val) } else { Ok(val) }
 }
 
 fn parse_rotation(ctx: &mut ParseCtx, class: &str) -> ParseResult {
@@ -231,11 +227,7 @@ fn parse_rotation_val(val_str: &str, neg: bool) -> Result<f32, ParseClassError> 
         return Err(ParseClassError::Unknown);
     };
 
-    if neg {
-        Ok(-degrees)
-    } else {
-        Ok(degrees)
-    }
+    if neg { Ok(-degrees) } else { Ok(degrees) }
 }
 
 // Macro to insert Val2 properties with priorities (for translation)

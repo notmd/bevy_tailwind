@@ -1,12 +1,12 @@
 use std::num::NonZero;
 
 use crate::{
+    ParseClassError, ParseCtx, ParseResult,
     node::insert_grid_placement_props,
     utils::{
         deny_computed_style,
         quote::{Struct, StructVal},
     },
-    ParseClassError, ParseCtx, ParseResult,
 };
 
 use super::NodeProp;
