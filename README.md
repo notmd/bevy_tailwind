@@ -175,8 +175,9 @@ If you encounter weird rendering issues, you can check the generated code by usi
 
 | `bevy_tailwind` | `bevy` |
 | --------------- | ------ |
-| 0.2           | 0.15.0 |
-| 0.3           | 0.16.0 |
+| 0.4             | 0.17.0 |
+| 0.3             | 0.16.0 |
+| 0.2             | 0.15.0 |
 
 ## TailwindCSS compatibility
 
