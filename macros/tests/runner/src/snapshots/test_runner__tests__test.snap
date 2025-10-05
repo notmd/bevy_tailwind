@@ -8,7 +8,7 @@ expression: stdout
 #[macro_use]
 extern crate std;
 #[prelude_import]
-use std::prelude::rust_2021::*;
+use std::prelude::rust_2024::*;
 use bevy::prelude::*;
 use bevy_tailwind::tw;
 fn simple(mut query: Query<EntityMut>) {
