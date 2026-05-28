@@ -72,11 +72,18 @@ fn parse_font_size(ctx: &mut ParseCtx, class: &str) -> ParseResult {
     };
 
     deny_computed_style!(ctx);
-    insert_picking_style!(ctx, FontSize, quote! { #font_size });
+    insert_picking_style!(
+        ctx,
+        FontSize,
+        quote! { bevy::text::FontSize::Px(#font_size) }
+    );
 
-    ctx.components
-        .text_font
-        .insert("font_size", quote! {#font_size}, &ctx.class_type, 0);
+    ctx.components.text_font.insert(
+        "font_size",
+        quote! {bevy::text::FontSize::Px(#font_size)},
+        &ctx.class_type,
+        0,
+    );
 
     Ok(true)
 }

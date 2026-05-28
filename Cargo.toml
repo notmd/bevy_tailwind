@@ -12,14 +12,14 @@ keywords = ["bevy", "tailwind", "css", "styled"]
 members = ["macros", "macros/tests/runner", "macros/tests/pass"]
 
 [dependencies]
-bevy_tailwind_macro = { version = "0.4.0" }
-bevy = { version = "0.17", default-features = false, features = [
+bevy_tailwind_macro = { path = "macros" }
+bevy = { version = "0.19.0-rc", default-features = false, features = [
     "bevy_ui",
     "bevy_text",
 ] }
 
 [dev-dependencies]
-bevy = { version = "0.17", default-features = false, features = [
+bevy = { version = "0.19.0-rc", default-features = false, features = [
     "bevy_ui",
     "bevy_text",
     "bevy_window",

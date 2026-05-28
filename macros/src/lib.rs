@@ -202,10 +202,6 @@ pub fn tw(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
             ctx.components.text_color.path(),
         ),
         (
-            ctx.components.border_radius.quote(&mut qctx),
-            ctx.components.border_radius.path(),
-        ),
-        (
             ctx.components.border_color.quote(&mut qctx),
             ctx.components.border_color.path(),
         ),
@@ -347,7 +343,6 @@ struct UiComponents {
     text_font: Struct<&'static str>,
     text_layout: Struct<&'static str>,
     text_color: Struct<&'static str>,
-    border_radius: Struct<&'static str>,
     border_color: Struct<&'static str>,
     outline: Struct<&'static str>,
     transform: Struct<&'static str>,
@@ -363,7 +358,6 @@ impl Default for UiComponents {
             text_font: Struct::new(quote! { bevy::text::TextFont }),
             text_layout: Struct::new(quote! { bevy::text::TextLayout }),
             text_color: Struct::new(quote! { bevy::text::TextColor }),
-            border_radius: Struct::new(quote! { bevy::ui::BorderRadius }),
             border_color: Struct::new(quote! { bevy::ui::BorderColor }),
             outline: Struct::new(quote! { bevy::ui::Outline }),
             transform: Struct::new(quote! { bevy::ui::UiTransform }),

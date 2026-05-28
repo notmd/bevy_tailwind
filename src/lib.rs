@@ -17,7 +17,6 @@ fn apply_picking_style(
             Option<&mut Node>,
             Option<&mut BackgroundColor>,
             Option<&mut ZIndex>,
-            Option<&mut BorderRadius>,
             Option<&mut BorderColor>,
             Option<&mut Outline>,
             Option<&mut TextFont>,
@@ -34,7 +33,6 @@ fn apply_picking_style(
         node,
         background_color,
         z_index,
-        border_radius,
         border_color,
         outline,
         text_font,
@@ -52,7 +50,6 @@ fn apply_picking_style(
             node: Option<Mut<Node>>,
             background_color: Option<Mut<BackgroundColor>>,
             z_index: Option<Mut<ZIndex>>,
-            border_radius: Option<Mut<BorderRadius>>,
             border_color: Option<Mut<BorderColor>>,
             outline: Option<Mut<Outline>>,
             text_font: Option<Mut<TextFont>>,
@@ -118,7 +115,11 @@ fn apply_picking_style(
                     (border_top, node.border.top),
                     (border_right, node.border.right),
                     (border_bottom, node.border.bottom),
-                    (border_left, node.border.left)
+                    (border_left, node.border.left),
+                    (border_radius_tl, node.border_radius.top_left),
+                    (border_radius_tr, node.border_radius.top_right),
+                    (border_radius_br, node.border_radius.bottom_right),
+                    (border_radius_bl, node.border_radius.bottom_left)
                 );
             }
 
@@ -128,15 +129,6 @@ fn apply_picking_style(
 
             if let Some(mut z_index) = z_index {
                 apply_style!((z_index, z_index.0));
-            }
-
-            if let Some(mut border_radius) = border_radius {
-                apply_style!(
-                    (border_radius_tl, border_radius.top_left),
-                    (border_radius_tr, border_radius.top_right),
-                    (border_radius_br, border_radius.bottom_right),
-                    (border_radius_bl, border_radius.bottom_left)
-                );
             }
 
             if let Some(mut border_color) = border_color {
@@ -189,7 +181,6 @@ fn apply_picking_style(
                     node,
                     background_color,
                     z_index,
-                    border_radius,
                     border_color,
                     outline,
                     text_font,
@@ -204,7 +195,6 @@ fn apply_picking_style(
                     node,
                     background_color,
                     z_index,
-                    border_radius,
                     border_color,
                     outline,
                     text_font,
@@ -219,7 +209,6 @@ fn apply_picking_style(
                     node,
                     background_color,
                     z_index,
-                    border_radius,
                     border_color,
                     outline,
                     text_font,
@@ -287,7 +276,7 @@ pub struct PickingStyle {
     pub height: Option<Val>,
     pub min_height: Option<Val>,
     pub max_height: Option<Val>,
-    pub font_size: Option<f32>,
+    pub font_size: Option<FontSize>,
     pub text_justity: Option<Justify>,
     pub text_color: Option<Color>,
     pub text_linebreak: Option<LineBreak>,

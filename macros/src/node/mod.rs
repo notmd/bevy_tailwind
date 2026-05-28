@@ -152,6 +152,7 @@ pub enum NodeProp {
     GridAutoColumns,
     GridRow,
     GridColumn,
+    BorderRadius,
 }
 
 impl AsRef<str> for NodeProp {
@@ -196,6 +197,7 @@ impl AsRef<str> for NodeProp {
             NodeProp::GridAutoColumns => "grid_auto_columns",
             NodeProp::GridRow => "grid_row",
             NodeProp::GridColumn => "grid_column",
+            NodeProp::BorderRadius => "border_radius",
         }
     }
 }
